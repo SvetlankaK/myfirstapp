@@ -1,31 +1,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
 <head>
     <title>Authorization page</title>
+    <style type="text/css">
+        <%@include file="/WEB-INF/css/login.css"%>
+
+    </style>
 </head>
+
+
+
 <body>
-<h1>Please, login to continue </h1>
-<h3>In case, if you are here for the first time, you can register <a
-        href="<c:url value = "${contextPath}/registration.jhtml"/>">here</a>
-</h3>
-<form method="POST" action="${pageContext.request.contextPath}/login.jhtml">
-    Name:
-    <input type="text" name="userName"
-           value="<c:out value="${param.userName}"/>"/>
-    <br/>
-    <br/>
-    Password:
-    <input type="password" name="password"
-           value="<c:out value="${param.password}"/>"/>
-    <br/>
-    <font color="red">
-        <c:out value="${errorMessage}"> </c:out>
-    </font>
-    <br/>
-    <button type="submit" name="button">Login</button>
-</form>
+<div class="login">
+    <h1>Please, login </h1>
+    <form method="POST" action="${pageContext.request.contextPath}/login.jhtml">
+        <div class="input">
+            <div class="blockinput">
+                <input type="text" name="userLogin" placeholder="Login" autocomplete="off" required>
+            </div>
+            <div class="blockinput">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+        </div>
+        <button type="submit" name="button">Login</button>
+
+        <p class="regCase">
+            Don’t have an account?</p>
+        <a href="<c:url value = "${contextPath}/registration.jhtml"/>" class="regLink">
+            Sign up now
+        </a>
+    </form>
+</div>
 </body>
-</html>

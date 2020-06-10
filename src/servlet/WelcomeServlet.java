@@ -1,5 +1,7 @@
 package servlet;
 
+import database.UsersDB;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,15 +16,13 @@ public class WelcomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            HttpSession session = req.getSession(true);
-            String user = (String) session.getAttribute("user");
-            String password = (String) session.getAttribute("password");
-            req.getRequestDispatcher("/WEB-INF/jsp/welcome.jsp").forward(req, resp);
+        HttpSession session = req.getSession(true);
+        String login = (String) session.getAttribute("userLogin");
+        String password = (String) session.getAttribute("password");
+        req.setAttribute("role", UsersDB.getRole(login));
+        req.getRequestDispatcher("/WEB-INF/jsp/welcome.jsp").forward(req, resp);
 
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    }
 
 }

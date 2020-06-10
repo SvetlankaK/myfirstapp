@@ -1,5 +1,7 @@
 package util;
 
+import domain.User;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,9 +11,21 @@ public final class ServletUtilities {
         return req;
     }
 
-    public static HttpSession createSession(String name, String password, HttpServletRequest req) {
+    public static HttpSession createSession(User user, HttpServletRequest req) {
         HttpSession session = req.getSession(true);
-        session.setAttribute("user", name);
+        session.setAttribute("userLogin", user.getUserLogin());
+        session.setAttribute("password", user.getPassword());
+        session.setAttribute("email", user.getEmail());
+        session.setAttribute("name", user.getName());
+        session.setAttribute("surname", user.getSurname());
+        session.setAttribute("birth", user.getDateOfBirth());
+        session.setAttribute("salary", user.getSalary());
+        return session;
+    }
+
+    public static HttpSession createSession(String login, String password, HttpServletRequest req) {
+        HttpSession session = req.getSession(true);
+        session.setAttribute("userLogin", login);
         session.setAttribute("password", password);
         return session;
     }

@@ -1,0 +1,142 @@
+body {
+    font-family: Arial, Tahoma, sans-serif;
+    background: #e2eef4;
+    font-size: 62.5%;
+    line-height: 1;
+    padding-top: 40px;
+}
+
+h1 {
+    display: block;
+    font-size: 3.1em;
+    line-height: 1.45em;
+    font-family: 'Laila', serif;
+    text-align: center;
+    font-weight: bold;
+    color: #555;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+form {
+    display: block;
+    margin: 30px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+    font-size: 0;
+}
+
+form > div > label {
+    display: block;
+    padding: 20px 20px 10px;
+    vertical-align: top;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #939393;
+    cursor: pointer;
+}
+
+.col-2, .col-3, .col-4, .col-5 {
+    border-bottom: 1px solid #e4e4e4;
+}
+
+form > div > .col-4 {
+    height: 86px;
+}
+
+input {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    height: 27px;
+    line-height: 27px;
+    margin: 5px -5px 0;
+    padding: 7px 5px 3px;
+    border: none;
+    color: #555;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    opacity: .6;
+
+}
+
+.col-submit {
+    text-align: center;
+    padding: 20px;
+}
+
+select {
+    display: block;
+    width: 100%;
+    padding: 0;
+    color: black;
+    margin: 16px 0 6px;
+    font-weight: 500;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    opacity: .8;
+    border: none;
+}
+
+button {
+    width: 100%;
+    height: 35px;
+    border-radius: 4px;
+    margin: 0 0 15px 0;
+    font-size: 14px;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.submitbtn {
+    background-color: #97c16b;
+    cursor: pointer;
+    color: #fff;
+}
+
+.submitbtn:hover {
+    background-color: #7eaf4a;
+}
+
+@media (min-width: 850px) {
+    form > div {
+        display: inline-block;
+    }
+
+    .col-submit {
+        display: block;
+    }
+
+    .col-2, .col-3, .col-4 {
+        box-shadow: 1px 1px #e4e4e4;
+        border: none;
+    }
+
+    .col-2 {
+        width: 50%
+    }
+
+    .col-3 {
+        width: 33.3333333333%
+    }
+
+    .col-4 {
+        width: 25%;
+        height: 14%;
+    }
+
+    .col-submit button {
+        width: 30%;
+        margin: 0 auto;
+    }
+}
+
+.notification {
+    color: rgba(165, 42, 42, 0.4);
+    font-size: 1em;
+}

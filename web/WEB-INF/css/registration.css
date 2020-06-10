@@ -1,0 +1,100 @@
+body {
+    color: #EAEAEA;
+    background-color: #3C4348;
+}
+
+form {
+    width: 70%;
+    margin: 200px auto;
+    font: 700 .9em Arial, serif;
+}
+
+div {
+    width: 100%;
+    border: 1px solid gray;
+    border-radius: 3px;
+    padding-bottom: 20px;
+    position: relative;
+    font-weight: 500;
+    margin-bottom: 7px;
+}
+
+p {
+    position: relative;
+    padding-left: 20px;
+}
+
+p input {
+    width: 220px;
+    position: relative;
+}
+
+p input {
+    position: absolute;
+    left: 100px;
+}
+
+p:nth-child(2n) not:nth-child(4) {
+    margin-bottom: 40px;
+}
+
+p:last-child span:first-of-type {
+    font-weight: bold;
+    display: inline-block;
+    transform: rotate(15deg) translate(15px) skewY(-30deg);
+}
+
+p input + span {
+    position: absolute;
+    left: 330px;
+    width: 200px;
+}
+
+.registerbtn {
+    position: absolute;
+    right: 400px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px 5px;
+    cursor: pointer;
+    width: 55%;
+    margin: 8px auto;
+    opacity: 0.9;
+    border-color: #202020 #1a1a1a #111;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+    border: 1px solid;
+}
+
+.registerbtn:hover {
+    opacity: 1;
+}
+
+.logo {
+    font-family: "BERNIER Regular", serif;
+    position: absolute;
+    right: 420px;
+    top: 80px;
+}
+
+.button {
+    position: absolute;
+    bottom: 128px;
+    right: 210px;
+    display: inline-block;
+    vertical-align: top;
+    padding: 15px 20px;
+    font-size: 15px;
+    color: #bbb;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
+    background-color: #303030;
+    background-clip: padding-box;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #363636;
+}
+
