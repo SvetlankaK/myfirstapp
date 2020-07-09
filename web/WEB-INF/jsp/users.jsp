@@ -44,7 +44,7 @@
                         <td>
                             <c:choose>
                                 <c:when test="${user.role=='ADMIN'}">
-                                    <a href="<c:url value = "${contextPath}/editUser.jhtml?action=edit;user=${userLogin}"/>">&#9998;</a>
+                                    <a href="<c:url value = "${contextPath}/editUser.jhtml?action=edit;user=${user.userLogin}"/>">&#9998;</a>
                                 </c:when>
                                 <c:when test="${user.role=='USER'}">
                                     <a href="<c:url value = "${contextPath}/editUser.jhtml?action=edit;user=${user.userLogin}"/>">&#9998;</a>

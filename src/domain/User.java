@@ -36,8 +36,7 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setAll(long userId, String password, String role, String email, String name, String surname, Double salary, String dateOfBirth) {
-        this.userId = userId;
+    public void setAll( String password, String role, String email, String name, String surname, Double salary, String dateOfBirth) {
         this.role = role;
         this.password = password;
         this.email = email;

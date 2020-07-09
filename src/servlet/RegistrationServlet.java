@@ -37,7 +37,7 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter("email").trim();
         String birth = req.getParameter("birth");
         String salary = req.getParameter("salary").trim();
-        long id = Long.parseLong(String.valueOf(userService.findAll().size() + 1));
+        long id = Long.parseLong(String.valueOf(userService.findAll().size() + 2));
         if (userService.isExist(userLogin)) {
             this.doGet(ServletUtilities.createErrorMessage("This name is already taken, try again", req), resp);
         }
