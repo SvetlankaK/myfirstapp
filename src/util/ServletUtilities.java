@@ -13,6 +13,7 @@ public final class ServletUtilities {
 
     public static HttpSession createSession(User user, HttpServletRequest req) {
         HttpSession session = req.getSession(true);
+        session.setAttribute("userId", user.getUserId());
         session.setAttribute("userLogin", user.getUserLogin());
         session.setAttribute("password", user.getPassword());
         session.setAttribute("email", user.getEmail());
@@ -23,10 +24,11 @@ public final class ServletUtilities {
         return session;
     }
 
-    public static HttpSession createSession(String login, String password, HttpServletRequest req) {
+    public static HttpSession createSession(String login, String password, Long id, HttpServletRequest req) {
         HttpSession session = req.getSession(true);
         session.setAttribute("userLogin", login);
         session.setAttribute("password", password);
+        session.setAttribute("userId", id);
         return session;
     }
 }

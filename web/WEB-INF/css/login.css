@@ -115,7 +115,12 @@ button:active {
 .regLink {
     font-family: Ubuntu-Bold, serif;
     font-size: 15px;
-    color:rgba(0, 0, 128, 0.7);
+    color: rgba(0, 0, 128, 0.7);
     line-height: 1.4;
     text-transform: uppercase;
+}
+
+.errorMessage {
+    margin: -10px 0 10px;
+    color: rebeccapurple;
 }

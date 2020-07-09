@@ -1,6 +1,8 @@
 package filter;
 
-import database.UsersDB;
+import domain.User;
+import factory.ServiceFactory;
+import service.UserService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -18,6 +20,7 @@ public class SecurityFilter implements Filter {
 
     private List<String> allowedLinks;
     private List<String> adminAllowedLinks;
+    private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     public void init(FilterConfig fConfig) {
@@ -37,7 +40,8 @@ public class SecurityFilter implements Filter {
         boolean forbiddenLink = false;
         String userRole = "";
         if (loggedIn) {
-            userRole = UsersDB.getRole(session.getAttribute("userLogin").toString());
+            User user = userService.findByLogin(session.getAttribute("userLogin").toString());
+            userRole = user.getRole();
         }
         for (String link : allowedLinks) {
             if (link.equals("/")) {
@@ -63,7 +67,7 @@ public class SecurityFilter implements Filter {
             }
         }
         if (forbiddenLink && loggedIn) {
-         request.getRequestDispatcher("/WEB-INF/jsp/welcome.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/jsp/welcome.jsp").forward(request, response);
         }
         if (loggedIn || availableRequest) {
             filterChain.doFilter(request, response);

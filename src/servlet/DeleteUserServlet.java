@@ -1,6 +1,9 @@
 package servlet;
 
-import database.UsersDB;
+
+import domain.User;
+import factory.ServiceFactory;
+import service.UserService;
 import util.URLUtilities;
 
 import javax.servlet.annotation.WebServlet;
@@ -14,12 +17,13 @@ import java.util.Map;
 @WebServlet(urlPatterns = "/delete.jhtml")
 public class DeleteUserServlet extends HttpServlet {
 
+    private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String, String> query = URLUtilities.getQuery(req);
-        String userLogin = query.get("user");
-        UsersDB.deleteUser(userLogin);
+        User user = userService.findByLogin(query.get("user"));
+        userService.delete(user.getUserId());
         resp.sendRedirect(req.getContextPath() + "/users.jhtml");
     }
 }

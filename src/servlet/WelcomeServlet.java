@@ -1,6 +1,8 @@
 package servlet;
 
-import database.UsersDB;
+import domain.User;
+import factory.ServiceFactory;
+import service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,18 +13,18 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = "/welcome.jhtml")
+
 public class WelcomeServlet extends HttpServlet {
 
+    private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(true);
-        String login = (String) session.getAttribute("userLogin");
-        String password = (String) session.getAttribute("password");
-        req.setAttribute("role", UsersDB.getRole(login));
+        long id = (Long) session.getAttribute("userId");
+        User user = userService.findById(id);
+        req.setAttribute("role", user.getRole());
         req.getRequestDispatcher("/WEB-INF/jsp/welcome.jsp").forward(req, resp);
-
     }
-
 
 }

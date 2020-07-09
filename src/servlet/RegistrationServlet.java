@@ -1,7 +1,8 @@
 package servlet;
 
-import database.UsersDB;
 import domain.User;
+import factory.ServiceFactory;
+import service.UserService;
 import util.ServletUtilities;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,8 @@ import static database.RoleEnum.*;
 @WebServlet(urlPatterns = "/registration.jhtml")
 public class RegistrationServlet extends HttpServlet {
 
+
+    private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,11 +37,12 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter("email").trim();
         String birth = req.getParameter("birth");
         String salary = req.getParameter("salary").trim();
-        if (UsersDB.isExist(userLogin)) {
+        long id = Long.parseLong(String.valueOf(userService.findAll().size() + 1));
+        if (userService.isExist(userLogin)) {
             this.doGet(ServletUtilities.createErrorMessage("This name is already taken, try again", req), resp);
         }
-        UsersDB.add(new User(userLogin, password, USER_ACCESS.getName(), email, name, surname, Double.parseDouble(salary), birth));
-        HttpSession session = ServletUtilities.createSession(new User(userLogin, password, USER_ACCESS.getName(), email, name, surname, Double.parseDouble(salary), birth), req);
+        userService.create(new User(id, userLogin, password, USER_ACCESS.getName(), email, name, surname, Double.parseDouble(salary), birth));
+        HttpSession session = ServletUtilities.createSession(new User(id, userLogin, password, USER_ACCESS.getName(), email, name, surname, Double.parseDouble(salary), birth), req);
         resp.sendRedirect(req.getContextPath() + "/welcome.jhtml");
     }
 }

@@ -10,19 +10,22 @@ public class User {
     private String surname;
     private double salary;
     private String dateOfBirth;
+    private long userId;
 
 
     public User() {
 
     }
 
-    public User(String userLogin, String password, String role) {
+    public User(long userId, String userLogin, String password, String role) {
+        this.userId = userId;
         this.userLogin = userLogin;
         this.password = password;
         this.role = role;
     }
 
-    public User(String userLogin, String password, String role, String email, String name, String surname, double salary, String dateOfBirth) {
+    public User(long userId, String userLogin, String password, String role, String email, String name, String surname, double salary, String dateOfBirth) {
+        this.userId = userId;
         this.userLogin = userLogin;
         this.password = password;
         this.role = role;
@@ -31,6 +34,25 @@ public class User {
         this.surname = surname;
         this.salary = salary;
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setAll(long userId, String password, String role, String email, String name, String surname, Double salary, String dateOfBirth) {
+        this.userId = userId;
+        this.role = role;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.salary = salary;
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getRole() {

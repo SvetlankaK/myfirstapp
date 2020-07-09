@@ -1,7 +1,8 @@
 package servlet;
 
-import database.UsersDB;
 import domain.User;
+import factory.ServiceFactory;
+import service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,10 +15,11 @@ import java.util.Collection;
 
 @WebServlet(urlPatterns = "/users.jhtml")
 public class UsersViewServlet extends HttpServlet {
+    private UserService userService =ServiceFactory.getInstance().getUserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Collection<User> users = UsersDB.getUsers();
+        Collection<User> users = userService.findAll();
         req.setAttribute("users", users);
         req.getRequestDispatcher("/WEB-INF/jsp/users.jsp").forward(req, resp);
 

@@ -6,11 +6,8 @@
     <title>Authorization page</title>
     <style type="text/css">
         <%@include file="/WEB-INF/css/login.css"%>
-
     </style>
 </head>
-
-
 
 <body>
 <div class="login">
@@ -25,12 +22,13 @@
             </div>
         </div>
         <button type="submit" name="button">Login</button>
-
         <p class="regCase">
             Don’t have an account?</p>
-        <a href="<c:url value = "${contextPath}/registration.jhtml"/>" class="regLink">
+        <p class="errorMessage"><c:out value="${requestScope.errorMessage}"/></p>
+        <a href="<c:url value="${contextPath}/registration.jhtml"/>" class="regLink">
             Sign up now
         </a>
     </form>
 </div>
 </body>
+</html>

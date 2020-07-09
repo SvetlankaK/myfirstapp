@@ -1,6 +1,9 @@
 package servlet;
 
-import database.UsersDB;
+
+import domain.User;
+import factory.ServiceFactory;
+import service.UserService;
 import util.ServletUtilities;
 
 import javax.servlet.ServletException;
@@ -15,6 +18,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/login.jhtml")
 public class AuthorizationServlet extends HttpServlet {
 
+    private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,17 +30,18 @@ public class AuthorizationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userLogin = req.getParameter("userLogin");
         String password = req.getParameter("password");
-        if (UsersDB.isExist(userLogin)) {
-            UsersDB.getPasswordByUserLogin(userLogin);
-            if (UsersDB.getPasswordByUserLogin(userLogin).equals(password)) {
-                HttpSession session = ServletUtilities.createSession(userLogin, password, req);
+        if (userService.isExist(userLogin)) {
+            User user = userService.findByLogin(userLogin);
+            Long id = user.getUserId();
+            if (user.getPassword().equals(password)) {
+                HttpSession session = ServletUtilities.createSession(userLogin, password, id, req);
                 resp.sendRedirect(req.getContextPath() + "/welcome.jhtml");
             } else {
-                this.doGet(ServletUtilities.createErrorMessage("Invalid Password", req), resp);
+                this.doGet(ServletUtilities.createErrorMessage("Invalid password", req), resp);
             }
 
         } else {
-            this.doGet(ServletUtilities.createErrorMessage("User does not exist", req), resp);
+            this.doGet(ServletUtilities.createErrorMessage("User doesn't exist", req), resp);
         }
     }
 }

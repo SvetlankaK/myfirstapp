@@ -1,7 +1,8 @@
 package servlet;
 
-import database.UsersDB;
 import domain.User;
+import factory.ServiceFactory;
+import service.UserService;
 import util.URLUtilities;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import java.util.Map;
 @WebServlet(urlPatterns = "/editUser.jhtml")
 public class EditUserServlet extends HttpServlet {
 
+    private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,7 +26,7 @@ public class EditUserServlet extends HttpServlet {
         Map<String, String> query = URLUtilities.getQuery(req);
         if (!query.get("action").equals("new")) {
             String userLogin = query.get("user");
-            User user = UsersDB.getByLogin(userLogin);
+            User user = userService.findByLogin(userLogin);
             req.setAttribute("user", user);
         }
         req.getRequestDispatcher("/WEB-INF/jsp/editUser.jsp").forward(req, resp);
@@ -34,15 +36,9 @@ public class EditUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String userLogin = req.getParameter("userLogin").trim();
-        String password = req.getParameter("password").trim();
-        String name = req.getParameter("name").trim();
-        String surname = req.getParameter("surname").trim();
-        String email = req.getParameter("email").trim();
-        String birth = req.getParameter("birth");
-        String salary = req.getParameter("salary").trim();
-        String access = req.getParameter("access");
-        System.out.println(access);
-        UsersDB.add(new User(userLogin, password, access, email, name, surname, Double.parseDouble(salary), birth));
+        User user = userService.findByLogin(userLogin);
+        user.setAll(Long.parseLong(req.getParameter("userId")), req.getParameter("password").trim(), req.getParameter("access"), req.getParameter("email").trim(), req.getParameter("name").trim(), req.getParameter("surname").trim(), Double.parseDouble(req.getParameter("salary").trim()), req.getParameter("birth"));
+        userService.update(user);
         resp.sendRedirect(req.getContextPath() + "/users.jhtml");
     }
 }
