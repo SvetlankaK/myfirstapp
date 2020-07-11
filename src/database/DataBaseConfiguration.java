@@ -1,20 +1,19 @@
 package database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class DataBaseConfiguration {
+public class DataBaseConfiguration implements AutoCloseable {
     static final String DB_URL = "jdbc:postgresql://localhost:5432/servletapp";
     static final String USER = "postgres";
     static final String PASS = "postgres";
     static final String DB_Driver = "org.postgresql.Driver";
-    private static Connection connection ;
     private static final List<String> users = new ArrayList<>();
+    private static Logger log = Logger.getLogger(DataBaseConfiguration.class.getName());
 
     static {
         Collections.addAll(users, "INSERT INTO  \"webapp\".\"USER\" "
@@ -32,21 +31,22 @@ public class DataBaseConfiguration {
     }
 
     static Connection getDBConnection() {
+        Connection connection = null;
         try {
             Class.forName(DB_Driver);
-            System.out.println("PostgreSQL JDBC Driver successfully connected");
+            log.log(Level.INFO, "PostgreSQL JDBC Driver successfully connected");
         } catch (ClassNotFoundException e) {
             System.out.println("PostgreSQL JDBC Driver is not found. Include it in your library path ");
-            e.printStackTrace();
+            log.log(Level.WARNING, "Exception: ", e);
         }
         try {
             connection = DriverManager.getConnection(DB_URL, USER, PASS);
         } catch (SQLException e) {
             System.out.println("Connection Failed");
-            e.printStackTrace();
+            log.log(Level.WARNING, "Exception: ", e);
         }
         if (connection != null) {
-            System.out.println("You successfully connected to database now");
+            log.log(Level.INFO, "You successfully connected to database now");
         } else {
             System.out.println("Failed to make connection to database");
         }
@@ -56,37 +56,42 @@ public class DataBaseConfiguration {
     static void closeDBConnection(Connection connection) {
         try {
             connection.close();
-            System.out.println("disconnected ");
+            log.log(Level.INFO, "Successfully disconnected");
         } catch (SQLException e) {
-            System.out.println("disconnection failed");
-            e.printStackTrace();
+            System.out.println("Disconnection failed");
+            log.log(Level.WARNING, "Exception: ", e);
         }
     }
 
-    private static void createDataBase(Connection connection) {
-        String sql = "CREATE DATABASE servletApp WITH OWNER postgres ;";
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
+    private static void createDataBase() {
+        try (Connection connection = DataBaseConfiguration.getDBConnection();
+             PreparedStatement ps = connection.prepareStatement("CREATE DATABASE servletApp WITH OWNER postgres ;")) {
+            ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.WARNING, "Exception: ", e);
         }
+//         finally {
+//            closeDBConnection(connection);
+//        }
 
     }
 
-    private static void createSchema(Connection connection) {
-        String sql = "CREATE SCHEMA webApp";
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
+    private static void createSchema() {
+        try (Connection connection = DataBaseConfiguration.getDBConnection();
+        ) {
+            PreparedStatement ps = connection.prepareStatement("CREATE SCHEMA webApp");
+            ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.WARNING, "Exception: ", e);
         }
+//        } finally {
+//            closeDBConnection(connection);
+//        }
 
     }
 
 
-    private static void createDbUserTable(Connection connection) {
+    private static void createDbUserTable() {
         String createTableSQL = "CREATE TABLE \"webapp\".\"USER\"("
                 + "USERID BIGSERIAL NOT NULL, "
                 + "USERNAME VARCHAR(20) NOT NULL, "
@@ -100,24 +105,35 @@ public class DataBaseConfiguration {
                 + "PRIMARY KEY (USERID) "
                 + ")";
 
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(createTableSQL);
-            System.out.println("Table \"user\" is created!");
+        try (Connection connection = DataBaseConfiguration.getDBConnection()) {
+            PreparedStatement ps = connection.prepareStatement(createTableSQL);
+            ps.execute();
+            log.log(Level.INFO, "Table \"user\" is created!");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            log.log(Level.WARNING, "Exception: ", e);
         }
+//        } finally {
+//            closeDBConnection(connection);
+//        }
     }
 
-    private static void insertDefaultDataInDbUserTable(Connection connection) {
-        try {
-            Statement statement = connection.createStatement();
+    private static void insertDefaultDataInDbUserTable() {
+        try (Connection connection = DataBaseConfiguration.getDBConnection();
+             Statement statement = connection.createStatement()) {
             for (String user : users) {
                 statement.executeUpdate(user);
             }
-            System.out.println("пользователи успешно добавлены");
+            log.log(Level.INFO, "Пользователи успешно добавлены");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.WARNING, "Exception: ", e);
         }
+//        } finally {
+//            closeDBConnection(connection);
+//        }
     }
 
+    @Override
+    public void close() throws Exception {
+        log.log(Level.INFO, "Successfully disconnected");
+    }
 }

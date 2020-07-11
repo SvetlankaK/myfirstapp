@@ -2,8 +2,6 @@ package dao;
 
 import database.UsersDB;
 import domain.User;
-
-import java.sql.*;
 import java.util.*;
 
 public class DataBaseUserDao implements UserDao {

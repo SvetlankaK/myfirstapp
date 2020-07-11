@@ -32,7 +32,7 @@
                         <th>Date of birth</th>
                         <th>Edit user</th>
                         <th>
-                            <a href="<c:url value = "${contextPath}/editUser.jhtml?action=new"/>">+</a>
+                            <a href="<c:url value = "${contextPath}/registration.jhtml"/>">+</a>
                         </th>
                     </tr>
                     <c:forEach items="#{requestScope.users}" var="user">
@@ -61,7 +61,7 @@
         </main>
         <nav class="sidenav"></nav>
         <aside class="ads"></aside>
-    </div>
+</div>
     <footer class="footer">
         <div class="footerInfo">made by Sveta Kvetko, 2020</div>
     </footer>

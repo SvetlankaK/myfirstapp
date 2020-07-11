@@ -15,7 +15,7 @@ import java.util.Collection;
 
 @WebServlet(urlPatterns = "/users.jhtml")
 public class UsersViewServlet extends HttpServlet {
-    private UserService userService =ServiceFactory.getInstance().getUserService();
+    private UserService userService = ServiceFactory.getInstance().getUserService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -1,10 +1,10 @@
 package dao;
 
 import domain.User;
-
 import java.util.Collection;
 
 public interface UserDao {
+
     void create(User user);
 
     void delete(Long userId);

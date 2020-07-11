@@ -4,6 +4,7 @@ import domain.User;
 import factory.ServiceFactory;
 import service.UserService;
 import util.URLUtilities;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
@@ -37,7 +38,7 @@ public class EditUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String userLogin = req.getParameter("userLogin").trim();
         User user = userService.findByLogin(userLogin);
-        user.setAll( req.getParameter("password").trim(), req.getParameter("access"), req.getParameter("email").trim(), req.getParameter("name").trim(), req.getParameter("surname").trim(), Double.parseDouble(req.getParameter("salary").trim()), req.getParameter("birth"));
+        user.setAll(req.getParameter("password").trim(), req.getParameter("access"), req.getParameter("email").trim(), req.getParameter("name").trim(), req.getParameter("surname").trim(), Double.parseDouble(req.getParameter("salary").trim()), req.getParameter("birth"));
         userService.update(user);
         resp.sendRedirect(req.getContextPath() + "/users.jhtml");
     }

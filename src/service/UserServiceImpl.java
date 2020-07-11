@@ -1,7 +1,6 @@
 package service;
 
 import dao.UserDao;
-import database.UsersDB;
 import domain.User;
 import factory.DaoFactory;
 
