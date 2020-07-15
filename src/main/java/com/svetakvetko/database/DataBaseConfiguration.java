@@ -63,9 +63,9 @@ public class DataBaseConfiguration implements AutoCloseable {
         }
     }
 
-    private static void createDataBase() {
+    public static void createDataBase() {
         try (Connection connection = DataBaseConfiguration.getDBConnection();
-             PreparedStatement ps = connection.prepareStatement("CREATE DATABASE servletApp WITH OWNER postgres ;")) {
+             PreparedStatement ps = connection.prepareStatement("CREATE DATABASE servletapp WITH OWNER postgres ;")) {
             ps.executeUpdate();
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
@@ -76,10 +76,10 @@ public class DataBaseConfiguration implements AutoCloseable {
 
     }
 
-    private static void createSchema() {
+    public static void createSchema() {
         try (Connection connection = DataBaseConfiguration.getDBConnection();
         ) {
-            PreparedStatement ps = connection.prepareStatement("CREATE SCHEMA webApp");
+            PreparedStatement ps = connection.prepareStatement("CREATE SCHEMA webapp");
             ps.executeUpdate();
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
@@ -91,7 +91,7 @@ public class DataBaseConfiguration implements AutoCloseable {
     }
 
 
-    private static void createDbUserTable() {
+    public static void createDbUserTable() {
         String createTableSQL = "CREATE TABLE \"webapp\".\"USER\"("
                 + "USERID BIGSERIAL NOT NULL, "
                 + "USERNAME VARCHAR(20) NOT NULL, "
@@ -117,7 +117,7 @@ public class DataBaseConfiguration implements AutoCloseable {
 //        }
     }
 
-    private static void insertDefaultDataInDbUserTable() {
+    public static void insertDefaultDataInDbUserTable() {
         try (Connection connection = DataBaseConfiguration.getDBConnection();
              Statement statement = connection.createStatement()) {
             for (String user : users) {

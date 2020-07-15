@@ -9,12 +9,3 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 }
-
-//class ServletInitializer extends SpringBootServletInitializer {
-//
-//    @Override
-//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-//        return application.sources(SpringBootApplication.class);
-//    }
-//
-//}
