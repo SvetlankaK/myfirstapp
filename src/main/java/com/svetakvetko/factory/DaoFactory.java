@@ -4,6 +4,7 @@ import com.svetakvetko.dao.DataBaseUserDao;
 import com.svetakvetko.dao.UserDao;
 
 
+
 public class DaoFactory {
     private static DaoFactory instance;
 
@@ -20,4 +21,5 @@ public class DaoFactory {
     public UserDao getUserDao() {
         return DataBaseUserDao.getInstance();
     }
+
 }

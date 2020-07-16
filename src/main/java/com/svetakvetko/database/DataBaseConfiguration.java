@@ -1,5 +1,6 @@
 package com.svetakvetko.database;
 
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,29 +71,24 @@ public class DataBaseConfiguration implements AutoCloseable {
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         }
-//         finally {
-//            closeDBConnection(connection);
-//        }
 
     }
 
     public static void createSchema() {
         try (Connection connection = DataBaseConfiguration.getDBConnection();
         ) {
-            PreparedStatement ps = connection.prepareStatement("CREATE SCHEMA webapp");
+            PreparedStatement ps = connection.prepareStatement("CREATE SCHEMA IF NOT EXISTS webapp");
             ps.executeUpdate();
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         }
-//        } finally {
-//            closeDBConnection(connection);
-//        }
+
 
     }
 
 
     public static void createDbUserTable() {
-        String createTableSQL = "CREATE TABLE \"webapp\".\"USER\"("
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS \"webapp\".\"USER\"("
                 + "USERID BIGSERIAL NOT NULL, "
                 + "USERNAME VARCHAR(20) NOT NULL, "
                 + "USERLOGIN VARCHAR(20) NOT NULL, "
@@ -112,9 +108,6 @@ public class DataBaseConfiguration implements AutoCloseable {
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         }
-//        } finally {
-//            closeDBConnection(connection);
-//        }
     }
 
     public static void insertDefaultDataInDbUserTable() {
@@ -127,13 +120,11 @@ public class DataBaseConfiguration implements AutoCloseable {
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         }
-//        } finally {
-//            closeDBConnection(connection);
-//        }
     }
 
     @Override
     public void close() throws Exception {
         log.log(Level.INFO, "Successfully disconnected");
     }
+
 }
