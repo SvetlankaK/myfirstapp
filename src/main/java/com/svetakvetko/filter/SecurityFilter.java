@@ -1,8 +1,8 @@
 package com.svetakvetko.filter;
 
 import com.svetakvetko.domain.User;
-import com.svetakvetko.factory.ServiceFactory;
 import com.svetakvetko.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -20,7 +20,9 @@ public class SecurityFilter implements Filter {
 
     private List<String> allowedLinks;
     private List<String> adminAllowedLinks;
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    @Autowired
+    private UserService userService;
+
 
     @Override
     public void init(FilterConfig fConfig) {

@@ -1,10 +1,9 @@
 package com.svetakvetko.listener;
 
-import com.svetakvetko.dao.DataBaseUserDao;
-import com.svetakvetko.database.DataBaseConfiguration;
 
-import com.svetakvetko.factory.ServiceFactory;
+import com.svetakvetko.database.DataBaseConfiguration;
 import com.svetakvetko.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -13,14 +12,18 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class ContextListener implements ServletContextListener {
 
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private DataBaseConfiguration dataBaseConfiguration;
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        DataBaseConfiguration.createSchema();
-        DataBaseConfiguration.createDbUserTable();
+        dataBaseConfiguration.createSchema();
+        dataBaseConfiguration.createDbUserTable();
         if (!userService.isExist("Sveta")) {
-            DataBaseConfiguration.insertDefaultDataInDbUserTable();
+            dataBaseConfiguration.insertDefaultDataInDbUserTable();
         }
     }
 

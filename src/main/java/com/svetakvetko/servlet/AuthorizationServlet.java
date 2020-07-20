@@ -2,9 +2,9 @@ package com.svetakvetko.servlet;
 
 
 import com.svetakvetko.domain.User;
-import com.svetakvetko.factory.ServiceFactory;
 import com.svetakvetko.service.UserService;
 import com.svetakvetko.util.ServletUtilities;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,7 +18,9 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/login.jhtml")
 public class AuthorizationServlet extends HttpServlet {
 
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    @Autowired
+    private UserService userService;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -2,9 +2,9 @@ package com.svetakvetko.servlet;
 
 
 import com.svetakvetko.domain.User;
-import com.svetakvetko.factory.ServiceFactory;
 import com.svetakvetko.service.UserService;
 import com.svetakvetko.util.URLUtilities;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +17,9 @@ import java.util.Map;
 @WebServlet(urlPatterns = "/delete.jhtml")
 public class DeleteUserServlet extends HttpServlet {
 
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    @Autowired
+    private UserService userService;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

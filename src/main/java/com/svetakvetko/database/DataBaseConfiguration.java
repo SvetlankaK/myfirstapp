@@ -1,6 +1,9 @@
 package com.svetakvetko.database;
 
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,11 +11,22 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Repository
 public class DataBaseConfiguration implements AutoCloseable {
-    static final String DB_URL = "jdbc:postgresql://localhost:5432/servletapp";
-    static final String USER = "postgres";
-    static final String PASS = "postgres";
-    static final String DB_Driver = "org.postgresql.Driver";
+
+
+    @Value("${database.connection.url}")
+    private String DB_URL;
+
+    @Value("${database.userName}")
+    private String USER;
+
+    @Value("${database.password}")
+    private String PASS;
+
+    @Value("${database.driver}")
+    private String DB_Driver;
+
     private static final List<String> users = new ArrayList<>();
     private static Logger log = Logger.getLogger(DataBaseConfiguration.class.getName());
 
@@ -31,7 +45,7 @@ public class DataBaseConfiguration implements AutoCloseable {
 
     }
 
-    static Connection getDBConnection() {
+    public Connection getDBConnection() {
         Connection connection = null;
         try {
             Class.forName(DB_Driver);
@@ -54,7 +68,7 @@ public class DataBaseConfiguration implements AutoCloseable {
         return connection;
     }
 
-    static void closeDBConnection(Connection connection) {
+    public void closeDBConnection(Connection connection) {
         try {
             connection.close();
             log.log(Level.INFO, "Successfully disconnected");
@@ -64,8 +78,8 @@ public class DataBaseConfiguration implements AutoCloseable {
         }
     }
 
-    public static void createDataBase() {
-        try (Connection connection = DataBaseConfiguration.getDBConnection();
+    public void createDataBase() {
+        try (Connection connection = getDBConnection();
              PreparedStatement ps = connection.prepareStatement("CREATE DATABASE servletapp WITH OWNER postgres ;")) {
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -74,8 +88,8 @@ public class DataBaseConfiguration implements AutoCloseable {
 
     }
 
-    public static void createSchema() {
-        try (Connection connection = DataBaseConfiguration.getDBConnection();
+    public void createSchema() {
+        try (Connection connection = getDBConnection();
         ) {
             PreparedStatement ps = connection.prepareStatement("CREATE SCHEMA IF NOT EXISTS webapp");
             ps.executeUpdate();
@@ -87,7 +101,7 @@ public class DataBaseConfiguration implements AutoCloseable {
     }
 
 
-    public static void createDbUserTable() {
+    public void createDbUserTable() {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS \"webapp\".\"USER\"("
                 + "USERID BIGSERIAL NOT NULL, "
                 + "USERNAME VARCHAR(20) NOT NULL, "
@@ -101,7 +115,7 @@ public class DataBaseConfiguration implements AutoCloseable {
                 + "PRIMARY KEY (USERID) "
                 + ")";
 
-        try (Connection connection = DataBaseConfiguration.getDBConnection()) {
+        try (Connection connection = getDBConnection()) {
             PreparedStatement ps = connection.prepareStatement(createTableSQL);
             ps.execute();
             log.log(Level.INFO, "Table \"user\" is created!");
@@ -110,8 +124,9 @@ public class DataBaseConfiguration implements AutoCloseable {
         }
     }
 
-    public static void insertDefaultDataInDbUserTable() {
-        try (Connection connection = DataBaseConfiguration.getDBConnection();
+
+    public void insertDefaultDataInDbUserTable() {
+        try (Connection connection = getDBConnection();
              Statement statement = connection.createStatement()) {
             for (String user : users) {
                 statement.executeUpdate(user);

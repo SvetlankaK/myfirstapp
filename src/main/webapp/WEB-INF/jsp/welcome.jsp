@@ -6,7 +6,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title>Welcome page</title>
     <style type="text/css">
         <%@include file="/WEB-INF/css/welcome.css"%>
     </style>

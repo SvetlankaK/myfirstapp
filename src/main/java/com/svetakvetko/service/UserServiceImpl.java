@@ -2,26 +2,16 @@ package com.svetakvetko.service;
 
 import com.svetakvetko.dao.UserDao;
 import com.svetakvetko.domain.User;
-import com.svetakvetko.factory.DaoFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
-
+@Service
 public class UserServiceImpl implements UserService {
-    private static UserServiceImpl instance;
 
-    private UserServiceImpl() {
-    }
-
-    public static UserServiceImpl getInstance() {
-        if (instance == null) {
-            instance = new UserServiceImpl();
-        }
-        return instance;
-    }
-
-    private UserDao userDao = DaoFactory.getInstance().getUserDao();
-
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public void create(User user) {

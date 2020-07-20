@@ -1,8 +1,8 @@
 package com.svetakvetko.servlet;
 
 import com.svetakvetko.domain.User;
-import com.svetakvetko.factory.ServiceFactory;
 import com.svetakvetko.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +15,9 @@ import java.util.Collection;
 
 @WebServlet(urlPatterns = "/users.jhtml")
 public class UsersViewServlet extends HttpServlet {
-    private UserService userService = ServiceFactory.getInstance().getUserService();
+    @Autowired
+    private UserService userService;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

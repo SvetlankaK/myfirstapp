@@ -1,10 +1,13 @@
 package com.svetakvetko.domain;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
     private String userLogin;
     private String password;
-    private String role;
+    private List<String> role;
     private String email;
     private String name;
     private String surname;
@@ -17,18 +20,24 @@ public class User {
 
     }
 
-    public User(long userId, String userLogin, String password, String role) {
+    public User(long userId, String userLogin, String password, List<String> role) {
         this.userId = userId;
         this.userLogin = userLogin;
         this.password = password;
-        this.role = role;
+        this.role = new ArrayList<>();
+        if (role != null) {
+            this.role.addAll(role);
+        }
     }
 
-    public User(long userId, String userLogin, String password, String role, String email, String name, String surname, double salary, String dateOfBirth) {
+    public User(long userId, String userLogin, String password, List<String> role, String email, String name, String surname, double salary, String dateOfBirth) {
         this.userId = userId;
         this.userLogin = userLogin;
         this.password = password;
-        this.role = role;
+        this.role = new ArrayList<>();
+        if (role != null) {
+            this.role.addAll(role);
+        }
         this.email = email;
         this.name = name;
         this.surname = surname;
@@ -36,8 +45,11 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setAll( String password, String role, String email, String name, String surname, Double salary, String dateOfBirth) {
-        this.role = role;
+    public void setAll(String password, List<String> role, String email, String name, String surname, Double salary, String dateOfBirth) {
+        this.role = new ArrayList<>();
+        if (role != null) {
+            this.role.addAll(role);
+        }
         this.password = password;
         this.email = email;
         this.name = name;
@@ -54,11 +66,11 @@ public class User {
         this.userId = userId;
     }
 
-    public String getRole() {
+    public List<String> getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(List<String> role) {
         this.role = role;
     }
 
