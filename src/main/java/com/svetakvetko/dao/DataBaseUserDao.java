@@ -1,7 +1,9 @@
 package com.svetakvetko.dao;
 
 import com.svetakvetko.database.DataBaseConfiguration;
+import com.svetakvetko.domain.Role;
 import com.svetakvetko.domain.User;
+import com.svetakvetko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -9,9 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +27,7 @@ public class DataBaseUserDao implements UserDao {
     public void create(User user) {
         Connection connection = dataBaseConfiguration.getDBConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO \"webapp\".\"USER\" VALUES (" + user.getName() + ", ?, ?,?,?,?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO \"webapp\".\"USER\" VALUES (?, ?, ?,?,?,?,?,?,?)");
             setUserPreparedStatements(user, ps);
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -57,9 +57,10 @@ public class DataBaseUserDao implements UserDao {
         Connection connection = dataBaseConfiguration.getDBConnection();
         try {
             PreparedStatement ps = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userId=%d", userId));
+            ResultSet roles = getRoles(userId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return extractUserFromResultSet(rs);
+                return extractUserFromResultSet(rs, roles);
             }
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
@@ -140,7 +141,23 @@ public class DataBaseUserDao implements UserDao {
         return null;
     }
 
-    private User extractUserFromResultSet(ResultSet rs) {
+    public ResultSet getRoles(Long userId) {
+        Connection connection = dataBaseConfiguration.getDBConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement(String.format("SELECT rolename FROM \"webapp\".\"user_roles\""
+                    + "  INNER JOIN \"webapp\".roles ON (\"webapp\".roles.id=\"webapp\".user_roles.role_id)"
+                    + " WHERE userId='%s'\"", userId));
+            return ps.executeQuery();
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Exception: ", e);
+        } finally {
+            dataBaseConfiguration.closeDBConnection(connection);
+        }
+        return null;
+    }
+
+
+    private User extractUserFromResultSet(ResultSet rs, ResultSet roles) {
         User user = new User();
         try {
             user.setUserId(rs.getLong("userId"));
@@ -151,7 +168,7 @@ public class DataBaseUserDao implements UserDao {
             user.setDateOfBirth(rs.getString("userDateOfBirth"));
             user.setSalary(rs.getDouble("usersalary"));
             user.setUserLogin(rs.getString("userLogin"));
-            user.setRole(rs.getString("userrole"));
+            user.setRole(Collections.singletonList(roles.getString("userrole")));
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         }
@@ -166,7 +183,7 @@ public class DataBaseUserDao implements UserDao {
             ps.setString(3, user.getUserLogin());
             ps.setString(4, user.getSurname());
             ps.setString(5, user.getPassword());
-            ps.setString(6, user.getRole());
+            ps.setString(6, user.getRole().toString());
             ps.setString(7, user.getEmail());
             ps.setString(8, user.getDateOfBirth());
             ps.setDouble(9, user.getSalary());

@@ -21,7 +21,9 @@ public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         dataBaseConfiguration.createSchema();
+        dataBaseConfiguration.createDbRoleTable();
         dataBaseConfiguration.createDbUserTable();
+        dataBaseConfiguration.createDbUserRoleTable();
         if (!userService.isExist("Sveta")) {
             dataBaseConfiguration.insertDefaultDataInDbUserTable();
         }

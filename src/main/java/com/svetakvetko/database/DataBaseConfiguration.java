@@ -1,6 +1,9 @@
 package com.svetakvetko.database;
 
 
+import com.svetakvetko.dao.DataBaseUserDao;
+import com.svetakvetko.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -27,23 +30,35 @@ public class DataBaseConfiguration implements AutoCloseable {
     @Value("${database.driver}")
     private String DB_Driver;
 
+    @Autowired
+    private DataBaseUserDao dataBaseUserDao;
+
+
     private static final List<String> users = new ArrayList<>();
+    private static final List<String> role = new ArrayList<>();
+    private static String user_roles = "";
+
     private static Logger log = Logger.getLogger(DataBaseConfiguration.class.getName());
 
     static {
         Collections.addAll(users, "INSERT INTO  \"webapp\".\"USER\" "
-                + "(USERID,USERLOGIN,USERPASSWORD,USERROLE,USEREMAIL,USERNAME,USERSURNAME,USERSALARY,USERDATEOFBIRTH )" + " VALUES"
-                + "(1,'kat17', 'драсте', 'USER', 'cat1717@mail.ru', 'Анна', 'Иванова', 200,'10.10.1999')", "INSERT INTO  \"webapp\".\"USER\" "
-                + "(USERID,USERLOGIN,USERPASSWORD,USERROLE,USEREMAIL,USERNAME,USERSURNAME,USERSALARY,USERDATEOFBIRTH  )" + " VALUES"
-                + "(2,'leadss', 'fdeefe', 'USER', 'liveliver@gmail.com', 'Максим', 'Вешалкин', 550, '07.09.1990')", "INSERT INTO  \"webapp\".\"USER\"  "
-                + "(USERID,USERLOGIN,USERPASSWORD,USERROLE,USEREMAIL,USERNAME,USERSURNAME,USERSALARY,USERDATEOFBIRTH  )" + " VALUES"
-                + "(3,'great29', 'совсемнегениальныйпароль', 'USER', 'football_player@gmail.com', 'Вадим', 'Бабурченков', 320, '17.01.1880')", "INSERT INTO  \"webapp\".\"USER\" "
-                + "(USERID,USERLOGIN,USERPASSWORD,USERROLE,USEREMAIL,USERNAME,USERSURNAME,USERSALARY,USERDATEOFBIRTH  )" + " VALUES"
-                + "(4,'honeyMOON', 'пароль', 'USER', 'smirnovy@gmail.com', 'Василиса', 'Веббер', 400, '15.11.1988')", "INSERT INTO  \"webapp\".\"USER\"  "
-                + "(USERID,USERLOGIN,USERPASSWORD,USERROLE,USEREMAIL,USERNAME,USERSURNAME,USERSALARY,USERDATEOFBIRTH  )" + " VALUES"
-                + "(5,'Sveta', 'gfhjkm', 'ADMIN', 'svetlanka17@gmail.com', 'Светлана', 'Кветко', 100000, '06.04.2000')");
+                + "(USERID,USERLOGIN,USERPASSWORD,ROLEID,USEREMAIL,USERNAME,USERSURNAME,USERSALARY,USERDATEOFBIRTH )" + " VALUES"
+                + "(1,'kat17', 'драсте', 1, 'cat1717@mail.ru', 'Анна', 'Иванова', 200,'10.10.1999')", "INSERT INTO  \"webapp\".\"USER\" "
+                + "(USERID,USERLOGIN,USERPASSWORD,ROLEID,USEREMAIL,USERNAME,USERSURNAME,USERSALARY,USERDATEOFBIRTH  )" + " VALUES"
+                + "(2,'leadss', 'fdeefe',1 , 'liveliver@gmail.com', 'Максим', 'Вешалкин', 550, '07.09.1990')", "INSERT INTO  \"webapp\".\"USER\"  "
+                + "(USERID,USERLOGIN,USERPASSWORD,ROLEID,USEREMAIL,USERNAME,USERSURNAME,USERSALARY,USERDATEOFBIRTH  )" + " VALUES"
+                + "(3,'great29', 'совсемнегениальныйпароль', 1, 'football_player@gmail.com', 'Вадим', 'Бабурченков', 320, '17.01.1880')", "INSERT INTO  \"webapp\".\"USER\" "
+                + "(USERID,USERLOGIN,USERPASSWORD,ROLEID,USEREMAIL,USERNAME,USERSURNAME,USERSALARY,USERDATEOFBIRTH  )" + " VALUES"
+                + "(4,'honeyMOON', 'пароль', 1, 'smirnovy@gmail.com', 'Василиса', 'Веббер', 400, '15.11.1988')", "INSERT INTO  \"webapp\".\"USER\"  "
+                + "(USERID,USERLOGIN,USERPASSWORD,ROLEID,USEREMAIL,USERNAME,USERSURNAME,USERSALARY,USERDATEOFBIRTH  )" + " VALUES"
+                + "(5,'Sveta', 'gfhjkm', 2, 'svetlanka17@gmail.com', 'Светлана', 'Кветко', 100000, '06.04.2000')");
+        Collections.addAll(role, "INSERT INTO \"webapp\".\"role\" (rolename) VALUES ('user')",
+                "INSERT INTO \"webapp\".\"role\" (rolename) VALUES ('admin')");
+        user_roles = "INSERT INTO  \"webapp\".\"user_roles\" (user_id, role_id)"
+                + "SELECT userid, roleid FROM  \"webapp\".\"USER\" ";
 
     }
+
 
     public Connection getDBConnection() {
         Connection connection = null;
@@ -108,11 +123,12 @@ public class DataBaseConfiguration implements AutoCloseable {
                 + "USERLOGIN VARCHAR(20) NOT NULL, "
                 + "USERSURNAME VARCHAR(20) NOT NULL, "
                 + "USERPASSWORD VARCHAR(30) NOT NULL, "
-                + "USERROLE VARCHAR(20) NOT NULL, "
+                + "ROLEID BIGSERIAL NOT NULL, "
                 + "USEREMAIL VARCHAR(30) NOT NULL, "
                 + "USERDATEOFBIRTH VARCHAR(30) NOT NULL, "
                 + "USERSALARY FLOAT NOT NULL,"
-                + "PRIMARY KEY (USERID) "
+                + "PRIMARY KEY (USERID) ,"
+                + "FOREIGN KEY(ROLEID) REFERENCES \"webapp\".\"role\" (ID) "
                 + ")";
 
         try (Connection connection = getDBConnection()) {
@@ -124,13 +140,49 @@ public class DataBaseConfiguration implements AutoCloseable {
         }
     }
 
+    public void createDbRoleTable() {
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS \"webapp\".\"role\"("
+                + "ID bigSERIAL PRIMARY KEY, "
+                + "ROLENAME TEXT NOT NULL "
+                + ")";
+
+        try (Connection connection = getDBConnection()) {
+            PreparedStatement ps = connection.prepareStatement(createTableSQL);
+            ps.execute();
+            log.log(Level.INFO, "Table \"role\" is created!");
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Exception: ", e);
+        }
+    }
+
+    public void createDbUserRoleTable() {
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS \"webapp\".\"user_roles\"("
+                + "user_id serial NOT NULL,"
+                + "role_id serial NOT NULL,"
+                + "FOREIGN KEY (user_id) REFERENCES \"webapp\".\"USER\" (USERID) ON DELETE CASCADE,"
+                + "FOREIGN KEY (role_id) REFERENCES \"webapp\".\"role\" (ID),"
+                + "PRIMARY KEY (user_id, role_id)"
+                + ")";
+
+        try (Connection connection = getDBConnection()) {
+            PreparedStatement ps = connection.prepareStatement(createTableSQL);
+            ps.execute();
+            log.log(Level.INFO, "Table \"user_roles\" is created!");
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Exception: ", e);
+        }
+    }
 
     public void insertDefaultDataInDbUserTable() {
         try (Connection connection = getDBConnection();
              Statement statement = connection.createStatement()) {
+            for (String role : role) {
+                statement.executeUpdate(role);
+            }
             for (String user : users) {
                 statement.executeUpdate(user);
             }
+            statement.executeUpdate(user_roles);
             log.log(Level.INFO, "Пользователи успешно добавлены");
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);

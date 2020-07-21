@@ -4,6 +4,9 @@ import com.svetakvetko.domain.User;
 import com.svetakvetko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.svetakvetko.database.RoleEnum.*;
+
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +26,6 @@ public class SecurityFilter implements Filter {
     @Autowired
     private UserService userService;
 
-
     @Override
     public void init(FilterConfig fConfig) {
         allowedLinks = new ArrayList<>();
@@ -40,7 +42,7 @@ public class SecurityFilter implements Filter {
         boolean loggedIn = session != null && session.getAttribute("userLogin") != null;
         boolean availableRequest = false;
         boolean forbiddenLink = false;
-        String userRole = "";
+        List<String> userRole = null;
         if (loggedIn) {
             User user = userService.findByLogin(session.getAttribute("userLogin").toString());
             userRole = user.getRole();
@@ -60,12 +62,14 @@ public class SecurityFilter implements Filter {
         }
         for (String link : adminAllowedLinks) {
             if (request.getRequestURI().equals(request.getContextPath() + link)) {
-                if (userRole.equals("ADMIN")) {
-                    availableRequest = true;
-                    break;
-                } else {
-                    forbiddenLink = true;
+                for (String role : userRole) {
+                    if (role.equals(ADMIN_ACCESS.getName())) {
+                        availableRequest = true;
+                        break;
+                    }
                 }
+            } else {
+                forbiddenLink = true;
             }
         }
         if (forbiddenLink && loggedIn) {

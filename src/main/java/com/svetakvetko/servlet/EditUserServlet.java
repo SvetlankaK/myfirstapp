@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 
 
@@ -40,7 +41,7 @@ public class EditUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String userLogin = req.getParameter("userLogin").trim();
         User user = userService.findByLogin(userLogin);
-        user.setAll(req.getParameter("password").trim(), req.getParameter("access"), req.getParameter("email").trim(), req.getParameter("name").trim(), req.getParameter("surname").trim(), Double.parseDouble(req.getParameter("salary").trim()), req.getParameter("birth"));
+        user.setAll(req.getParameter("password").trim(), Collections.singletonList(req.getParameter("access")), req.getParameter("email").trim(), req.getParameter("name").trim(), req.getParameter("surname").trim(), Double.parseDouble(req.getParameter("salary").trim()), req.getParameter("birth"));
         userService.update(user);
         resp.sendRedirect(req.getContextPath() + "/users.jhtml");
     }
