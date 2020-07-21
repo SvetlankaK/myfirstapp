@@ -26,9 +26,15 @@ public class DataBaseUserDao implements UserDao {
     public void create(User user) {
         Connection connection = dataBaseConfiguration.getDBConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO \"webapp\".\"USER\" VALUES (?, ?, ?,?,?,?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO \"webapp\".\"USER\" VALUES (?,?,?,?,?,?,?,?)");
             setUserPreparedStatements(user, ps);
             ps.executeUpdate();
+            while (user.getRole().listIterator().hasNext()) {
+                ps = connection.prepareStatement("INSERT INTO \"webapp\".\"user_roles\" VALUES ( ?, ?)");
+                ps.setLong(1, user.getUserId());
+                ps.setLong(2, user.getRole().listIterator().next().getId());
+                ps.executeUpdate();
+            }
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         } finally {
@@ -107,9 +113,16 @@ public class DataBaseUserDao implements UserDao {
     public User update(User user) {
         Connection connection = dataBaseConfiguration.getDBConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement(String.format("UPDATE \"webapp\".\"USER\" SET userid=?, username=?,userLogin=?,usersurname=?,userpassword=?,userrole=?,useremail=?,userdateOfBirth=?,userSalary=? WHERE userId=%d", user.getUserId()));
+            PreparedStatement ps = connection.prepareStatement(String.format("UPDATE \"webapp\".\"USER\" SET userid=?, username=?,userLogin=?,usersurname=?,userpassword=?,useremail=?,userdateOfBirth=?,userSalary=? WHERE userId=%d", user.getUserId()));
             setUserPreparedStatements(user, ps);
             ps.executeUpdate();
+            ps = connection.prepareStatement(String.format("UPDATE \"webapp\".\"user_roles\" SET role_id=? where user_id=%d", user.getUserId()));
+            while (user.getRole().listIterator().hasNext()) {
+                ps = connection.prepareStatement("UPDATE \"webapp\".\"user_roles\" VALUES ( ?, ?)");
+                ps.setLong(1, user.getUserId());
+                ps.setLong(2, user.getRole().listIterator().next().getId());
+                ps.executeUpdate();
+            }
             PreparedStatement preparedStatement = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userId=%d", user.getUserId()));
             ResultSet rs = preparedStatement.executeQuery();
             return extractUserFromResultSet(rs);
@@ -197,10 +210,9 @@ public class DataBaseUserDao implements UserDao {
             ps.setString(3, user.getUserLogin());
             ps.setString(4, user.getSurname());
             ps.setString(5, user.getPassword());
-            ps.setString(6, user.getRole());
-            ps.setString(7, user.getEmail());
-            ps.setString(8, user.getDateOfBirth());
-            ps.setDouble(9, user.getSalary());
+            ps.setString(6, user.getEmail());
+            ps.setString(7, user.getDateOfBirth());
+            ps.setDouble(8, user.getSalary());
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         }
