@@ -7,7 +7,7 @@ import java.util.List;
 public class User {
     private String userLogin;
     private String password;
-    private List<String> role;
+    private List<Role> role;
     private String email;
     private String name;
     private String surname;
@@ -20,7 +20,7 @@ public class User {
 
     }
 
-    public User(long userId, String userLogin, String password, List<String> role) {
+    public User(long userId, String userLogin, String password, List<Role> role) {
         this.userId = userId;
         this.userLogin = userLogin;
         this.password = password;
@@ -30,7 +30,7 @@ public class User {
         }
     }
 
-    public User(long userId, String userLogin, String password, List<String> role, String email, String name, String surname, double salary, String dateOfBirth) {
+    public User(long userId, String userLogin, String password, List<Role> role, String email, String name, String surname, double salary, String dateOfBirth) {
         this.userId = userId;
         this.userLogin = userLogin;
         this.password = password;
@@ -45,7 +45,7 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public void setAll(String password, List<String> role, String email, String name, String surname, Double salary, String dateOfBirth) {
+    public void setAll(String password, List<Role> role, String email, String name, String surname, Double salary, String dateOfBirth) {
         this.role = new ArrayList<>();
         if (role != null) {
             this.role.addAll(role);
@@ -66,11 +66,11 @@ public class User {
         this.userId = userId;
     }
 
-    public List<String> getRole() {
+    public List<Role> getRole() {
         return role;
     }
 
-    public void setRole(List<String> role) {
+    public void setRole(List<Role> role) {
         this.role = role;
     }
 

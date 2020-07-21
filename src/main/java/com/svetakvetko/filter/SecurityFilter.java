@@ -1,5 +1,6 @@
 package com.svetakvetko.filter;
 
+import com.svetakvetko.domain.Role;
 import com.svetakvetko.domain.User;
 import com.svetakvetko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class SecurityFilter implements Filter {
         boolean loggedIn = session != null && session.getAttribute("userLogin") != null;
         boolean availableRequest = false;
         boolean forbiddenLink = false;
-        List<String> userRole = null;
+        List<Role> userRole = null;
         if (loggedIn) {
             User user = userService.findByLogin(session.getAttribute("userLogin").toString());
             userRole = user.getRole();
@@ -62,8 +63,8 @@ public class SecurityFilter implements Filter {
         }
         for (String link : adminAllowedLinks) {
             if (request.getRequestURI().equals(request.getContextPath() + link)) {
-                for (String role : userRole) {
-                    if (role.equals(ADMIN_ACCESS.getName())) {
+                for (Role role : userRole) {
+                    if (role.getRoleName().equals(ADMIN_ACCESS.getName())) {
                         availableRequest = true;
                         break;
                     }

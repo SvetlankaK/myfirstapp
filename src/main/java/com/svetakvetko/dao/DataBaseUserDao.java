@@ -3,7 +3,6 @@ package com.svetakvetko.dao;
 import com.svetakvetko.database.DataBaseConfiguration;
 import com.svetakvetko.domain.Role;
 import com.svetakvetko.domain.User;
-import com.svetakvetko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -51,16 +50,14 @@ public class DataBaseUserDao implements UserDao {
         }
     }
 
-
     @Override
     public User findById(Long userId) {
         Connection connection = dataBaseConfiguration.getDBConnection();
         try {
             PreparedStatement ps = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userId=%d", userId));
-            ResultSet roles = getRoles(userId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return extractUserFromResultSet(rs, roles);
+                return extractUserFromResultSet(rs);
             }
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
@@ -141,13 +138,20 @@ public class DataBaseUserDao implements UserDao {
         return null;
     }
 
-    public ResultSet getRoles(Long userId) {
+    public List<Role> getRoles(Long userId) {
         Connection connection = dataBaseConfiguration.getDBConnection();
+        List<Role> roles = new ArrayList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(String.format("SELECT rolename FROM \"webapp\".\"user_roles\""
-                    + "  INNER JOIN \"webapp\".roles ON (\"webapp\".roles.id=\"webapp\".user_roles.role_id)"
-                    + " WHERE userId='%s'\"", userId));
-            return ps.executeQuery();
+            PreparedStatement ps = connection.prepareStatement(String.format("SELECT  \"webapp\".\"USER\".roleid,  \"webapp\".\"role\".rolename FROM \"webapp\".\"user_roles\" "
+                    + " INNER JOIN \"webapp\".\"USER\" ON (\"webapp\".\"USER\".userid=\"webapp\".\"user_roles\".user_id) "
+                    + " INNER JOIN  \"webapp\".\"role\" ON (\"webapp\".\"role\".id=\"webapp\".\"user_roles\".role_id)"
+                    + " WHERE user_id=%d", userId));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Role role = extractRoleFromResultSet(rs);
+                roles.add(role);
+            }
+            return roles;
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         } finally {
@@ -157,7 +161,7 @@ public class DataBaseUserDao implements UserDao {
     }
 
 
-    private User extractUserFromResultSet(ResultSet rs, ResultSet roles) {
+    private User extractUserFromResultSet(ResultSet rs) {
         User user = new User();
         try {
             user.setUserId(rs.getLong("userId"));
@@ -168,13 +172,23 @@ public class DataBaseUserDao implements UserDao {
             user.setDateOfBirth(rs.getString("userDateOfBirth"));
             user.setSalary(rs.getDouble("usersalary"));
             user.setUserLogin(rs.getString("userLogin"));
-            user.setRole(Collections.singletonList(roles.getString("userrole")));
+            user.setRole(getRoles(rs.getLong("userId")));
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         }
         return user;
     }
 
+    public Role extractRoleFromResultSet(ResultSet rs) {
+        Role role = new Role();
+        try {
+            role.setId(rs.getLong("roleid"));
+            role.setRoleName(rs.getString("roleName"));
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Exception: ", e);
+        }
+        return role;
+    }
 
     private void setUserPreparedStatements(User user, PreparedStatement ps) {
         try {
@@ -183,7 +197,7 @@ public class DataBaseUserDao implements UserDao {
             ps.setString(3, user.getUserLogin());
             ps.setString(4, user.getSurname());
             ps.setString(5, user.getPassword());
-            ps.setString(6, user.getRole().toString());
+            ps.setString(6, user.getRole());
             ps.setString(7, user.getEmail());
             ps.setString(8, user.getDateOfBirth());
             ps.setDouble(9, user.getSalary());

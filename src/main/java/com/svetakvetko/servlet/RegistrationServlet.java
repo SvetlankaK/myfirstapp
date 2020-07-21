@@ -1,5 +1,6 @@
 package com.svetakvetko.servlet;
 
+import com.svetakvetko.domain.Role;
 import com.svetakvetko.domain.User;
 import com.svetakvetko.service.UserService;
 import com.svetakvetko.util.ServletUtilities;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static com.svetakvetko.database.RoleEnum.*;
 
@@ -45,8 +47,8 @@ public class RegistrationServlet extends HttpServlet {
         if (userService.isExist(userLogin)) {
             this.doGet(ServletUtilities.createErrorMessage("This name is already taken, try again", req), resp);
         }
-        userService.create(new User(id, userLogin, password, Collections.singletonList(USER_ACCESS.getName()), email, name, surname, Double.parseDouble(salary), birth));
-        HttpSession session = ServletUtilities.createSession(new User(id, userLogin, password, Collections.singletonList(USER_ACCESS.getName()), email, name, surname, Double.parseDouble(salary), birth), req);
+        userService.create(new User(id, userLogin, password, Collections.singletonList(new Role(id, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth));
+        HttpSession session = ServletUtilities.createSession(new User(id, userLogin, password, Collections.singletonList(new Role(id, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth), req);
         resp.sendRedirect(req.getContextPath() + "/welcome.jhtml");
     }
 }
