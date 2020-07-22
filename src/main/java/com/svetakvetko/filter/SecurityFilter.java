@@ -46,7 +46,7 @@ public class SecurityFilter implements Filter {
         boolean loggedIn = session != null && session.getAttribute("userLogin") != null;
         boolean availableRequest = false;
         boolean forbiddenLink = false;
-        List<Role> userRole = null;
+        List<Role> userRole = Collections.emptyList();
         if (loggedIn) {
             User user = userService.findByLogin(session.getAttribute("userLogin").toString());
             userRole = dataBaseUserDao.getRoles(user.getUserId());

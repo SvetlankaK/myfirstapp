@@ -1,8 +1,8 @@
 package com.svetakvetko.database;
 
 public enum RoleEnum {
-    ADMIN_ACCESS("ADMIN"),
-    USER_ACCESS("USER");
+    ADMIN_ACCESS("admin"),
+    USER_ACCESS("user");
 
     String name;
 

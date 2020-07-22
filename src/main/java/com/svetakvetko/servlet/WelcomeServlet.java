@@ -26,6 +26,7 @@ public class WelcomeServlet extends HttpServlet {
         User user = userService.findById(id);
         //TODO доставаться должна не только первая роль
         req.setAttribute("role", user.getRole().get(0).getRoleName());
+//        req.setAttribute("role", user.getRole());
         req.getRequestDispatcher("/WEB-INF/jsp/welcome.jsp").forward(req, resp);
     }
 
