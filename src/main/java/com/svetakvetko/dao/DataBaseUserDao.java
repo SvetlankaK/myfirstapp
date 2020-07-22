@@ -155,7 +155,7 @@ public class DataBaseUserDao implements UserDao {
         Connection connection = dataBaseConfiguration.getDBConnection();
         List<Role> roles = new ArrayList<>();
         try {
-            PreparedStatement ps = connection.prepareStatement(String.format("SELECT  \"webapp\".\"USER\".roleid,  \"webapp\".\"role\".rolename FROM \"webapp\".\"user_roles\" "
+            PreparedStatement ps = connection.prepareStatement(String.format("SELECT  \"webapp\".\"role\".id,  \"webapp\".\"role\".rolename FROM \"webapp\".\"user_roles\" "
                     + " INNER JOIN \"webapp\".\"USER\" ON (\"webapp\".\"USER\".userid=\"webapp\".\"user_roles\".user_id) "
                     + " INNER JOIN  \"webapp\".\"role\" ON (\"webapp\".\"role\".id=\"webapp\".\"user_roles\".role_id)"
                     + " WHERE user_id=%d", userId));
@@ -195,7 +195,7 @@ public class DataBaseUserDao implements UserDao {
     public Role extractRoleFromResultSet(ResultSet rs) {
         Role role = new Role();
         try {
-            role.setId(rs.getLong("roleid"));
+            role.setId(rs.getLong("id"));
             role.setRoleName(rs.getString("roleName"));
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);

@@ -24,7 +24,8 @@ public class WelcomeServlet extends HttpServlet {
         HttpSession session = req.getSession(true);
         long id = (Long) session.getAttribute("userId");
         User user = userService.findById(id);
-        req.setAttribute("role", user.getRole());
+       //TODO доставаться должна не только первая роль
+        req.setAttribute("role", user.getRole().get(0).getRoleName());
         req.getRequestDispatcher("/WEB-INF/jsp/welcome.jsp").forward(req, resp);
     }
 

@@ -1,5 +1,6 @@
 package com.svetakvetko.filter;
 
+import com.svetakvetko.dao.DataBaseUserDao;
 import com.svetakvetko.domain.Role;
 import com.svetakvetko.domain.User;
 import com.svetakvetko.service.UserService;
@@ -26,6 +27,8 @@ public class SecurityFilter implements Filter {
     private List<String> adminAllowedLinks;
     @Autowired
     private UserService userService;
+    @Autowired
+    private DataBaseUserDao dataBaseUserDao;
 
     @Override
     public void init(FilterConfig fConfig) {
@@ -46,7 +49,7 @@ public class SecurityFilter implements Filter {
         List<Role> userRole = null;
         if (loggedIn) {
             User user = userService.findByLogin(session.getAttribute("userLogin").toString());
-            userRole = user.getRole();
+            userRole = dataBaseUserDao.getRoles(user.getUserId());
         }
         for (String link : allowedLinks) {
             if (link.equals("/")) {
