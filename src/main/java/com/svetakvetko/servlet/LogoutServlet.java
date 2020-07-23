@@ -20,6 +20,6 @@ public class LogoutServlet extends HttpServlet {
             session.removeAttribute("userLogin");
             session.invalidate();
         }
-        response.sendRedirect(request.getContextPath() + "/");
+        response.sendRedirect(request.getContextPath() + "/login.jhtml");
     }
 }
