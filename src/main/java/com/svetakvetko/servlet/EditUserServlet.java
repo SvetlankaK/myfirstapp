@@ -1,5 +1,6 @@
 package com.svetakvetko.servlet;
 
+import com.svetakvetko.database.RoleEnum;
 import com.svetakvetko.domain.Role;
 import com.svetakvetko.domain.User;
 import com.svetakvetko.service.UserService;
@@ -42,7 +43,7 @@ public class EditUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String userLogin = req.getParameter("userLogin").trim();
         User user = userService.findByLogin(userLogin);
-        user.setAll(req.getParameter("password").trim(), Collections.singletonList(new Role(user.getUserId(), req.getParameter("access"))), req.getParameter("email").trim(), req.getParameter("name").trim(), req.getParameter("surname").trim(), Double.parseDouble(req.getParameter("salary").trim()), req.getParameter("birth"));
+        user.setAll(req.getParameter("password").trim(), Collections.singletonList(new Role(RoleEnum.getIdByRoleName(req.getParameter("access")), req.getParameter("access"))), req.getParameter("email").trim(), req.getParameter("name").trim(), req.getParameter("surname").trim(), Double.parseDouble(req.getParameter("salary").trim()), req.getParameter("birth"));
         userService.update(user);
         resp.sendRedirect(req.getContextPath() + "/users.jhtml");
     }

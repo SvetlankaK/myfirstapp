@@ -37,19 +37,15 @@
                     </tr>
                     <c:forEach items="#{requestScope.users}" var="user">
                         <td class="table-text-left">${user.surname} ${user.name}</td>
+<%--                        <c:forEach items="#{requestScope.users.role}" var="role">--%>
+<%--                            <td><select disabled><option>${role.roleName}</select></td>--%>
+<%--                        </c:forEach>>--%>
                         <td>${user.role}</td>
                         <td>${user.email}</td>
                         <td>${user.salary}</td>
                         <td>${user.dateOfBirth}</td>
                         <td>
-                            <c:choose>
-                                <c:when test="${user.role=='ADMIN'}">
-                                    <a href="<c:url value = "${contextPath}/editUser.jhtml?action=edit;user=${user.userLogin}"/>">&#9998;</a>
-                                </c:when>
-                                <c:when test="${user.role=='USER'}">
-                                    <a href="<c:url value = "${contextPath}/editUser.jhtml?action=edit;user=${user.userLogin}"/>">&#9998;</a>
-                                </c:when>
-                            </c:choose>
+                            <a href="<c:url value = "${contextPath}/editUser.jhtml?action=edit;user=${user.userLogin}"/>">&#9998;</a>
                         </td>
                         <td>
                             <a href="<c:url value = "${contextPath}/delete.jhtml?user=${user.userLogin}"/>">&#x2716;</a>
@@ -61,7 +57,7 @@
         </main>
         <nav class="sidenav"></nav>
         <aside class="ads"></aside>
-</div>
+    </div>
     <footer class="footer">
         <div class="footerInfo">made by Sveta Kvetko, 2020</div>
     </footer>

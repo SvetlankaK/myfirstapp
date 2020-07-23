@@ -30,10 +30,10 @@ public class DataBaseUserDao implements UserDao {
             setUserPreparedStatements(user, ps);
             ps.executeUpdate();
             while (user.getRole().listIterator().hasNext()) {
-                ps = connection.prepareStatement("INSERT INTO \"webapp\".\"user_roles\" VALUES ( ?, ?)");
-                ps.setLong(1, user.getUserId());
-                ps.setLong(2, user.getRole().listIterator().next().getId());
-                ps.executeUpdate();
+                PreparedStatement pst = connection.prepareStatement("INSERT INTO \"webapp\".\"user_roles\" VALUES ( ?, ?)");
+                pst.setLong(1, user.getUserId());
+                pst.setLong(2, user.getRole().listIterator().next().getId());
+                pst.executeUpdate();
             }
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
@@ -118,10 +118,10 @@ public class DataBaseUserDao implements UserDao {
             ps.executeUpdate();
             ps = connection.prepareStatement(String.format("UPDATE \"webapp\".\"user_roles\" SET role_id=? where user_id=%d", user.getUserId()));
             while (user.getRole().listIterator().hasNext()) {
-                ps = connection.prepareStatement("UPDATE \"webapp\".\"user_roles\" VALUES ( ?, ?)");
-                ps.setLong(1, user.getUserId());
-                ps.setLong(2, user.getRole().listIterator().next().getId());
-                ps.executeUpdate();
+                PreparedStatement pst = connection.prepareStatement("UPDATE \"webapp\".\"user_roles\" VALUES ( ?, ?)");
+                pst.setLong(1, user.getUserId());
+                pst.setLong(2, user.getRole().listIterator().next().getId());
+                pst.executeUpdate();
             }
             PreparedStatement preparedStatement = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userId=%d", user.getUserId()));
             ResultSet rs = preparedStatement.executeQuery();

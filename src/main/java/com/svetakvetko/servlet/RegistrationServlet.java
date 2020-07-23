@@ -47,8 +47,8 @@ public class RegistrationServlet extends HttpServlet {
         if (userService.isExist(userLogin)) {
             this.doGet(ServletUtilities.createErrorMessage("This name is already taken, try again", req), resp);
         }
-        userService.create(new User(id, userLogin, password, Collections.singletonList(new Role(id, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth));
-        HttpSession session = ServletUtilities.createSession(new User(id, userLogin, password, Collections.singletonList(new Role(id, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth), req);
+        userService.create(new User(id, userLogin, password, Collections.singletonList(new Role(1, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth));
+        HttpSession session = ServletUtilities.createSession(new User(id, userLogin, password, Collections.singletonList(new Role(1, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth), req);
         resp.sendRedirect(req.getContextPath() + "/welcome.jhtml");
     }
 }
