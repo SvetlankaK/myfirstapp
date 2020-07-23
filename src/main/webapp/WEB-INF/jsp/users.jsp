@@ -37,10 +37,11 @@
                     </tr>
                     <c:forEach items="#{requestScope.users}" var="user">
                         <td class="table-text-left">${user.surname} ${user.name}</td>
-<%--                        <c:forEach items="#{requestScope.users.role}" var="role">--%>
-<%--                            <td><select disabled><option>${role.roleName}</select></td>--%>
-<%--                        </c:forEach>>--%>
-                        <td>${user.role}</td>
+                        <td><select class="selection-handle">
+                            <c:forEach items="#{user.role}" var="role">
+                                <option>${role.roleName} </option>
+                            </c:forEach>
+                            ></select></td>
                         <td>${user.email}</td>
                         <td>${user.salary}</td>
                         <td>${user.dateOfBirth}</td>

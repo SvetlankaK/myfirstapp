@@ -66,7 +66,7 @@
     <div class="col-4">
         <label>
             Access role
-            <select tabindex="5" name="access">
+            <select tabindex="5" name="access" multiple>
                 <option>USER</option>
                 <option selected>ADMIN</option>
             </select>
