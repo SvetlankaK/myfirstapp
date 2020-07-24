@@ -29,10 +29,10 @@ public class DataBaseUserDao implements UserDao {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO \"webapp\".\"USER\" VALUES (?,?,?,?,?,?,?,?)");
             setUserPreparedStatements(user, ps);
             ps.executeUpdate();
-            while (user.getRole().listIterator().hasNext()) {
+            for (int i = 0; i < user.getRole().size(); i++) {
                 PreparedStatement pst = connection.prepareStatement("INSERT INTO \"webapp\".\"user_roles\" VALUES ( ?, ?)");
                 pst.setLong(1, user.getUserId());
-                pst.setLong(2, user.getRole().listIterator().next().getId());
+                pst.setLong(2, user.getRole().get(i).getId());
                 pst.executeUpdate();
             }
         } catch (SQLException e) {
@@ -116,12 +116,26 @@ public class DataBaseUserDao implements UserDao {
             PreparedStatement ps = connection.prepareStatement(String.format("UPDATE \"webapp\".\"USER\" SET userid=?, username=?,userLogin=?,usersurname=?,userpassword=?,useremail=?,userdateOfBirth=?,userSalary=? WHERE userId=%d", user.getUserId()));
             setUserPreparedStatements(user, ps);
             ps.executeUpdate();
-            ps = connection.prepareStatement(String.format("UPDATE \"webapp\".\"user_roles\" SET role_id=? where user_id=%d", user.getUserId()));
-            while (user.getRole().listIterator().hasNext()) {
-                PreparedStatement pst = connection.prepareStatement("UPDATE \"webapp\".\"user_roles\" VALUES ( ?, ?)");
+            for (int i = 0; i < user.getRole().size(); i++) {
+                //todo при удалении роли она не удаляется кек
+                PreparedStatement pst = connection.prepareStatement("INSERT INTO \"webapp\".\"user_roles\" ( user_id, role_id) VALUES (?,?) ON CONFLICT DO NOTHING");
                 pst.setLong(1, user.getUserId());
-                pst.setLong(2, user.getRole().listIterator().next().getId());
+                pst.setLong(2, user.getRole().get(i).getId());
                 pst.executeUpdate();
+            }
+            if (user.getRole().size() != getRoles(user.getUserId()).size()) {
+                for (int i = 0; i < getRoles(user.getUserId()).size(); i++) {
+                    Set<Long> similar = new HashSet<>(Role.getAllId(user));
+                    Set<Long> different = new HashSet<>();
+                    different.addAll(Role.getAllId(user));
+                    different.addAll(getRolesIdDB(getRoles(user.getUserId())));
+                    different.removeAll(similar);
+                    PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM \"webapp\".\"user_roles\" where user_id=? AND role_id=?");
+                    preparedStatement.setLong(1, user.getUserId());
+                    preparedStatement.setLong(2, different.stream().findFirst().get());
+                    preparedStatement.executeUpdate();
+                }
+
             }
             PreparedStatement preparedStatement = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userId=%d", user.getUserId()));
             ResultSet rs = preparedStatement.executeQuery();
@@ -171,6 +185,14 @@ public class DataBaseUserDao implements UserDao {
             dataBaseConfiguration.closeDBConnection(connection);
         }
         return null;
+    }
+
+    public List<Long> getRolesIdDB(List<Role> roles) {
+        List<Long> idList = new ArrayList<>();
+        for (Role role : roles) {
+            idList.add(role.getId());
+        }
+        return idList;
     }
 
 

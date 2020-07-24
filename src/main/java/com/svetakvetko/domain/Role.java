@@ -1,5 +1,8 @@
 package com.svetakvetko.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Role {
     private long id;
     private String roleName;
@@ -30,7 +33,13 @@ public class Role {
         return roleName;
     }
 
-
+    public static List<Long> getAllId(User user) {
+        List<Long> idList = new ArrayList<>();
+        for (int i = 0; i < user.getRole().size(); i++) {
+            idList.add(user.getRole().get(i).id);
+        }
+        return idList;
+    }
 
 
 }

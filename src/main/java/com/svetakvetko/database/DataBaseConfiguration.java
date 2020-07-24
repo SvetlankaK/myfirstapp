@@ -1,9 +1,5 @@
 package com.svetakvetko.database;
 
-
-import com.svetakvetko.dao.DataBaseUserDao;
-import com.svetakvetko.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -29,9 +25,6 @@ public class DataBaseConfiguration implements AutoCloseable {
 
     @Value("${database.driver}")
     private String DB_Driver;
-
-    @Autowired
-    private DataBaseUserDao dataBaseUserDao;
 
 
     private static final List<String> users = new ArrayList<>();

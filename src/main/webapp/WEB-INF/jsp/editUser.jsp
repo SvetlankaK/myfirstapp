@@ -67,8 +67,8 @@
         <label>
             Access role
             <select tabindex="5" name="access" multiple>
-                <option>USER</option>
-                <option selected>ADMIN</option>
+                <option>user</option>
+                <option selected>admin</option>
             </select>
         </label>
 

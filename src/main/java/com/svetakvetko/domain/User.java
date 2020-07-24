@@ -16,7 +16,6 @@ public class User {
     private long userId;
 
 
-
     public User() {
 
     }

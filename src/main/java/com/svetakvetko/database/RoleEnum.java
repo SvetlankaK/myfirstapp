@@ -15,12 +15,14 @@ public enum RoleEnum {
     }
 
     public static long getIdByRoleName(String roleName) {
-        long resultId = 0;
+        long resultId = 1;
         switch (roleName) {
-            case "ADMIN_ACCESS.getName()":
+            case "admin":
                 resultId = 2;
-            case "USER_ACCESS.getName()":
+                break;
+            case "user":
                 resultId = 1;
+                break;
         }
         return resultId;
     }
