@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Repository
-public class DataBaseConfiguration implements AutoCloseable {
+public class DataBaseConfiguration implements AutoCloseable { //TODO remove wtf
 
 
     @Value("${database.connection.url}")

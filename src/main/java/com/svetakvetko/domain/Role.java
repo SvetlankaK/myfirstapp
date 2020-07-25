@@ -33,7 +33,7 @@ public class Role {
         return roleName;
     }
 
-    public static List<Long> getAllId(User user) {
+    public static List<Long> getAllId(User user) { //TODO move
         List<Long> idList = new ArrayList<>();
         for (int i = 0; i < user.getRole().size(); i++) {
             idList.add(user.getRole().get(i).id);

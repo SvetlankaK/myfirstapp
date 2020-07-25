@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Repository
 public class DataBaseUserDao implements UserDao {
@@ -24,9 +25,10 @@ public class DataBaseUserDao implements UserDao {
 
     @Override
     public void create(User user) {
-        Connection connection = dataBaseConfiguration.getDBConnection();
-        try {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO \"webapp\".\"USER\" VALUES (?,?,?,?,?,?,?,?)");
+        Connection connection= null;
+      try {
+        connection = dataBaseConfiguration.getDBConnection();
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO \"webapp\".\"USER\" VALUES (?,?,?,?,?,?,?,?)");
             setUserPreparedStatements(user, ps);
             ps.executeUpdate();
             for (int i = 0; i < user.getRole().size(); i++) {
@@ -47,7 +49,7 @@ public class DataBaseUserDao implements UserDao {
     public void delete(Long id) {
         Connection connection = dataBaseConfiguration.getDBConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement(String.format("DELETE FROM \"webapp\".\"USER\" WHERE userId=%d", id));
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM \"webapp\".\"USER\" WHERE userId=?");
             ps.executeUpdate();
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
@@ -60,7 +62,7 @@ public class DataBaseUserDao implements UserDao {
     public User findById(Long userId) {
         Connection connection = dataBaseConfiguration.getDBConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userId=%d", userId));
+            PreparedStatement ps = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userId=%d", userId)); //TODO prepared statement
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return extractUserFromResultSet(rs);
@@ -77,7 +79,7 @@ public class DataBaseUserDao implements UserDao {
     public boolean isExist(String userLogin) {
         Connection connection = dataBaseConfiguration.getDBConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\"  WHERE userLogin='%s'", userLogin));
+            PreparedStatement ps = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\"  WHERE userLogin='%s'", userLogin)); //TODO prepared statement
             ResultSet rs = ps.executeQuery();
             return rs.next();
         } catch (SQLException e) {
@@ -125,7 +127,7 @@ public class DataBaseUserDao implements UserDao {
             if (user.getRole().size() != getRoles(user.getUserId()).size()) {
                 deleteRoles(user, connection);
             }
-            PreparedStatement preparedStatement = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userId=%d", user.getUserId()));
+            PreparedStatement preparedStatement = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userId=%d", user.getUserId())); //TODO prepared statement
             ResultSet rs = preparedStatement.executeQuery();
             return extractUserFromResultSet(rs);
         } catch (SQLException e) {
@@ -140,7 +142,7 @@ public class DataBaseUserDao implements UserDao {
     public User findByLogin(String userLogin) {
         Connection connection = dataBaseConfiguration.getDBConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userLogin='%s'", userLogin));
+            PreparedStatement ps = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userLogin='%s'", userLogin)); //TODO prepared statement
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return extractUserFromResultSet(rs);
@@ -154,13 +156,13 @@ public class DataBaseUserDao implements UserDao {
     }
 
     public List<Role> getRoles(Long userId) {
-        Connection connection = dataBaseConfiguration.getDBConnection();
+        Connection connection = dataBaseConfiguration.getDBConnection(); //TODO move under try catch
         List<Role> roles = new ArrayList<>();
         try {
             PreparedStatement ps = connection.prepareStatement(String.format("SELECT  \"webapp\".\"role\".id,  \"webapp\".\"role\".rolename FROM \"webapp\".\"user_roles\" "
                     + " INNER JOIN \"webapp\".\"USER\" ON (\"webapp\".\"USER\".userid=\"webapp\".\"user_roles\".user_id) "
                     + " INNER JOIN  \"webapp\".\"role\" ON (\"webapp\".\"role\".id=\"webapp\".\"user_roles\".role_id)"
-                    + " WHERE user_id=%d", userId));
+                    + " WHERE user_id=%d", userId)); //TODO prepared statement
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Role role = extractRoleFromResultSet(rs);
@@ -175,7 +177,7 @@ public class DataBaseUserDao implements UserDao {
         return null;
     }
 
-    public List<Long> getRolesIdDB(List<Role> roles) {
+    public List<Long> getRolesIdDB(List<Role> roles) { //TODO stream
         List<Long> idList = new ArrayList<>();
         for (Role role : roles) {
             idList.add(role.getId());
@@ -190,7 +192,7 @@ public class DataBaseUserDao implements UserDao {
             different.addAll(Role.getAllId(user));
             different.addAll(getRolesIdDB(getRoles(user.getUserId())));
             different.removeAll(similar);
-            try {
+            try { //TODO iterate
                 PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM \"webapp\".\"user_roles\" where user_id=? AND role_id=?");
                 preparedStatement.setLong(1, user.getUserId());
                 preparedStatement.setLong(2, different.stream().findFirst().get());
