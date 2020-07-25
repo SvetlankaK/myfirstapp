@@ -117,25 +117,13 @@ public class DataBaseUserDao implements UserDao {
             setUserPreparedStatements(user, ps);
             ps.executeUpdate();
             for (int i = 0; i < user.getRole().size(); i++) {
-                //todo при удалении роли она не удаляется кек
                 PreparedStatement pst = connection.prepareStatement("INSERT INTO \"webapp\".\"user_roles\" ( user_id, role_id) VALUES (?,?) ON CONFLICT DO NOTHING");
                 pst.setLong(1, user.getUserId());
                 pst.setLong(2, user.getRole().get(i).getId());
                 pst.executeUpdate();
             }
             if (user.getRole().size() != getRoles(user.getUserId()).size()) {
-                for (int i = 0; i < getRoles(user.getUserId()).size(); i++) {
-                    Set<Long> similar = new HashSet<>(Role.getAllId(user));
-                    Set<Long> different = new HashSet<>();
-                    different.addAll(Role.getAllId(user));
-                    different.addAll(getRolesIdDB(getRoles(user.getUserId())));
-                    different.removeAll(similar);
-                    PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM \"webapp\".\"user_roles\" where user_id=? AND role_id=?");
-                    preparedStatement.setLong(1, user.getUserId());
-                    preparedStatement.setLong(2, different.stream().findFirst().get());
-                    preparedStatement.executeUpdate();
-                }
-
+                deleteRoles(user, connection);
             }
             PreparedStatement preparedStatement = connection.prepareStatement(String.format("SELECT * FROM \"webapp\".\"USER\" WHERE userId=%d", user.getUserId()));
             ResultSet rs = preparedStatement.executeQuery();
@@ -195,6 +183,27 @@ public class DataBaseUserDao implements UserDao {
         return idList;
     }
 
+    private void deleteRoles(User user, Connection connection) {
+        for (int i = 0; i < getRoles(user.getUserId()).size(); i++) {
+            Set<Long> similar = new HashSet<>(Role.getAllId(user));
+            Set<Long> different = new HashSet<>();
+            different.addAll(Role.getAllId(user));
+            different.addAll(getRolesIdDB(getRoles(user.getUserId())));
+            different.removeAll(similar);
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM \"webapp\".\"user_roles\" where user_id=? AND role_id=?");
+                preparedStatement.setLong(1, user.getUserId());
+                preparedStatement.setLong(2, different.stream().findFirst().get());
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                log.log(Level.WARNING, "Exception: ", e);
+            } finally {
+                dataBaseConfiguration.closeDBConnection(connection);
+            }
+
+        }
+
+    }
 
     private User extractUserFromResultSet(ResultSet rs) {
         User user = new User();

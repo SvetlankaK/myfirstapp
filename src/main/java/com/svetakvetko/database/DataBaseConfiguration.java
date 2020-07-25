@@ -89,7 +89,15 @@ public class DataBaseConfiguration implements AutoCloseable {
             log.log(Level.WARNING, "Exception: ", e);
         }
     }
-
+    public void closePreparedStatement(PreparedStatement preparedStatement) {
+        try {
+            preparedStatement.close();
+            log.log(Level.INFO, "Statement successfully closed");
+        } catch (SQLException e) {
+            System.out.println("Close attempt failed");
+            log.log(Level.WARNING, "Exception: ", e);
+        }
+    }
     public void createDataBase() {
         try (Connection connection = getDBConnection();
              PreparedStatement ps = connection.prepareStatement("CREATE DATABASE servletapp WITH OWNER postgres ;")) {
