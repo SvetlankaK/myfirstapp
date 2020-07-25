@@ -33,6 +33,7 @@ public class EditUserServlet extends HttpServlet {
             String userLogin = query.get("user");
             User user = userService.findByLogin(userLogin);
             req.setAttribute("user", user);
+            req.setAttribute("roles",user.getRole());
         }
         req.getRequestDispatcher("/WEB-INF/jsp/editUser.jsp").forward(req, resp);
     }

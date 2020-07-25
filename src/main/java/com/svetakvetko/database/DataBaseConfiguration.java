@@ -1,5 +1,7 @@
 package com.svetakvetko.database;
 
+import com.svetakvetko.dao.DataBaseUserDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Repository
-public class DataBaseConfiguration implements AutoCloseable { //TODO remove wtf
+public class DataBaseConfiguration {
 
 
     @Value("${database.connection.url}")
@@ -26,6 +28,8 @@ public class DataBaseConfiguration implements AutoCloseable { //TODO remove wtf
     @Value("${database.driver}")
     private String DB_Driver;
 
+    @Autowired
+    private DataBaseConfiguration dataBaseConfiguration;
 
     private static final List<String> users = new ArrayList<>();
     private static final List<String> role = new ArrayList<>();
@@ -89,6 +93,7 @@ public class DataBaseConfiguration implements AutoCloseable { //TODO remove wtf
             log.log(Level.WARNING, "Exception: ", e);
         }
     }
+
     public void closePreparedStatement(PreparedStatement preparedStatement) {
         try {
             preparedStatement.close();
@@ -98,26 +103,32 @@ public class DataBaseConfiguration implements AutoCloseable { //TODO remove wtf
             log.log(Level.WARNING, "Exception: ", e);
         }
     }
+
     public void createDataBase() {
-        try (Connection connection = getDBConnection();
-             PreparedStatement ps = connection.prepareStatement("CREATE DATABASE servletapp WITH OWNER postgres ;")) {
+        Connection connection = null;
+        try {
+            connection = getDBConnection();
+            PreparedStatement ps = connection.prepareStatement("CREATE DATABASE servletapp WITH OWNER postgres ;");
             ps.executeUpdate();
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
+        } finally {
+            dataBaseConfiguration.closeDBConnection(connection);
         }
 
     }
 
     public void createSchema() {
-        try (Connection connection = getDBConnection();
-        ) {
+        Connection connection = null;
+        try {
+            connection = getDBConnection();
             PreparedStatement ps = connection.prepareStatement("CREATE SCHEMA IF NOT EXISTS webapp");
             ps.executeUpdate();
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
+        } finally {
+            dataBaseConfiguration.closeDBConnection(connection);
         }
-
-
     }
 
 
@@ -133,13 +144,16 @@ public class DataBaseConfiguration implements AutoCloseable { //TODO remove wtf
                 + "USERSALARY FLOAT NOT NULL,"
                 + "PRIMARY KEY (USERID) "
                 + ")";
-
-        try (Connection connection = getDBConnection()) {
+        Connection connection = null;
+        try {
+            connection = getDBConnection();
             PreparedStatement ps = connection.prepareStatement(createTableSQL);
             ps.execute();
             log.log(Level.INFO, "Table \"user\" is created!");
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
+        } finally {
+            dataBaseConfiguration.closeDBConnection(connection);
         }
     }
 
@@ -148,13 +162,16 @@ public class DataBaseConfiguration implements AutoCloseable { //TODO remove wtf
                 + "ID bigSERIAL PRIMARY KEY, "
                 + "ROLENAME TEXT NOT NULL "
                 + ")";
-
-        try (Connection connection = getDBConnection()) {
+        Connection connection = null;
+        try {
+            connection = getDBConnection();
             PreparedStatement ps = connection.prepareStatement(createTableSQL);
             ps.execute();
             log.log(Level.INFO, "Table \"role\" is created!");
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
+        } finally {
+            dataBaseConfiguration.closeDBConnection(connection);
         }
     }
 
@@ -166,19 +183,24 @@ public class DataBaseConfiguration implements AutoCloseable { //TODO remove wtf
                 + "FOREIGN KEY (role_id) REFERENCES \"webapp\".\"role\" (ID),"
                 + "PRIMARY KEY (user_id, role_id)"
                 + ")";
-
-        try (Connection connection = getDBConnection()) {
+        Connection connection = null;
+        try {
+            connection = getDBConnection();
             PreparedStatement ps = connection.prepareStatement(createTableSQL);
             ps.execute();
             log.log(Level.INFO, "Table \"user_roles\" is created!");
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
+        } finally {
+            dataBaseConfiguration.closeDBConnection(connection);
         }
     }
 
     public void insertDefaultDataInDbUserTable() {
-        try (Connection connection = getDBConnection();
-             Statement statement = connection.createStatement()) {
+        Connection connection = null;
+        try {
+            connection = getDBConnection();
+            Statement statement = connection.createStatement();
             for (String role : role) {
                 statement.executeUpdate(role);
             }
@@ -191,12 +213,10 @@ public class DataBaseConfiguration implements AutoCloseable { //TODO remove wtf
             log.log(Level.INFO, "Пользователи успешно добавлены");
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
+        } finally {
+            dataBaseConfiguration.closeDBConnection(connection);
         }
     }
 
-    @Override
-    public void close() throws Exception {
-        log.log(Level.INFO, "Successfully disconnected");
-    }
 
 }
