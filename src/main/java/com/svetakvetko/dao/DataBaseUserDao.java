@@ -52,7 +52,7 @@ public class DataBaseUserDao implements UserDao {
     public void delete(Long id) {
         Connection connection = dataBaseConfiguration.getDBConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM \"webapp\".\"USER\" WHERE userId=?");
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM \"webapp\".\"USER\" WHERE userId=?"); //TODO Fixme
             ps.executeUpdate();
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);

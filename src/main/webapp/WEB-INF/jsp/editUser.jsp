@@ -66,9 +66,9 @@
     <div class="col-4">
         <label>
             Access role
-            <select tabindex="5" name="access" multiple size="${requestScope.rolesSize}">
+            <select tabindex="5" name="access" multiple size="${requestScope.roles.size()}">
                 <c:forEach items="${requestScope.roles}" var="role">
-                    <option>${role.roleName}</option>
+                    <option value=${role.id}>${role.roleName}</option>
                 </c:forEach>
             </select>
         </label>

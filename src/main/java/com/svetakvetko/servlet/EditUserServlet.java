@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @WebServlet(urlPatterns = "/editUser.jhtml")
@@ -37,7 +38,6 @@ public class EditUserServlet extends HttpServlet {
             User user = userService.findByLogin(userLogin);
             req.setAttribute("user", user);
             req.setAttribute("roles", dataBaseRoleDao.getAllPossibleRoles());
-            req.setAttribute("rolesSize", dataBaseRoleDao.getAllPossibleRoles().size());
         }
         req.getRequestDispatcher("/WEB-INF/jsp/editUser.jsp").forward(req, resp);
     }
@@ -56,7 +56,7 @@ public class EditUserServlet extends HttpServlet {
         }
         List<Role> userRoles = new ArrayList<>();
         for (String value : values) {
-            userRoles.add(new Role(RoleEnum.getIdByRoleName(value), value));
+            userRoles.add(new Role(Long.parseLong(value), value));
         }
         User user = userService.findByLogin(userLogin);
         user.setAll(req.getParameter("password").trim(), userRoles, req.getParameter("email").trim(), req.getParameter("name").trim(), req.getParameter("surname").trim(), Double.parseDouble(req.getParameter("salary").trim()), req.getParameter("birth"));
