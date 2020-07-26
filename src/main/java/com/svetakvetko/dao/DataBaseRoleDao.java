@@ -84,4 +84,36 @@ public class DataBaseRoleDao {
         }
         return null;
     }
+
+    public List<Role> getAllPossibleRoles() {
+        Connection connection = null;
+        List<Role> roles = new ArrayList<>();
+        try {
+            connection = dataBaseConfiguration.getDBConnection();
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM \"webapp\".\"role\" ");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Role role = extractRoleFromResultSet(rs);
+                roles.add(role);
+            }
+            return roles;
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Exception: ", e);
+        } finally {
+            dataBaseConfiguration.closeDBConnection(connection);
+        }
+        return null;
+    }
+
+    public Role extractRoleFromResultSet(ResultSet rs) {
+        Role role = new Role();
+        try {
+            role.setId(rs.getLong("id"));
+            role.setRoleName(rs.getString("roleName"));
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Exception: ", e);
+        }
+        return role;
+    }
+
 }

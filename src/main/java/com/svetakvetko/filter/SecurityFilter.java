@@ -1,5 +1,6 @@
 package com.svetakvetko.filter;
 
+import com.svetakvetko.dao.DataBaseRoleDao;
 import com.svetakvetko.dao.DataBaseUserDao;
 import com.svetakvetko.database.RoleEnum;
 import com.svetakvetko.domain.Role;
@@ -33,6 +34,10 @@ public class SecurityFilter implements Filter {
     @Autowired
     private DataBaseUserDao dataBaseUserDao;
 
+
+    @Autowired
+    private DataBaseRoleDao dataBaseRoleDao;
+
     @Override
     public void init(FilterConfig fConfig) {
         allowedAll = new ArrayList<>();
@@ -53,7 +58,7 @@ public class SecurityFilter implements Filter {
         List<Role> userRoles = new ArrayList<>();
         if (loggedIn) {
             User user = userService.findByLogin(session.getAttribute("userLogin").toString());
-            userRoles = dataBaseUserDao.getRoles(user.getUserId());
+            userRoles = dataBaseRoleDao.getRolesById(user.getUserId());
             for (Role role : userRoles) {
                 if (role.getRoleName().equals(ADMIN_ACCESS.getName())) {
                     isAdmin = true;

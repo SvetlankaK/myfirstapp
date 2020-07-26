@@ -1,8 +1,5 @@
 package com.svetakvetko.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Role {
     private long id;
     private String roleName;
