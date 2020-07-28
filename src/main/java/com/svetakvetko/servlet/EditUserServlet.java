@@ -1,7 +1,6 @@
 package com.svetakvetko.servlet;
 
-import com.svetakvetko.dao.DataBaseRoleDao;
-import com.svetakvetko.database.RoleEnum;
+
 import com.svetakvetko.domain.Role;
 import com.svetakvetko.domain.User;
 import com.svetakvetko.service.RoleService;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 
 @WebServlet(urlPatterns = "/editUser.jhtml")
