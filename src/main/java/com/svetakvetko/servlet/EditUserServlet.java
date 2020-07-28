@@ -4,6 +4,7 @@ import com.svetakvetko.dao.DataBaseRoleDao;
 import com.svetakvetko.database.RoleEnum;
 import com.svetakvetko.domain.Role;
 import com.svetakvetko.domain.User;
+import com.svetakvetko.service.RoleService;
 import com.svetakvetko.service.UserService;
 import com.svetakvetko.util.URLUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class EditUserServlet extends HttpServlet {
     private UserService userService;
 
     @Autowired
-    private DataBaseRoleDao dataBaseRoleDao;
+    private RoleService roleService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,7 +38,7 @@ public class EditUserServlet extends HttpServlet {
             String userLogin = query.get("user");
             User user = userService.findByLogin(userLogin);
             req.setAttribute("user", user);
-            req.setAttribute("roles", dataBaseRoleDao.getAllPossibleRoles());
+            req.setAttribute("roles", roleService.getAllPossibleRoles());
         }
         req.getRequestDispatcher("/WEB-INF/jsp/editUser.jsp").forward(req, resp);
     }

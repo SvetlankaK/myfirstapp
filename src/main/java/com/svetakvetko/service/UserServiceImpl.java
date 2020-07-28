@@ -2,49 +2,75 @@ package com.svetakvetko.service;
 
 import com.svetakvetko.dao.UserDao;
 import com.svetakvetko.domain.User;
+import com.svetakvetko.mapper.RoleMapper;
+import com.svetakvetko.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public void create(User user) {
-        userDao.create(user);
+        userMapper.create(user);
+        for (int i = 0; i < user.getRole().size(); i++) {
+            roleMapper.addRole(user, user.getRole().get(i).getId());
+        }
+
     }
 
     @Override
     public void delete(Long userId) {
-        userDao.delete(userId);
+        userMapper.delete(userId);
     }
 
     @Override
     public User findById(Long userId) {
-        return userDao.findById(userId);
+        return userMapper.findById(userId);
     }
 
     @Override
     public boolean isExist(String userLogin) {
-        return userDao.isExist(userLogin);
+        if (userMapper.findByLogin(userLogin).toString().isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public Collection<User> findAll() {
-        return userDao.findAll();
+        return userMapper.findAll();
     }
 
     @Override
     public User update(User user) {
-        return userDao.update(user);
+        userMapper.update(user);
+        for (int i = 0; i < user.getRole().size(); i++) {
+            roleMapper.addRole(user, user.getRole().get(i).getId());
+        }
+        if (user.getRole().size() != roleService.getRolesIdDB(user.getRole()).size()) {
+            roleService.deleteRoles(user);
+        }
+        return userMapper.findById(user.getUserId());
     }
 
     @Override
     public User findByLogin(String userLogin) {
-        return userDao.findByLogin(userLogin);
+        return userMapper.findByLogin(userLogin);
     }
 }

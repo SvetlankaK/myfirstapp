@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = "/users.jhtml")
 public class UsersViewServlet extends HttpServlet {
+
     @Autowired
     private UserService userService;
 

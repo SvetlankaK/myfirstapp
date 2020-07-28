@@ -4,6 +4,7 @@ import com.svetakvetko.domain.User;
 
 import java.util.Collection;
 
+
 public interface UserService {
     void create(User user);
 

@@ -1,7 +1,5 @@
 package com.svetakvetko.database;
 
-import com.svetakvetko.dao.DataBaseUserDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -28,8 +26,6 @@ public class DataBaseConfiguration {
     @Value("${database.driver}")
     private String DB_Driver;
 
-    @Autowired
-    private DataBaseConfiguration dataBaseConfiguration;
 
     private static final List<String> users = new ArrayList<>();
     private static final List<String> role = new ArrayList<>();
@@ -113,7 +109,7 @@ public class DataBaseConfiguration {
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         } finally {
-            dataBaseConfiguration.closeDBConnection(connection);
+            closeDBConnection(connection);
         }
 
     }
@@ -127,7 +123,7 @@ public class DataBaseConfiguration {
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         } finally {
-            dataBaseConfiguration.closeDBConnection(connection);
+            closeDBConnection(connection);
         }
     }
 
@@ -153,7 +149,7 @@ public class DataBaseConfiguration {
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         } finally {
-            dataBaseConfiguration.closeDBConnection(connection);
+            closeDBConnection(connection);
         }
     }
 
@@ -171,7 +167,7 @@ public class DataBaseConfiguration {
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         } finally {
-            dataBaseConfiguration.closeDBConnection(connection);
+            closeDBConnection(connection);
         }
     }
 
@@ -192,7 +188,7 @@ public class DataBaseConfiguration {
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         } finally {
-            dataBaseConfiguration.closeDBConnection(connection);
+            closeDBConnection(connection);
         }
     }
 
@@ -214,7 +210,7 @@ public class DataBaseConfiguration {
         } catch (SQLException e) {
             log.log(Level.WARNING, "Exception: ", e);
         } finally {
-            dataBaseConfiguration.closeDBConnection(connection);
+            closeDBConnection(connection);
         }
     }
 

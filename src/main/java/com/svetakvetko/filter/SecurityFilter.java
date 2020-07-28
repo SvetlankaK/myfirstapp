@@ -1,10 +1,8 @@
 package com.svetakvetko.filter;
 
-import com.svetakvetko.dao.DataBaseRoleDao;
-import com.svetakvetko.dao.DataBaseUserDao;
-import com.svetakvetko.database.RoleEnum;
 import com.svetakvetko.domain.Role;
 import com.svetakvetko.domain.User;
+import com.svetakvetko.service.RoleService;
 import com.svetakvetko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,14 +27,12 @@ public class SecurityFilter implements Filter {
     private List<String> allowedAll;
     private List<String> allowedRegistered;
     private List<String> allowedAdmin;
+
     @Autowired
     private UserService userService;
-    @Autowired
-    private DataBaseUserDao dataBaseUserDao;
-
 
     @Autowired
-    private DataBaseRoleDao dataBaseRoleDao;
+    private RoleService roleService;
 
     @Override
     public void init(FilterConfig fConfig) {
@@ -58,7 +54,7 @@ public class SecurityFilter implements Filter {
         List<Role> userRoles = new ArrayList<>();
         if (loggedIn) {
             User user = userService.findByLogin(session.getAttribute("userLogin").toString());
-            userRoles = dataBaseRoleDao.getRolesById(user.getUserId());
+            userRoles = roleService.getRolesById(user.getUserId());
             for (Role role : userRoles) {
                 if (role.getRoleName().equals(ADMIN_ACCESS.getName())) {
                     isAdmin = true;
