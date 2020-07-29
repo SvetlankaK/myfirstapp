@@ -48,37 +48,11 @@
 //    }
 //
 //
-//    public void createDbUserTable() {
-//        String createTableSQL = "CREATE TABLE IF NOT EXISTS \"webapp\".\"USER\"("
-//                + "USERID BIGSERIAL NOT NULL, "
-//                + "USERNAME VARCHAR(20) NOT NULL, "
-//                + "USERLOGIN VARCHAR(20) NOT NULL, "
-//                + "USERSURNAME VARCHAR(20) NOT NULL, "
-//                + "USERPASSWORD VARCHAR(30) NOT NULL, "
-//                + "USEREMAIL VARCHAR(30) NOT NULL, "
-//                + "USERDATEOFBIRTH VARCHAR(30) NOT NULL, "
-//                + "USERSALARY FLOAT NOT NULL,"
-//                + "PRIMARY KEY (USERID) "
-//                + ")";
+//        void createDbUserTable();
 //
-//    }
+//        void createDbRoleTable();
 //
-//     void createDbRoleTable() {
-//        String createTableSQL = "CREATE TABLE IF NOT EXISTS \"webapp\".\"role\"("
-//                + "ID bigSERIAL PRIMARY KEY, "
-//                + "ROLENAME TEXT NOT NULL "
-//                + ")";
-//    }
-//
-//    void createDbUserRoleTable() {
-//        String createTableSQL = "CREATE TABLE IF NOT EXISTS \"webapp\".\"user_roles\"("
-//                + "user_id serial NOT NULL,"
-//                + "role_id serial NOT NULL,"
-//                + "FOREIGN KEY (user_id) REFERENCES \"webapp\".\"USER\" (USERID) ON DELETE CASCADE,"
-//                + "FOREIGN KEY (role_id) REFERENCES \"webapp\".\"role\" (ID),"
-//                + "PRIMARY KEY (user_id, role_id)"
-//                + ")";
-//    }
+//        void createDbUserRoleTable();
 //
 //     void insertDefaultDataInDbUserTable() {
 //            for (String role : role) {

@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
-@MapperScan
+@MapperScan("com.svetakvetko.mapper")
 @SpringBootApplication
 @ServletComponentScan
 @MappedTypes({User.class, Role.class})

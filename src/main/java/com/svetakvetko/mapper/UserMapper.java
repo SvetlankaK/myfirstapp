@@ -4,7 +4,6 @@ import com.svetakvetko.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-
 import java.util.Collection;
 
 @Mapper
@@ -18,7 +17,6 @@ public interface UserMapper {
     User findByLogin(String userLogin);
 
     void delete(Long userId);
-
 
     User update(User user);
 
