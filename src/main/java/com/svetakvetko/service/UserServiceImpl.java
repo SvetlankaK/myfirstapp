@@ -1,16 +1,13 @@
 package com.svetakvetko.service;
 
-import com.svetakvetko.dao.UserDao;
 import com.svetakvetko.domain.User;
 import com.svetakvetko.mapper.RoleMapper;
 import com.svetakvetko.mapper.UserMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Collection;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {

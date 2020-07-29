@@ -19,7 +19,6 @@ public interface UserMapper {
 
     void delete(Long userId);
 
-    boolean isExist(String userLogin);
 
     User update(User user);
 

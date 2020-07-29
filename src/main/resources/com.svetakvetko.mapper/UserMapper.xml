@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.svetakvetko.mapper.UserMapper">
+
+    <select id="findAll" resultMap="Map">
+        SELECT *
+        FROM "webapp"."USER"
+    </select>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="user">
+        SELECT *
+        FROM "webapp"."USER"
+        WHERE userId = #{userId}
+    </select>
+
+    <select id="findByLogin" parameterType="java.lang.String" resultMap="user">
+        SELECT *
+        FROM "webapp"."USER"
+        WHERE userLogin = #{userLogin}
+    </select>
+
+    <update id="update" parameterType="com.svetakvetko.domain.User">
+        UPDATE "webapp"."USER"
+        SET userid=#{userId},
+            username=#{name},
+            userLogin=#{userLogin},
+            usersurname=#{surname},
+            userpassword=#{password},
+            useremail=#{email},
+            userdateOfBirth=#{dateOfBirth},
+            userSalary=#{salary}
+        WHERE userid =#{userId}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE
+        FROM "webapp"."USER"
+        WHERE userId = #{userId}
+    </delete>
+
+    <insert id="create" parameterType="com.svetakvetko.domain.User">
+        INSERT INTO "webapp"."USER"
+        (userid, username, userlogin, usersurname, userpassword, useremail, userdateofbirth, usersalary)
+        VALUES (#{userId},
+                #{name}, #{userLogin}, #{surname}, #{password}, {email}, #{dateOfBirth}, {salary})
+    </insert>
+
+    <resultMap id="user" type="com.svetakvetko.domain.User">
+        <result property="userId" column="userId"/>
+        <result property="name" column="userName"/>
+        <result property="userLogin" column="userLogin"/>
+        <result property="surname" column="userSurname"/>
+        <result property="email" column="userEmail"/>
+        <result property="salary" column="userSalary"/>
+        <result property="dateOfBirth" column="userDateOfBirth"/>
+        <result property="password" column="userPassword"/>
+    </resultMap>
+
+    <resultMap id="userList" type="com.svetakvetko.domain.User">
+        <collection javaType="ArrayList" property="users" ofType="com.svetakvetko.domain.User"/>
+    </resultMap>
+</mapper>
