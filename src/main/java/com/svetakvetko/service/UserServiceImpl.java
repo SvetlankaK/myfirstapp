@@ -3,11 +3,14 @@ package com.svetakvetko.service;
 import com.svetakvetko.domain.User;
 import com.svetakvetko.mapper.RoleMapper;
 import com.svetakvetko.mapper.UserMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,10 +28,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(User user) {
         userMapper.create(user);
+        Map<String, Object> userRole = new HashMap();
+        userRole.put("userId", user.getUserId());
         for (int i = 0; i < user.getRole().size(); i++) {
-            roleMapper.addRole(user, user.getRole().get(i).getId());
+            userRole.put("roleId", user.getRole().get(i).getId());
+            roleMapper.addRole(userRole);
         }
-
     }
 
     @Override
@@ -38,12 +43,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long userId) {
-        return userMapper.findById(userId);
+        User user = userMapper.findById(userId);
+        user.setRole(roleService.getRolesById(userId));
+        return user;
     }
 
+    //todo оч сомнительная хуйня
     @Override
     public boolean isExist(String userLogin) {
-        if (userMapper.findByLogin(userLogin).toString().isEmpty()) {
+        if (Optional.of(userMapper.findByLogin(userLogin).toString().isEmpty()).orElse(true)) {
             return false;
         }
         return true;
@@ -51,23 +59,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Collection<User> findAll() {
-        return userMapper.findAll();
+        //todo stream
+        Collection<User> users = userMapper.findAll();
+        for (User user : users
+        ) {
+            user.setRole(roleService.getRolesById(user.getUserId()));
+        }
+        return users;
     }
 
     @Override
-    public User update(User user) {
+    public void update(User user) {
         userMapper.update(user);
+        Map<String, Object> userRole = new HashMap();
+        userRole.put("userId", user.getUserId());
         for (int i = 0; i < user.getRole().size(); i++) {
-            roleMapper.addRole(user, user.getRole().get(i).getId());
+            userRole.put("roleId", user.getRole().get(i).getId());
+            roleMapper.addRole(userRole);
         }
         if (user.getRole().size() != roleService.getRolesIdDB(user.getRole()).size()) {
             roleService.deleteRoles(user);
         }
-        return userMapper.findById(user.getUserId());
     }
 
     @Override
     public User findByLogin(String userLogin) {
-        return userMapper.findByLogin(userLogin);
+        User user = userMapper.findByLogin(userLogin);
+        user.setRole(roleService.getRolesById(user.getUserId()));
+        return user;
     }
 }

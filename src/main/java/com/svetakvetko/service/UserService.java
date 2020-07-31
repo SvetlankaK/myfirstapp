@@ -16,7 +16,7 @@ public interface UserService {
 
     Collection<User> findAll();
 
-    User update(User user);
+    void update(User user);
 
     User findByLogin(String userLogin);
 }

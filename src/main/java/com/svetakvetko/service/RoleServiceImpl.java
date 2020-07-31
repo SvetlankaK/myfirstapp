@@ -6,10 +6,7 @@ import com.svetakvetko.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -60,14 +57,20 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void deleteRoles(User user) {
+        Map<String, Object> userRole = new HashMap();
+        userRole.put("userId", user.getUserId());
         Set<Long> difference = new HashSet<>(findDifferenceDBAndUser(user));
         for (Long id : difference) {
-            roleMapper.deleteRole(user, id);
+            userRole.put("roleId", id);
+            roleMapper.deleteRole(userRole);
         }
     }
 
     @Override
     public void addRole(User user, Long roleId) {
-        roleMapper.addRole(user, roleId);
+        Map<String, Object> userRole = new HashMap();
+        userRole.put("userId", user.getUserId());
+        userRole.put("roleId", roleId);
+        roleMapper.addRole(userRole);
     }
 }

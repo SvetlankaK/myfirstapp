@@ -13,11 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
-import static com.svetakvetko.database.RoleEnum.*;
+import static com.svetakvetko.database.RoleEnum.USER_ACCESS;
 
 @WebServlet(urlPatterns = "/registration.jhtml")
 public class RegistrationServlet extends HttpServlet {
@@ -44,7 +42,7 @@ public class RegistrationServlet extends HttpServlet {
         String birth = req.getParameter("birth");
         String salary = req.getParameter("salary").trim();
         long id = Long.parseLong(String.valueOf(userService.findAll().size() + 2));
-        if (userService.isExist(userLogin)) {
+        if (!userService.isExist(userLogin)) {
             this.doGet(ServletUtilities.createErrorMessage("This name is already taken, try again", req), resp);
         }
         userService.create(new User(id, userLogin, password, Collections.singletonList(new Role(1, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth));

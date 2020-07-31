@@ -4,14 +4,13 @@ import com.svetakvetko.domain.User;
 import com.svetakvetko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
-import java.util.Collection;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
 
 
 @WebServlet(urlPatterns = "/users.jhtml")

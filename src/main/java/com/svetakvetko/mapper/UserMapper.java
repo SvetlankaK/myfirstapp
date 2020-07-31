@@ -18,7 +18,7 @@ public interface UserMapper {
 
     void delete(Long userId);
 
-    User update(User user);
+    void update(User user);
 
     void create(User user);
 }

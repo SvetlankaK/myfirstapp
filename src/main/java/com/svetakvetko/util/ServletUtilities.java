@@ -21,6 +21,7 @@ public final class ServletUtilities {
         session.setAttribute("surname", user.getSurname());
         session.setAttribute("birth", user.getDateOfBirth());
         session.setAttribute("salary", user.getSalary());
+        session.setAttribute("role", user.getRole());
         return session;
     }
 

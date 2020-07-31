@@ -23,15 +23,15 @@
 
     <update id="update" parameterType="com.svetakvetko.domain.User">
         UPDATE "webapp"."USER"
-        SET userid=#{userId},
-            username=#{name},
-            userLogin=#{userLogin},
-            usersurname=#{surname},
-            userpassword=#{password},
-            useremail=#{email},
-            userdateOfBirth=#{dateOfBirth},
-            userSalary=#{salary}
-        WHERE userid =#{userId}
+        SET userid          = #{userId},
+            username        = #{name},
+            userLogin       = #{userLogin},
+            usersurname     = #{surname},
+            userpassword    = #{password},
+            useremail       = #{email},
+            userdateOfBirth = #{dateOfBirth},
+            usersalary      = #{salary}
+        WHERE userid = #{userId};
     </update>
 
     <delete id="delete" parameterType="java.lang.Long">
@@ -44,7 +44,7 @@
         INSERT INTO "webapp"."USER"
         (userid, username, userlogin, usersurname, userpassword, useremail, userdateofbirth, usersalary)
         VALUES (#{userId},
-                #{name}, #{userLogin}, #{surname}, #{password}, {email}, #{dateOfBirth}, {salary})
+                #{name}, #{userLogin}, #{surname}, #{password}, #{email}, #{dateOfBirth}, #{salary})
     </insert>
 
     <resultMap id="user" type="com.svetakvetko.domain.User">

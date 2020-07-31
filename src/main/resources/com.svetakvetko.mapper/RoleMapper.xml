@@ -12,6 +12,20 @@
         WHERE user_id = #{userId}
     </select>
 
+
+    <select id="getRoleIdByRoleName" parameterType="java.lang.String">
+        SELECT id
+        FROM "webbapp"."role"
+        WHERE roleName = #{roleName}
+    </select>
+
+    <select id="getRoleNameByRoleId" parameterType="java.lang.Long">
+        SELECT rolename
+        FROM "webbapp"."role"
+        WHERE roleId = #{roleId}
+    </select>
+
+    <!--TODO не работает-->
     <select id="getRolesByLogin" parameterType="java.lang.String" resultMap="role">
         SELECT "webapp"."role".id, "webapp"."role".rolename
         FROM "webapp"."user_roles"
@@ -28,13 +42,13 @@
     <delete id="deleteRole" parameterType="java.util.Map">
         DELETE
         FROM "webapp"."user_roles"
-        where user_id = #{userId}
-          AND role_id = #{roleId}
+        where user_id = ${userId}
+          AND role_id = ${roleId}
     </delete>
 
     <insert id="addRole" parameterType="java.util.Map">
         INSERT INTO "webapp"."user_roles" (user_id, role_id)
-        VALUES (#{userId}, #{roleId})
+        VALUES (${userId}, ${roleId})
     </insert>
 
     <resultMap id="role" type="com.svetakvetko.domain.Role">
