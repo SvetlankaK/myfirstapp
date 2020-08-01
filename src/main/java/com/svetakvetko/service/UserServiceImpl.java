@@ -51,10 +51,7 @@ public class UserServiceImpl implements UserService {
     //todo оч сомнительная хуйня
     @Override
     public boolean isExist(String userLogin) {
-        if (Optional.of(userMapper.findByLogin(userLogin).toString().isEmpty()).orElse(true)) {
-            return false;
-        }
-        return true;
+      return Optional.ofNullable(userMapper.findByLogin(userLogin)).isPresent();
     }
 
     @Override
@@ -72,13 +69,11 @@ public class UserServiceImpl implements UserService {
     public void update(User user) {
         userMapper.update(user);
         Map<String, Object> userRole = new HashMap();
+        roleMapper.deleteRolesById(user.getUserId());
         userRole.put("userId", user.getUserId());
         for (int i = 0; i < user.getRole().size(); i++) {
             userRole.put("roleId", user.getRole().get(i).getId());
             roleMapper.addRole(userRole);
-        }
-        if (user.getRole().size() != roleService.getRolesIdDB(user.getRole()).size()) {
-            roleService.deleteRoles(user);
         }
     }
 

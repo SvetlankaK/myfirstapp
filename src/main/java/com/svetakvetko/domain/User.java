@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String userLogin;
+    private String userLogin; //TODO primary key in db
     private String password;
     private List<Role> role;
     private String email;

@@ -56,7 +56,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void deleteRoles(User user) {
+    public void deleteRoles(User user) { //TODO delete i dunno
         Map<String, Object> userRole = new HashMap();
         userRole.put("userId", user.getUserId());
         Set<Long> difference = new HashSet<>(findDifferenceDBAndUser(user));

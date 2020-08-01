@@ -19,6 +19,8 @@ public interface RoleMapper {
 
     void deleteRole(Map<String, Object> userLongMap);
 
+    void deleteRolesById(Long userId);
+
     void addRole(Map<String, Object> userLongMap);
 
     Long getRoleIdByRoleName(String roleName);

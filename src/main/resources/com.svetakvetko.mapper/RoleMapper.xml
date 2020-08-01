@@ -5,7 +5,7 @@
 <mapper namespace="com.svetakvetko.mapper.RoleMapper">
 
     <select id="getRolesById" parameterType="java.lang.Long" resultMap="role">
-        SELECT "webapp"."role".id, "webapp"."role".rolename
+        SELECT "webapp"."role".id as id, "webapp"."role".rolename
         FROM "webapp"."user_roles"
                  INNER JOIN "webapp"."USER" ON ("webapp"."USER".userid = "webapp"."user_roles".user_id)
                  INNER JOIN "webapp"."role" ON ("webapp"."role".id = "webapp"."user_roles".role_id)
@@ -46,6 +46,12 @@
           AND role_id = ${roleId}
     </delete>
 
+    <delete id="deleteRolesById" parameterType="java.lang.Long">
+        DELETE
+        FROM "webapp"."user_roles"
+        where user_id = ${userId}
+    </delete>
+
     <insert id="addRole" parameterType="java.util.Map">
         INSERT INTO "webapp"."user_roles" (user_id, role_id)
         VALUES (${userId}, ${roleId})
@@ -53,8 +59,9 @@
 
     <resultMap id="role" type="com.svetakvetko.domain.Role">
         <result column="rolename" property="roleName"/>
-        <result column="roleid" property="id"/>
+        <result column="id" property="id"/>
     </resultMap>
+
 
     <resultMap id="roleList" type="com.svetakvetko.domain.Role">
         <collection javaType="ArrayList" property="roles" resultMap="role"/>

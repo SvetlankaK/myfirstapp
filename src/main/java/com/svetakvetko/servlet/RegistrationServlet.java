@@ -41,13 +41,15 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter("email").trim();
         String birth = req.getParameter("birth");
         String salary = req.getParameter("salary").trim();
-        long id = Long.parseLong(String.valueOf(userService.findAll().size() + 2));
-        if (!userService.isExist(userLogin)) {
-            this.doGet(ServletUtilities.createErrorMessage("This name is already taken, try again", req), resp);
+        long id = Long.parseLong(String.valueOf(userService.findAll().size() + 2)); //TODO generate in db
+        if (userService.isExist(userLogin)) {
+           resp.sendRedirect(req.getContextPath() + "/registration.jhtml");
+        } else {
+          userService.create(new User(id, userLogin, password, Collections.singletonList(new Role(1, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth));
+          ServletUtilities.createSession(new User(id, userLogin, password, Collections.singletonList(new Role(1, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth), req);
+          resp.sendRedirect(req.getContextPath() + "/welcome.jhtml");
         }
-        userService.create(new User(id, userLogin, password, Collections.singletonList(new Role(1, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth));
-        HttpSession session = ServletUtilities.createSession(new User(id, userLogin, password, Collections.singletonList(new Role(1, USER_ACCESS.getName())), email, name, surname, Double.parseDouble(salary), birth), req);
-        resp.sendRedirect(req.getContextPath() + "/welcome.jhtml");
+
     }
 }
 
