@@ -15,10 +15,10 @@
     <header class="header">
         <h1 class="logo">Useless application</h1>
         <ul class="menu-main">
-            <li><a href="<c:url value = "${contextPath}/welcome.jhtml"/>" class="current">Main page</a></li>
-            <li><a href="<c:url value = "${contextPath}/users.jhtml"/>">Users</a></li>
+            <li><a href="<c:url value = "${contextPath}/welcome"/>" class="current">Main page</a></li>
+            <li><a href="<c:url value = "${contextPath}/users"/>">Users</a></li>
         </ul>
-        <a href="<c:url value = "${contextPath}/logout.jhtml"/>" class="logoutLink">Logout</a>
+        <a href="<c:url value = "${contextPath}/logout"/>" class="logoutLink">Logout</a>
     </header>
     <div class="content-body">
         <main class="content">
@@ -32,10 +32,10 @@
                         <th>Date of birth</th>
                         <th>Edit user</th>
                         <th>
-                            <a href="<c:url value = "${contextPath}/registration.jhtml"/>">+</a>
+                            <a href="<c:url value = "${contextPath}/registration"/>">+</a>
                         </th>
                     </tr>
-                    <c:forEach items="#{requestScope.users}" var="user">
+                    <c:forEach items="#{users}" var="user">
                         <td class="table-text-left">${user.surname} ${user.name}</td>
                         <td><select class="selection-handle">
                             <c:forEach items="#{user.role}" var="role">

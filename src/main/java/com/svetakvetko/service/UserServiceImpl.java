@@ -48,10 +48,10 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    //todo оч сомнительная хуйня
+
     @Override
     public boolean isExist(String userLogin) {
-      return Optional.ofNullable(userMapper.findByLogin(userLogin)).isPresent();
+        return Optional.ofNullable(userMapper.findByLogin(userLogin)).isPresent();
     }
 
     @Override

@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+
 <html>
 <head>
     <title>User edit</title>
@@ -10,64 +13,71 @@
 </head>
 <body>
 <h1>User full information</h1>
-
-<form method="POST" action="${pageContext.request.contextPath}/editUser.jhtml">
+<form:form action="editUser" method="post" modelAttribute="userView">
     <div class="col-2">
         <label>
             Name
-            <input type="text" placeholder="type user name" id="name" name="name" tabindex="1"
-                   value="<c:out value="${requestScope.user.name}" />">
+            <form:input path="name" tabindex="1" placeholder="type user name"/> <span></span>
+            <!-- todo value должно быть внутри input, но с ебаными формами это не работает
+            пока почему-то-->
+            value="<c:out value="${user.name}"/>">
         </label>
     </div>
     <div class="col-2">
         <label>
             Surname
-            <input type="text" placeholder="type user surname" id="surname" name="surname" tabindex="2"
-                   value="<c:out value="${requestScope.user.surname}" />">
+            <form:input path="surname" placeholder="type user surname" tabindex="2"/>
+            value="<c:out value="${user.surname}"/>">
         </label>
     </div>
 
     <div class="col-3">
         <label>
             Salary
-            <input type="text" placeholder="type user salary" id="salary" name="salary" tabindex="3"
-                   value="<c:out value="${requestScope.user.salary}" />">
+            <form:input path="salary" placeholder="type user salary" tabindex="3"/>
+            value="<c:out value="${user.salary}"/>">
         </label>
     </div>
     <div class="col-3">
         <label>
             Email
-            <input type="text" placeholder="type user e-mail address" id="email" name="email" tabindex="4"
-                   value="<c:out value="${requestScope.user.email}" />">
+            <form:input path="email" placeholder="type user e-mail address" tabindex="4"/>
+            value="<c:out value="${user.email}"/>">
         </label>
     </div>
     <div class="col-3">
         <label>
             Login
-            <input type="text" placeholder="type user login" id="login" name="userLogin" tabindex="5"
-                   value="<c:out value="${requestScope.user.userLogin}" />">
+            <form:input path="userLogin" placeholder="type user login" tabindex="5"/>
+            value="<c:out value="${user.userLogin}"/>">
         </label>
     </div>
 
     <div class="col-4">
         <label>
             Password
-            <input type="text" placeholder="type user password" id="password" name="password" tabindex="6"
-                   value="<c:out value="${requestScope.user.password}" />">
+            <form:input path="password" placeholder="type user password" tabindex="6"/>
+            value="<c:out value="${user.password}"/>">
         </label>
     </div>
     <div class="col-4">
         <label>
             Date of birth
-            <input type="text" placeholder="06.04.2000" pattern="[0-9]{2}\.0-9]{2}\.[0-9]{4}" id="birth" name="birth"
-                   tabindex="7" value="<c:out value="${requestScope.user.dateOfBirth}" />">
+            <form:input path="dateOfBirth" placeholder="06.04.2000" pattern="[0-9]{2}\.0-9]{2}\.[0-9]{4}" tabindex="7"/>
+            value="<c:out value="${user.dateOfBirth}"/>">
         </label>
     </div>
     <div class="col-4">
         <label>
             Access role
-            <select tabindex="5" name="access" multiple size="${requestScope.roles.size()}">
-                <c:forEach items="${requestScope.roles}" var="role">
+            <select tabindex="5" name="access" multiple size="${roles.size()}">
+                <!-- todo примерный вариант работы form:select, но пока не ебу как сделать-->
+                    <%--    <form:select path="role">--%>
+                    <%--        <form:option value="-" label="--Please Select--"/>--%>
+                    <%--        <form:options items="${role.roleName}"/>--%>
+                    <%--    </form:select>--%>
+                <c:forEach items="${roles}" var="role">
+
                     <option value=${role.id}>${role.roleName}</option>
                 </c:forEach>
             </select>
@@ -84,10 +94,10 @@
     </div>
 
     <div class="col-submit">
-        <button class="submitbtn">Save information</button>
+        <form:button class="submitbtn">Save information</form:button>
     </div>
 
-</form>
+</form:form>
 </body>
 </html>
 

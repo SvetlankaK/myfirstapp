@@ -11,4 +11,24 @@
             <taglib-location>/WEB-INF/lib</taglib-location>
         </taglib>
     </jsp-config>
+
+    <!--    <servlet>-->
+    <!--        <servlet-name>webdispatch</servlet-name>-->
+    <!--        <servlet-class>-->
+    <!--            org.springframework.web.servlet.DispatcherServlet-->
+    <!--        </servlet-class>-->
+    <!--        <load-on-startup>1</load-on-startup>-->
+    <!--    </servlet>-->
+
+    <!--    <servlet-mapping>-->
+    <!--        <servlet-name>webdispatch</servlet-name>-->
+    <!--        <url-pattern>/webdispatch/*</url-pattern>-->
+    <!--    </servlet-mapping>-->
+    <!--    <beans>-->
+    <!--        <bean>-->
+    <!--            <context:component-scan base-package="com.svetakvetko.controller"/>-->
+    <!--        </bean>-->
+    <!--    </beans>-->
+
+
 </web-app>

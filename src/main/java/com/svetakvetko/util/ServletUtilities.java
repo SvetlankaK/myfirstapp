@@ -1,14 +1,15 @@
 package com.svetakvetko.util;
 
 import com.svetakvetko.domain.User;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public final class ServletUtilities {
-    public static HttpServletRequest createErrorMessage(String message, HttpServletRequest req) {
-        req.setAttribute("errorMessage", message);
-        return req;
+    public static ModelAndView createErrorMessage(String message, ModelAndView modelAndView) {
+        modelAndView.addObject("errorMessage", message);
+        return modelAndView;
     }
 
     public static HttpSession createSession(User user, HttpServletRequest req) {

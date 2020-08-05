@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <title>Authorization page</title>
@@ -12,23 +13,24 @@
 <body>
 <div class="login">
     <h1>Please, login </h1>
-    <form method="POST" action="${pageContext.request.contextPath}/login.jhtml">
+    <form:form action="login" method="post" modelAttribute="userView">
         <div class="input">
             <div class="blockinput">
-                <input type="text" name="userLogin" placeholder="Login" autocomplete="off" required>
+                <form:input path="userLogin" required placeholder="Login" autocomplete="off"/>
             </div>
             <div class="blockinput">
-                <input type="password" name="password" placeholder="Password" required>
+                <form:password path="password" required
+                               placeholder="Password"/>
             </div>
         </div>
-        <button type="submit" name="button">Login</button>
+        <form:button type="submit">Login</form:button>
         <p class="regCase">
             Don’t have an account?</p>
-        <p class="errorMessage"><c:out value="${requestScope.errorMessage}"/></p>
-        <a href="<c:url value="${contextPath}/registration.jhtml"/>" class="regLink">
+        <p class="errorMessage"><c:out value="${errorMessage}"/></p>
+        <a href="<c:url value="/registration"/>" class="regLink">
             Sign up now
         </a>
-    </form>
+    </form:form>
 </div>
 </body>
 </html>

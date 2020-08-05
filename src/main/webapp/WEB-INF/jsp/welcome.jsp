@@ -16,10 +16,10 @@
     <header class="header">
         <h1 class="logo">Useless application</h1>
         <ul class="menu-main">
-            <li><a href="<c:url value = "${contextPath}/welcome.jhtml"/>" class="current">Main page</a></li>
+            <li><a href="<c:url value = "${contextPath}/welcome"/>" class="current">Main page</a></li>
             <c:forEach items="#{requestScope.roles}" var="role">
                 <c:if test="${role.roleName=='admin'}">
-                    <li><a href="<c:url value = "${contextPath}/users.jhtml"/>">Users</a></li>
+                    <li><a href="<c:url value = "${contextPath}/users"/>">Users</a></li>
                 </c:if>
             </c:forEach>
         </ul>
