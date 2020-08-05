@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 
 @RequestMapping(value = "/login")
 @Controller
@@ -27,13 +30,13 @@ public class AuthorizationController {
     }
 
     @PostMapping("/login")
-    public ModelAndView loginUser(@ModelAttribute("user") User userView) {
+    public ModelAndView loginUser(@ModelAttribute("user") User userView, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         if (userService.isExist(userView.getUserLogin())) {
             User user = userService.findByLogin(userView.getUserLogin());
             Long id = user.getUserId();
             if (user.getPassword().equals(user.getPassword())) {
-//                HttpSession session = ServletUtilities.createSession(userLogin, password, id, req);
+                HttpSession session = ServletUtilities.createSession(userView.getUserLogin(), userView.getPassword(), id, request);
                 return new ModelAndView("redirect:/welcome");
                 //TODO как редиректили раньше: req.getContextPath() + "/welcome.jhtml");
 
