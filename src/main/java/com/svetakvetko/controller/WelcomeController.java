@@ -19,7 +19,7 @@ public class WelcomeController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/welcome")
+    @GetMapping
     public ModelAndView sendWelcomeView(HttpServletRequest req, ModelAndView modelAndView) {
         HttpSession session = req.getSession(true);
         long id = (Long) session.getAttribute("userId");

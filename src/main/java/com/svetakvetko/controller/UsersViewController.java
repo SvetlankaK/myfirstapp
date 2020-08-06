@@ -18,7 +18,7 @@ public class UsersViewController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users")
+    @GetMapping
     public ModelAndView sendUsersView(ModelAndView modelAndView) {
         Collection<User> users = userService.findAll();
         modelAndView.addObject("users", users);

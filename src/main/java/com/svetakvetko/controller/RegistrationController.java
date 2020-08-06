@@ -27,12 +27,13 @@ public class RegistrationController {
     private UserService userService;
 
 
-    @GetMapping("/registration")
+    @GetMapping
     public ModelAndView sendRegistrationView() {
+
         return new ModelAndView("registration");
     }
 
-    @PostMapping("/registration")
+    @PostMapping
     public ModelAndView registerUser(@ModelAttribute("user") User user, HttpServletRequest request) {
         long id = Long.parseLong(String.valueOf(userService.findAll().size() + 2)); //TODO generate in db
         if (userService.isExist(user.getUserLogin())) {

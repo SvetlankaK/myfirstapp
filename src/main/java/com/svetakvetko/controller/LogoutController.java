@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LogoutController {
 
-    @GetMapping("/logout")
+    @GetMapping
     public ModelAndView logoutUser(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {

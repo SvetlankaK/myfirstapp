@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 
 <html>
 <head>
@@ -35,7 +35,7 @@
                             <a href="<c:url value = "${contextPath}/registration"/>">+</a>
                         </th>
                     </tr>
-                    <c:forEach items="#{users}" var="user">
+                    <c:forEach items="#{requestScope.users}" var="user">
                         <td class="table-text-left">${user.surname} ${user.name}</td>
                         <td><select class="selection-handle">
                             <c:forEach items="#{user.role}" var="role">
@@ -46,10 +46,10 @@
                         <td>${user.salary}</td>
                         <td>${user.dateOfBirth}</td>
                         <td>
-                            <a href="<c:url value = "${contextPath}/editUser.jhtml?action=edit;user=${user.userLogin}"/>">&#9998;</a>
+                            <a href="<c:url value = "${contextPath}/editUser?user=${user.userLogin}"/>">&#9998;</a>
                         </td>
                         <td>
-                            <a href="<c:url value = "${contextPath}/delete.jhtml?user=${user.userLogin}"/>">&#x2716;</a>
+                            <a href="<c:url value = "${contextPath}/delete?user=${user.userLogin}"/>">&#x2716;</a>
                         </td>
                         </tr>
                     </c:forEach>

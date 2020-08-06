@@ -23,19 +23,19 @@ public class AuthorizationController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login")
-    public String sendLoginView(ModelAndView modelAndView) {
-        modelAndView.getModel();
-        return "login";
+    @GetMapping
+    public ModelAndView sendLoginView(ModelAndView modelAndView) {
+        modelAndView.setViewName("login");
+        return modelAndView;
     }
 
-    @PostMapping("/login")
+    @PostMapping
     public ModelAndView loginUser(@ModelAttribute("user") User userView, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         if (userService.isExist(userView.getUserLogin())) {
             User user = userService.findByLogin(userView.getUserLogin());
             Long id = user.getUserId();
-            if (user.getPassword().equals(user.getPassword())) {
+            if (user.getPassword().equals(userView.getPassword())) {
                 HttpSession session = ServletUtilities.createSession(userView.getUserLogin(), userView.getPassword(), id, request);
                 return new ModelAndView("redirect:/welcome");
                 //TODO как редиректили раньше: req.getContextPath() + "/welcome.jhtml");

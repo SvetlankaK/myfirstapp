@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class StartedPageController {
 
-    @GetMapping("/")
+    @GetMapping
     public String sendStartedPage() {
         return "index";
     }

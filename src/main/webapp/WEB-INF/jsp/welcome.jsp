@@ -11,19 +11,19 @@
         <%@include file="/WEB-INF/css/welcome.css"%>
     </style>
 </head>
-
+<body>
 <div class="container">
     <header class="header">
         <h1 class="logo">Useless application</h1>
         <ul class="menu-main">
             <li><a href="<c:url value = "${contextPath}/welcome"/>" class="current">Main page</a></li>
-            <c:forEach items="#{requestScope.roles}" var="role">
+            <c:forEach items="#{roles}" var="role">
                 <c:if test="${role.roleName=='admin'}">
                     <li><a href="<c:url value = "${contextPath}/users"/>">Users</a></li>
                 </c:if>
             </c:forEach>
         </ul>
-        <a href="<c:url value = "${contextPath}/logout.jhtml"/>" class="logoutLink">Logout</a>
+        <a href="<c:url value = "${contextPath}/logout"/>" class="logoutLink">Logout</a>
     </header>
     <div class="content-body">
         <main class="content">

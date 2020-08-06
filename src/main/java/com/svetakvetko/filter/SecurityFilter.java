@@ -5,24 +5,25 @@ import com.svetakvetko.domain.User;
 import com.svetakvetko.service.RoleService;
 import com.svetakvetko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import static com.svetakvetko.database.RoleEnum.*;
-
-
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.svetakvetko.database.RoleEnum.ADMIN_ACCESS;
 
-@WebFilter(urlPatterns = "/*")
-public class SecurityFilter implements Filter {
+@Component
+//TODO WEBFILTER RIP?
+public class SecurityFilter extends HttpFilter {
 
     private List<String> allowedAll;
     private List<String> allowedRegistered;
@@ -37,17 +38,16 @@ public class SecurityFilter implements Filter {
     @Override
     public void init(FilterConfig fConfig) {
         allowedAll = new ArrayList<>();
-        Collections.addAll(allowedAll, "/", "/login.jhtml", "/registration.jhtml", "/favicon.ico");
+        Collections.addAll(allowedAll, "/", "/login", "/registration", "/favicon.ico");
         allowedRegistered = new ArrayList<>(allowedAll);
-        Collections.addAll(allowedRegistered, "/welcome.jhtml", "/logout.jhtml");
+        Collections.addAll(allowedRegistered, "/welcome", "/logout");
         allowedAdmin = new ArrayList<>(allowedRegistered);
-        Collections.addAll(allowedAdmin, "/users.jhtml", "/editUser.jhtml", "/delete.jhtml");
+        Collections.addAll(allowedAdmin, "/users", "/editUser", "/delete");
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
+    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
         HttpSession session = request.getSession(true);
         boolean loggedIn = session != null && session.getAttribute("userLogin") != null;
         boolean isAdmin = false;
@@ -77,12 +77,12 @@ public class SecurityFilter implements Filter {
         }
 
         if (allowedLink) {
-            filterChain.doFilter(request, response);
+            chain.doFilter(request, response);
         } else {
             if (loggedIn) {
-                response.sendRedirect(request.getContextPath() + "/welcome.jhtml");
+                response.sendRedirect(request.getContextPath() + "/welcome");
             } else {
-                response.sendRedirect(request.getContextPath() + "/login.jhtml");
+                response.sendRedirect(request.getContextPath() + "/login");
             }
         }
     }
