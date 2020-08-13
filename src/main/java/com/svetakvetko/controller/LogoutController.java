@@ -1,6 +1,5 @@
 package com.svetakvetko.controller;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpSession;
 public class LogoutController {
 
     @GetMapping
-    public ModelAndView logoutUser(HttpServletRequest request) {
+    public ModelAndView logoutUser(HttpServletRequest request, ModelAndView modalAndView) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.removeAttribute("userLogin");

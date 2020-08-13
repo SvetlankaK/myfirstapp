@@ -6,10 +6,7 @@ import com.svetakvetko.service.UserService;
 import com.svetakvetko.util.ServletUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 @RequestMapping(value = "/login")
 @Controller
+@SessionAttributes("user")
 public class AuthorizationController {
 
     @Autowired
@@ -25,6 +23,7 @@ public class AuthorizationController {
 
     @GetMapping
     public ModelAndView sendLoginView(ModelAndView modelAndView) {
+        modelAndView.getModel().put("user", new User());
         modelAndView.setViewName("login");
         return modelAndView;
     }
@@ -38,15 +37,13 @@ public class AuthorizationController {
             if (user.getPassword().equals(userView.getPassword())) {
                 HttpSession session = ServletUtilities.createSession(userView.getUserLogin(), userView.getPassword(), id, request);
                 return new ModelAndView("redirect:/welcome");
-                //TODO как редиректили раньше: req.getContextPath() + "/welcome.jhtml");
-
             } else {
                 this.sendLoginView(ServletUtilities.createErrorMessage("Invalid password", modelAndView));
             }
         } else {
             this.sendLoginView(ServletUtilities.createErrorMessage("User doesn't exist", modelAndView));
         }
-        return modelAndView;//TODO ето некая хуйня шоб не светилось, но так явно не надо((
+        return modelAndView;
 
     }
 }

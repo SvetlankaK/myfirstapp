@@ -22,7 +22,6 @@ import java.util.List;
 import static com.svetakvetko.database.RoleEnum.ADMIN_ACCESS;
 
 @Component
-//TODO WEBFILTER RIP?
 public class SecurityFilter extends HttpFilter {
 
     private List<String> allowedAll;
@@ -51,7 +50,7 @@ public class SecurityFilter extends HttpFilter {
         HttpSession session = request.getSession(true);
         boolean loggedIn = session != null && session.getAttribute("userLogin") != null;
         boolean isAdmin = false;
-        List<Role> userRoles = new ArrayList<>();
+        List<Role> userRoles;
         if (loggedIn) {
             User user = userService.findByLogin(session.getAttribute("userLogin").toString());
             userRoles = roleService.getRolesById(user.getUserId());

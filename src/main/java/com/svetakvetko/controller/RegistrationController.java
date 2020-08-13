@@ -28,19 +28,20 @@ public class RegistrationController {
 
 
     @GetMapping
-    public ModelAndView sendRegistrationView() {
-
-        return new ModelAndView("registration");
+    public ModelAndView sendRegistrationView(ModelAndView modelAndView) {
+        modelAndView.getModel().put("user", new User());
+        modelAndView.setViewName("registration");
+        return modelAndView;
     }
 
     @PostMapping
     public ModelAndView registerUser(@ModelAttribute("user") User user, HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
         long id = Long.parseLong(String.valueOf(userService.findAll().size() + 2)); //TODO generate in db
         if (userService.isExist(user.getUserLogin())) {
-            return new ModelAndView("redirect:/registration");
+            return this.sendRegistrationView(ServletUtilities.createErrorMessage("User login already exists", modelAndView));
         } else {
             userService.create(new User(id, user.getUserLogin(), user.getPassword(), Collections.singletonList(new Role(1, USER_ACCESS.getName())), user.getEmail(), user.getName(), user.getSurname(), user.getSalary(), user.getDateOfBirth()));
-
             ServletUtilities.createSession(new User(id, user.getUserLogin(), user.getPassword(), Collections.singletonList(new Role(1, USER_ACCESS.getName())), user.getEmail(), user.getName(), user.getSurname(), user.getSalary(), user.getDateOfBirth()), request);
             return new ModelAndView("redirect:/welcome");
         }

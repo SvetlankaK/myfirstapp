@@ -13,27 +13,6 @@
     </select>
 
 
-    <select id="getRoleIdByRoleName" parameterType="java.lang.String">
-        SELECT id
-        FROM "webbapp"."role"
-        WHERE roleName = #{roleName}
-    </select>
-
-    <select id="getRoleNameByRoleId" parameterType="java.lang.Long">
-        SELECT rolename
-        FROM "webbapp"."role"
-        WHERE roleId = #{roleId}
-    </select>
-
-    <!--TODO не работает-->
-    <select id="getRolesByLogin" parameterType="java.lang.String" resultMap="role">
-        SELECT "webapp"."role".id, "webapp"."role".rolename
-        FROM "webapp"."user_roles"
-                 INNER JOIN "webapp"."USER" ON ("webapp"."USER".userid = "webapp"."user_roles".user_id)
-                 INNER JOIN "webapp"."role" ON ("webapp"."role".id = "webapp"."user_roles".role_id)
-        WHERE webapp.USER.userLogin = #{userLogin}
-    </select>
-
     <select id="getAllPossibleRoles" resultMap="role">
         SELECT *
         FROM "webapp"."role"
@@ -63,8 +42,5 @@
     </resultMap>
 
 
-    <resultMap id="roleList" type="com.svetakvetko.domain.Role">
-        <collection javaType="ArrayList" property="roles" resultMap="role"/>
-    </resultMap>
 
 </mapper>

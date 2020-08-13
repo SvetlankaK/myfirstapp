@@ -2,89 +2,81 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
 <head>
-    <title>User edit</title>
+    <title><spring:message code="editUserPage.title"/></title>
     <style type="text/css">
         <%@include file="/WEB-INF/css/editUser.css"%>
     </style>
 </head>
 <body>
-<h1>User full information</h1>
+<h1><spring:message code="editUserPage.formName"/></h1>
 <form:form action="editUser" method="post" modelAttribute="user">
     <div class="col-2">
         <label>
-            Name
+            <spring:message code="editUserPage.name"/>
             <form:input path="name" tabindex="1" placeholder="type user name"/> <span></span>
         </label>
     </div>
     <div class="col-2">
         <label>
-            Surname
+            <spring:message code="editUserPage.surname"/>
             <form:input path="surname" placeholder="type user surname" tabindex="2"/>
 
         </label>
     </div>
     <div class="col-3">
         <label>
-            Salary
+            <spring:message code="editUserPage.salary"/>
+
             <form:input path="salary" placeholder="type user salary" tabindex="3"/>
 
         </label>
     </div>
     <div class="col-3">
         <label>
-            Email
+            <spring:message code="editUserPage.email"/>
             <form:input path="email" placeholder="type user e-mail address" tabindex="4"/>
 
         </label>
     </div>
     <div class="col-3">
         <label>
-            Login
+            <spring:message code="editUserPage.login"/>
             <form:input path="userLogin" placeholder="type user login" tabindex="5"/>
 
         </label>
     </div>
     <div class="col-4">
         <label>
-            Password
+            <spring:message code="editUserPage.password"/>
             <form:input path="password" placeholder="type user password" tabindex="6"/>
 
         </label>
     </div>
     <div class="col-4">
         <label>
-            Date of birth
+            <spring:message code="editUserPage.birthday"/>
             <form:input path="dateOfBirth" placeholder="06.04.2000" pattern="[0-9]{2}\.0-9]{2}\.[0-9]{4}" tabindex="7"/>
 
         </label>
     </div>
     <div class="col-4">
         <label>
-            Access role
-                <%--     multiple       <select tabindex="5" name="access" multiple size="${roles.size()}">--%>
-
-                <%--            <form:select tabindex="5" size="${roles.size()}" multiple="true" path="role">--%>
-                <%--                <c:forEach items="${roles}" var="role">--%>
-                <%--&lt;%&ndash;                    <form:option value="${role.id}" label="${role.roleName}" items="${role.roleName}"/>&ndash;%&gt;--%>
-                <%--                    <form:option value="-" label="--Please Select--"/>--%>
-                <%--                    <form:options items="${role.roleName}" />--%>
-                <%--                </c:forEach>--%>
-                <%--            </form:select>--%>
+            <spring:message code="editUserPage.access"/>
 
             <form:select multiple="true" path="role">
                 <c:forEach items="${allRoles}" var="role">
                     <c:set var="isSelected" value="false"/>
-                    <c:forEach items="${user}" var="user">
-                        <c:forEach items="#{user.role}" var="roleU">
-                            <c:if test="${roleU.getId()==role.id}">
-                                <c:set var="isSelected" value="true"/>
-                            </c:if>
-                        </c:forEach>
+
+                    <c:forEach items="#{user.role}" var="roleU">
+                        <c:if test="${roleU.getId()==role.id}">
+                            <c:set var="isSelected" value="true"/>
+                        </c:if>
                     </c:forEach>
+
                     <c:choose>
                         <c:when test="${isSelected}">
                             <form:option value="${role.id}" selected="selected">${role.roleName}</form:option>
@@ -100,12 +92,12 @@
     </div>
     <div class="col-5">
         <label>
-            Note:
-            <p class="notification"> Check info once again before saving</p>
+            <spring:message code="editUserPage.noteLabel"/>
+            <p class="notification"><spring:message code="editUserPage.noteText"/></p>
         </label>
     </div>
     <div class="col-submit">
-        <form:button class="submitbtn">Save information</form:button>
+        <form:button class="submitbtn"><spring:message code="editUserPage.button"/></form:button>
     </div>
 </form:form>
 </body>

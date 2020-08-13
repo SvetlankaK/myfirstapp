@@ -56,10 +56,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Collection<User> findAll() {
-        //todo stream
         Collection<User> users = userMapper.findAll();
-        for (User user : users
-        ) {
+        for (User user : users) {
             user.setRole(roleService.getRolesById(user.getUserId()));
         }
         return users;

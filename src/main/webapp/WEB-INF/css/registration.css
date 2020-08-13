@@ -98,3 +98,11 @@ p input + span {
     background-color: #363636;
 }
 
+.errorMessage {
+    position: absolute;
+    left: 345px;
+    bottom: 65px;
+    color: rgb(192, 192, 192);
+    font-size: 1.4em;
+    font-family: "Segoe Print";
+}

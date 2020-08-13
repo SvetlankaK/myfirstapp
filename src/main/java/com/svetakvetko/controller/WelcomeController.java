@@ -27,7 +27,6 @@ public class WelcomeController {
         modelAndView.addObject("roles", user.getRole());
         modelAndView.setViewName("welcome");
         return modelAndView;
-
     }
 
 }

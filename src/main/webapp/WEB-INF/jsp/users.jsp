@@ -1,11 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
 <head>
-    <title>Users view</title>
+    <title><spring:message code="usersPage.title"/></title>
     <style type="text/css">
         <%@include file="/WEB-INF/css/users.css"%>
     </style>
@@ -13,24 +13,26 @@
 <body>
 <div class="container">
     <header class="header">
-        <h1 class="logo">Useless application</h1>
+        <h1 class="logo"><spring:message code="logo"/></h1>
         <ul class="menu-main">
-            <li><a href="<c:url value = "${contextPath}/welcome"/>" class="current">Main page</a></li>
-            <li><a href="<c:url value = "${contextPath}/users"/>">Users</a></li>
+            <li><a href="<c:url value = "${contextPath}/welcome"/>" class="current"><spring:message
+                    code="mainPageLink"/></a></li>
+            <li><a href="<c:url value = "${contextPath}/users"/>"><spring:message code="usersLink"/></a></li>
         </ul>
-        <a href="<c:url value = "${contextPath}/logout"/>" class="logoutLink">Logout</a>
+        <a href="<c:url value = "${contextPath}/logout"/>" class="logoutLink"><spring:message
+                code="logoutLink"/></a>
     </header>
     <div class="content-body">
         <main class="content">
             <div class="responsive-table">
                 <table>
                     <tr class="tr-header">
-                        <th>Name, surname</th>
-                        <th>Role</th>
-                        <th>Email</th>
-                        <th>Salary, $</th>
-                        <th>Date of birth</th>
-                        <th>Edit user</th>
+                        <th><spring:message code="usersPage.fullName"/></th>
+                        <th><spring:message code="usersPage.role"/></th>
+                        <th><spring:message code="usersPage.email"/></th>
+                        <th><spring:message code="usersPage.salary"/></th>
+                        <th><spring:message code="usersPage.birthday"/></th>
+                        <th><spring:message code="usersPage.editUserLink"/></th>
                         <th>
                             <a href="<c:url value = "${contextPath}/registration"/>">+</a>
                         </th>
@@ -60,7 +62,7 @@
         <aside class="ads"></aside>
     </div>
     <footer class="footer">
-        <div class="footerInfo">made by Sveta Kvetko, 2020</div>
+        <div class="footerInfo"><spring:message code="footerInfo"/>made by Sveta Kvetko, 2020</div>
     </footer>
 </div>
 </body>
