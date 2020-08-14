@@ -13,7 +13,7 @@
 <body>
 <div class="container">
     <header class="header">
-        <h1 class="logo"><spring:message code="logo"/></h1>
+        <h1 class="logo"><spring:message code="page.logo"/></h1>
         <ul class="menu-main">
             <li><a href="<c:url value = "${contextPath}/welcome"/>" class="current"><spring:message
                     code="mainPageLink"/></a></li>
@@ -62,7 +62,7 @@
         <aside class="ads"></aside>
     </div>
     <footer class="footer">
-        <div class="footerInfo"><spring:message code="footerInfo"/>made by Sveta Kvetko, 2020</div>
+        <div class="footerInfo"><spring:message code="page.footerInfo"/></div>
     </footer>
 </div>
 </body>

@@ -14,7 +14,7 @@
 <div class="login">
     <h1><spring:message code="loginPage.formStarter"/></h1>
     <div class="dropdown">
-        <div class="dropbtn">en</div>
+        <div class="dropbtn">lang</div>
         <div class="dropdown-content">
             <a href="?lang=en"><spring:message code="app.lang.en"/></a>
             <a href="?lang=ru"><spring:message code="app.lang.ru"/></a>

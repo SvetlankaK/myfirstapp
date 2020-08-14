@@ -75,7 +75,6 @@ ul {
     margin-top: 80px;
     padding-left: 0;
     height: 60px;
-
 }
 
 .menu-main a {
@@ -128,7 +127,7 @@ ul {
     text-decoration: none;
     border-radius: 3px;
     position: absolute;
-    right: 260px;
+    right: 250px;
     top: 78px;
 }
 

@@ -32,6 +32,8 @@ h1 {
     font-size: 1.6em;
     margin-top: 30px;
     margin-bottom: 30px;
+    position: relative;
+    top: 45px;
 }
 
 p {
@@ -130,22 +132,22 @@ button:active {
     cursor: pointer;
 }
 
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
     position: relative;
     display: inline-block;
+    right: 150px;
+    bottom: 105px;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
     width: 140px;
 }
 
 .dropbtn {
-    background: url('http://icons.iconarchive.com/icons/custom-icon-design/flag-3/16/Russia-Flag-icon.png') no-repeat left center;
+    background: url('https://icons.iconarchive.com/icons/custom-icon-design/flat-europe-flag/512/United-Kingdom-icon.png') no-repeat left center;
+    background-size: 25px 25px;
     padding-left: 25px;
     width: 40px;
 }
@@ -156,32 +158,36 @@ button:active {
     height: 16px;
     position: absolute;
     right: 0;
+    left: 58px;
     top: 7px;
     width: 16px;
 }
 
 .dropdown-content a:first-child {
-    background: url('http://icons.iconarchive.com/icons/custom-icon-design/flag-3/16/Russia-Flag-icon.png') no-repeat left center;
+    background: url('https://icons.iconarchive.com/icons/custom-icon-design/flat-europe-flag/512/United-Kingdom-icon.png') no-repeat left center;
+    background-size: 25px 25px;
 }
 
 .dropdown-content a:last-child {
-    background: url('http://www.miru-mir.info/images/en.gif') no-repeat left center;
+    background: url('http://icons.iconarchive.com/icons/custom-icon-design/flag-3/16/Russia-Flag-icon.png') no-repeat left center;
+    background-size: 25px 25px;
 }
 
-/* Links inside the dropdown */
+
 .dropdown-content a {
     color: black;
     padding: 2px 0 2px 25px;
     text-decoration: none;
     display: block;
+    font-family: "Segoe Print";
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-    background-color: #f1f1f1
-}
 
-/* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
     display: block;
+
+}
+
+.dropdown-content a:hover {
+    color: #4E535B;
 }

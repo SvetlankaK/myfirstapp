@@ -74,12 +74,13 @@ p input + span {
     position: absolute;
     right: 420px;
     top: 80px;
+
 }
 
 .button {
     position: absolute;
-    bottom: 128px;
-    right: 210px;
+    bottom: 112px;
+    right: 200px;
     display: inline-block;
     vertical-align: top;
     padding: 15px 20px;
@@ -92,6 +93,7 @@ p input + span {
     background-clip: padding-box;
     border: 1px solid;
     cursor: pointer;
+    width: 150px;
 }
 
 .button:hover {

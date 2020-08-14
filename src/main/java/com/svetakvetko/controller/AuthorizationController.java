@@ -21,6 +21,7 @@ public class AuthorizationController {
     @Autowired
     private UserService userService;
 
+
     @GetMapping
     public ModelAndView sendLoginView(ModelAndView modelAndView) {
         modelAndView.getModel().put("user", new User());
