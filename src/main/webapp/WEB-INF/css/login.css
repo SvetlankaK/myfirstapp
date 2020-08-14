@@ -130,6 +130,7 @@ button:active {
 .dropbtn {
     padding: 5px;
     cursor: pointer;
+    font-family: "Segoe Print";
 }
 
 .dropdown {
@@ -159,7 +160,7 @@ button:active {
     position: absolute;
     right: 0;
     left: 58px;
-    top: 7px;
+    top: 15px;
     width: 16px;
 }
 

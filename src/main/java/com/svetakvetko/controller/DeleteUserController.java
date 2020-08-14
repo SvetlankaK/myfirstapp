@@ -23,4 +23,5 @@ public class DeleteUserController {
         userService.delete(user.getUserId());
         return new ModelAndView("redirect:/users");
     }
+
 }

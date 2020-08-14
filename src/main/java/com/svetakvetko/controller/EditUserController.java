@@ -7,11 +7,12 @@ import com.svetakvetko.service.RoleService;
 import com.svetakvetko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,10 @@ public class EditUserController {
     }
 
     @PostMapping
-    public ModelAndView editUser(@ModelAttribute("user") User userView, @RequestParam Map<String, String[]> allParams) {
+    public ModelAndView editUser(@Valid @ModelAttribute("user") User userView, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            this.sendEditUserView(userView.getUserLogin());
+        }
         Set<String> userRolesIds = userView.getRole().stream()
                 .map(Role::getId)
                 .map(String::valueOf)

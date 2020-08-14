@@ -17,14 +17,15 @@
     <div class="col-2">
         <label>
             <spring:message code="editUserPage.name"/>
-            <form:input path="name" tabindex="1" placeholder="type user name"/> <span></span>
+            <form:input path="name" tabindex="1" placeholder="type user name"/>
+            <form:errors path="name"/><span></span>
         </label>
     </div>
     <div class="col-2">
         <label>
             <spring:message code="editUserPage.surname"/>
             <form:input path="surname" placeholder="type user surname" tabindex="2"/>
-
+            <form:errors path="surname"/>
         </label>
     </div>
     <div class="col-3">
@@ -32,35 +33,35 @@
             <spring:message code="editUserPage.salary"/>
 
             <form:input path="salary" placeholder="type user salary" tabindex="3"/>
-
+            <form:errors path="salary"/>
         </label>
     </div>
     <div class="col-3">
         <label>
             <spring:message code="editUserPage.email"/>
             <form:input path="email" placeholder="type user e-mail address" tabindex="4"/>
-
+            <form:errors path="email"/>
         </label>
     </div>
     <div class="col-3">
         <label>
             <spring:message code="editUserPage.login"/>
             <form:input path="userLogin" placeholder="type user login" tabindex="5"/>
-
+            <form:errors path="userLogin"/>
         </label>
     </div>
     <div class="col-4">
         <label>
             <spring:message code="editUserPage.password"/>
             <form:input path="password" placeholder="type user password" tabindex="6"/>
-
+            <form:errors path="password"/>
         </label>
     </div>
     <div class="col-4">
         <label>
             <spring:message code="editUserPage.birthday"/>
             <form:input path="dateOfBirth" placeholder="06.04.2000" pattern="[0-9]{2}\.0-9]{2}\.[0-9]{4}" tabindex="7"/>
-
+            <form:errors path="dateOfBirth"/>
         </label>
     </div>
     <div class="col-4">

@@ -6,11 +6,13 @@ import com.svetakvetko.service.UserService;
 import com.svetakvetko.util.ServletUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 
 @RequestMapping(value = "/login")
@@ -30,8 +32,11 @@ public class AuthorizationController {
     }
 
     @PostMapping
-    public ModelAndView loginUser(@ModelAttribute("user") User userView, HttpServletRequest request) {
+    public ModelAndView loginUser(@Valid @ModelAttribute("user") User userView, BindingResult bindingResult, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
+        if (bindingResult.hasErrors()) {
+            return this.sendLoginView(modelAndView);
+        }
         if (userService.isExist(userView.getUserLogin())) {
             User user = userService.findByLogin(userView.getUserLogin());
             Long id = user.getUserId();

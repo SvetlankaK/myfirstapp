@@ -24,11 +24,13 @@
         <div class="input">
             <div class="blockinput">
                 <spring:message code="loginPage.login" var="placeholderLogin"/>
-                <form:input path="userLogin" required="true" placeholder='${placeholderLogin}' autocomplete="off"/>
+                <form:input path="userLogin" placeholder='${placeholderLogin}' autocomplete="off"/>
+                <form:errors path="userLogin"/>
             </div>
             <div class="blockinput">
                 <spring:message code="loginPage.password" var="placeholderPassword"/>
-                <form:password path="password" required="true" placeholder='${placeholderPassword}'/>
+                <form:password path="password" placeholder='${placeholderPassword}'/>
+                <form:errors path="password"/>
             </div>
         </div>
         <form:button type="submit"><spring:message code="loginPage.button"/></form:button>

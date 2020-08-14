@@ -1,18 +1,41 @@
 package com.svetakvetko.domain;
 
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String userLogin; //TODO primary key in db
+    @Size(min = 5, max = 15)
+    @NotEmpty
+    private String userLogin;//TODO primary key in db
+
+    @Size(min = 5, max = 15)
+    @NotEmpty
     private String password;
+
     private List<Role> role;
+
+    @NotEmpty
+    @Email
     private String email;
+
+    @NotEmpty
+    @Size(min = 2, max = 20)
     private String name;
+
+    @NotEmpty
+    @Size(min = 3, max = 20)
     private String surname;
+
     private double salary;
+
+    @NotEmpty
     private String dateOfBirth;
+
+
     private long userId;
 
 
