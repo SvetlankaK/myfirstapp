@@ -24,6 +24,13 @@ public class Application extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+    /*
+    todo 1.я думаю, нужны 2-3(?) проперти файла для ошибок(with the exact filename of ValidationMessages.properties, which can be localized with ValidationMessages_xx_XX.properties files. Those files have to be placed in the root of the classpath.)
+     2. пример переопределния дефолтного значения поля:
+     В File: messages.properties
+     (NotEmpty.customer.name = Name is required!
+     Range.customer.age = Age value must be between 1 and 150 )
+     */
 }
 
 

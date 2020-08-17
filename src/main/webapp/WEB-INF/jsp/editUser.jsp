@@ -14,6 +14,7 @@
 <body>
 <h1><spring:message code="editUserPage.formName"/></h1>
 <form:form action="editUser" method="post" modelAttribute="user">
+    <form:errors path="*" cssClass="errorblock" element="div"/>
     <div class="col-2">
         <label>
             <spring:message code="editUserPage.name"/>

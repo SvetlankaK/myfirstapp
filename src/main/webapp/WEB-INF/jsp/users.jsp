@@ -13,7 +13,6 @@
 <body>
 <div class="container">
     <header class="header">
-        <!--todo не работает лого тут и на welocome-->
         <h1 class="logo"><spring:message code="page.logo"/></h1>
         <ul class="menu-main">
             <li><a href="<c:url value = "${contextPath}/welcome"/>" class="current"><spring:message

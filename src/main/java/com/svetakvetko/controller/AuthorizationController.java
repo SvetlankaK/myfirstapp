@@ -7,17 +7,19 @@ import com.svetakvetko.util.ServletUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 
 @RequestMapping(value = "/login")
 @Controller
-@SessionAttributes("user")
 public class AuthorizationController {
 
     @Autowired
@@ -32,10 +34,12 @@ public class AuthorizationController {
     }
 
     @PostMapping
-    public ModelAndView loginUser(@Valid @ModelAttribute("user") User userView, BindingResult bindingResult, HttpServletRequest request) {
+    public ModelAndView loginUser(@ModelAttribute("user") User userView, BindingResult bindingResult, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
-            return this.sendLoginView(modelAndView);
+//            ServletUtilities.populateError("userLogin", modelAndView, bindingResult);
+//            ServletUtilities.populateError("password", modelAndView, bindingResult);
+            return modelAndView;
         }
         if (userService.isExist(userView.getUserLogin())) {
             User user = userService.findByLogin(userView.getUserLogin());
@@ -44,13 +48,14 @@ public class AuthorizationController {
                 HttpSession session = ServletUtilities.createSession(userView.getUserLogin(), userView.getPassword(), id, request);
                 return new ModelAndView("redirect:/welcome");
             } else {
+                bindingResult.addError(new ObjectError("password", "Invalid password"));
                 this.sendLoginView(ServletUtilities.createErrorMessage("Invalid password", modelAndView));
             }
         } else {
+            bindingResult.addError(new ObjectError("userLogin", "User doesn't exist"));
             this.sendLoginView(ServletUtilities.createErrorMessage("User doesn't exist", modelAndView));
         }
         return modelAndView;
-
     }
 }
 

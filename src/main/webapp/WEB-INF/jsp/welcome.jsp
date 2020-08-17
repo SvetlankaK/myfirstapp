@@ -35,7 +35,6 @@
         <aside class="ads"></aside>
     </div>
     <footer class="footer">
-        <!--todo не работает тут и на welocome при русском языке-->
         <div class="footerInfo"><spring:message code="page.footerInfo"/></div>
     </footer>
 </div>

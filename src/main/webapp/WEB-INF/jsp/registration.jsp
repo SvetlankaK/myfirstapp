@@ -34,9 +34,10 @@
         </p>
         <p>
             <form:label path="dateOfBirth"><spring:message code="registrationPage.birthday"/></form:label>
-            <form:input path="dateOfBirth" placeholder="06.04.2000" required="true"
+            <form:input path="dateOfBirth" placeholder="06.04.2000" pattern="[0-9]{2}\.0-9]{2}\.[0-9]{4}"
+                        required="true"/>
                          <form:errors path="dateOfBirth" />
-            pattern="[0-9]{2}\.0-9]{2}\.[0-9]{4}"/><br/><span></span>
+            <br/><span></span>
         </p>
         <fieldset>
             <legend>

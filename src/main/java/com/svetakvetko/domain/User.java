@@ -3,36 +3,39 @@ package com.svetakvetko.domain;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+
     @Size(min = 5, max = 15)
-    @NotEmpty
+    @NotEmpty(message = "{invalidLogin}")
     private String userLogin;//TODO primary key in db
 
     @Size(min = 5, max = 15)
-    @NotEmpty
+    @NotEmpty(message = "{invalidPassword}")
     private String password;
 
     private List<Role> role;
 
-    @NotEmpty
+    @NotEmpty(message = "{invalidEmail}")
     @Email
+    @Pattern(regexp = ".+@.+\\.[a-z]+")
     private String email;
 
-    @NotEmpty
+    @NotEmpty(message = "{invalidName}")
     @Size(min = 2, max = 20)
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "{invalidSurname}")
     @Size(min = 3, max = 20)
     private String surname;
 
     private double salary;
 
-    @NotEmpty
+    @NotEmpty(message = "{invalidBirthday}")
     private String dateOfBirth;
 
 
