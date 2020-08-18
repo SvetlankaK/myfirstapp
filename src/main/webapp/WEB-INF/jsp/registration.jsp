@@ -16,7 +16,7 @@
     <div>
         <p>
             <form:label path="name"><spring:message code="registrationPage.name"/></form:label>
-            <form:input path="name" required="true" placeholder="Dasha"/>
+            <form:input path="name" placeholder="Dasha"/>
             <form:errors path="name"/><span></span>
 
         </p>

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 
 @RequestMapping(value = "/login")
@@ -34,7 +35,7 @@ public class AuthorizationController {
     }
 
     @PostMapping
-    public ModelAndView loginUser(@ModelAttribute("user") User userView, BindingResult bindingResult, HttpServletRequest request) {
+    public ModelAndView loginUser(@Valid @ModelAttribute("user") User userView, BindingResult bindingResult, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
 //            ServletUtilities.populateError("userLogin", modelAndView, bindingResult);

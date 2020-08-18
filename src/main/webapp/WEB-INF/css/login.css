@@ -192,3 +192,8 @@ button:active {
 .dropdown-content a:hover {
     color: #4E535B;
 }
+
+.error {
+    color: red;
+    display: inline-block;
+}

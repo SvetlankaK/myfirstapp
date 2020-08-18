@@ -1,41 +1,45 @@
 package com.svetakvetko.domain;
 
 
+import com.svetakvetko.validation.AuthorizationGroup;
+import com.svetakvetko.validation.EditInfoGroup;
+import com.svetakvetko.validation.RegistrationGroup;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
 
-    @Size(min = 5, max = 15)
-    @NotEmpty(message = "{invalidLogin}")
+    @Size(min = 5, max = 15, message = "{user.login.size}")
+    @NotEmpty(message = "{user.login.empty}", groups = {AuthorizationGroup.class, RegistrationGroup.class, EditInfoGroup.class})
     private String userLogin;//TODO primary key in db
 
-    @Size(min = 5, max = 15)
-    @NotEmpty(message = "{invalidPassword}")
+    @Size(min = 5, max = 15, message = "{user.password.size}")
+    @NotEmpty(message = "{user.password.empty}", groups = {AuthorizationGroup.class, RegistrationGroup.class, EditInfoGroup.class})
     private String password;
 
     private List<Role> role;
 
-    @NotEmpty(message = "{invalidEmail}")
+    @NotEmpty(message = "{user.email.empty}", groups = {RegistrationGroup.class, EditInfoGroup.class})
     @Email
-    @Pattern(regexp = ".+@.+\\.[a-z]+")
     private String email;
 
-    @NotEmpty(message = "{invalidName}")
-    @Size(min = 2, max = 20)
+    @NotEmpty(message = "{user.name.empty}", groups = {RegistrationGroup.class, EditInfoGroup.class})
+    @Size(min = 3, max = 15, message = "{user.name.size}")
     private String name;
 
-    @NotEmpty(message = "{invalidSurname}")
-    @Size(min = 3, max = 20)
+    @NotEmpty(message = "{user.surname.empty}", groups = {RegistrationGroup.class, EditInfoGroup.class})
+    @Size(min = 3, max = 15, message = "{user.surname.size}")
     private String surname;
 
+    @NotNull(message = "{user.salary.empty}", groups = EditInfoGroup.class)
     private double salary;
 
-    @NotEmpty(message = "{invalidBirthday}")
+    @NotEmpty(message = "{user.birthday.empty}", groups = {RegistrationGroup.class, EditInfoGroup.class})
     private String dateOfBirth;
 
 

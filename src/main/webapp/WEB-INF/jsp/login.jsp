@@ -25,7 +25,7 @@
             <div class="blockinput">
                 <spring:message code="loginPage.login" var="placeholderLogin"/>
                 <form:input path="userLogin" placeholder='${placeholderLogin}' autocomplete="off"/>
-                <form:errors path="userLogin"/>
+                <form:errors path="userLogin" class="error"/>
             </div>
             <div class="blockinput">
                 <spring:message code="loginPage.password" var="placeholderPassword"/>
