@@ -1,10 +1,6 @@
 package com.svetakvetko.domain;
 
 
-import com.svetakvetko.validation.AuthorizationGroup;
-import com.svetakvetko.validation.EditInfoGroup;
-import com.svetakvetko.validation.RegistrationGroup;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -15,31 +11,31 @@ import java.util.List;
 public class User {
 
     @Size(min = 5, max = 15, message = "{user.login.size}")
-    @NotEmpty(message = "{user.login.empty}", groups = {AuthorizationGroup.class, RegistrationGroup.class, EditInfoGroup.class})
+    @NotEmpty(message = "{user.login.empty}")
     private String userLogin;//TODO primary key in db
 
     @Size(min = 5, max = 15, message = "{user.password.size}")
-    @NotEmpty(message = "{user.password.empty}", groups = {AuthorizationGroup.class, RegistrationGroup.class, EditInfoGroup.class})
+    @NotEmpty(message = "{user.password.empty}")
     private String password;
 
     private List<Role> role;
 
-    @NotEmpty(message = "{user.email.empty}", groups = {RegistrationGroup.class, EditInfoGroup.class})
+    @NotEmpty(message = "{user.email.empty}")
     @Email
     private String email;
 
-    @NotEmpty(message = "{user.name.empty}", groups = {RegistrationGroup.class, EditInfoGroup.class})
+    @NotEmpty(message = "{user.name.empty}")
     @Size(min = 3, max = 15, message = "{user.name.size}")
     private String name;
 
-    @NotEmpty(message = "{user.surname.empty}", groups = {RegistrationGroup.class, EditInfoGroup.class})
+    @NotEmpty(message = "{user.surname.empty}")
     @Size(min = 3, max = 15, message = "{user.surname.size}")
     private String surname;
 
-    @NotNull(message = "{user.salary.empty}", groups = EditInfoGroup.class)
+    @NotNull(message = "{user.salary.empty}")
     private double salary;
 
-    @NotEmpty(message = "{user.birthday.empty}", groups = {RegistrationGroup.class, EditInfoGroup.class})
+    @NotEmpty(message = "{user.birthday.empty}")
     private String dateOfBirth;
 
 

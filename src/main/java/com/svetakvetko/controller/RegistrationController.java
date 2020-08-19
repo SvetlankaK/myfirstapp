@@ -40,7 +40,7 @@ public class RegistrationController {
     public ModelAndView registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
-            this.sendRegistrationView(modelAndView);
+            return modelAndView;
         }
         long id = Long.parseLong(String.valueOf(userService.findAll().size() + 2)); //TODO generate in db
         if (userService.isExist(user.getUserLogin())) {

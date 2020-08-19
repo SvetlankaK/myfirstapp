@@ -30,7 +30,7 @@
             <div class="blockinput">
                 <spring:message code="loginPage.password" var="placeholderPassword"/>
                 <form:password path="password" placeholder='${placeholderPassword}'/>
-                <form:errors path="password"/>
+                <form:errors path="password" class="error"/>
             </div>
         </div>
         <form:button type="submit"><spring:message code="loginPage.button"/></form:button>
