@@ -38,8 +38,6 @@ public class AuthorizationController {
     public ModelAndView loginUser(@Valid @ModelAttribute("user") User userView, BindingResult bindingResult, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
-//            ServletUtilities.populateError("userLogin", modelAndView, bindingResult);
-//            ServletUtilities.populateError("password", modelAndView, bindingResult);
             return modelAndView;
         }
         if (userService.isExist(userView.getUserLogin())) {
