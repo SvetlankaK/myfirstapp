@@ -192,8 +192,8 @@ button:active {
 .dropdown-content a:hover {
     color: #4E535B;
 }
-
 .error {
-    color: red;
+    color: rgba(255, 0, 0, 0.7);
+    font-family: "Segoe Print";
     display: inline-block;
 }

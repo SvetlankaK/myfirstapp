@@ -108,3 +108,10 @@ p input + span {
     font-size: 1.4em;
     font-family: "Segoe Print";
 }
+
+.error {
+    color: rgba(255, 0, 0, 0.7);
+    font-family: "Segoe Print";
+    font-size: 1.1em;
+    display: inline;
+}

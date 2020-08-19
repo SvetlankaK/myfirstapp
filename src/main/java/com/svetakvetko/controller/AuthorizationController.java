@@ -4,10 +4,12 @@ package com.svetakvetko.controller;
 import com.svetakvetko.domain.User;
 import com.svetakvetko.service.UserService;
 import com.svetakvetko.util.ServletUtilities;
+import com.svetakvetko.validation.AuthorizationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+
 
 
 @RequestMapping(value = "/login")
@@ -35,7 +37,7 @@ public class AuthorizationController {
     }
 
     @PostMapping
-    public ModelAndView loginUser(@Valid @ModelAttribute("user") User userView, BindingResult bindingResult, HttpServletRequest request) {
+    public ModelAndView loginUser(@Validated(AuthorizationGroup.class) @ModelAttribute("user") User userView, BindingResult bindingResult, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             return modelAndView;

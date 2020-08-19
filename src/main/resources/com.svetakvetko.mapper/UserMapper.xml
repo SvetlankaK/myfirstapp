@@ -21,10 +21,16 @@
         WHERE userLogin = #{userLogin}
     </select>
 
+
+    <select id="getIdByLogin" parameterType="java.lang.String" resultType="java.lang.Long">
+        SELECT userId
+        FROM "webapp"."USER"
+        WHERE userLogin = #{userLogin}
+    </select>
+
     <update id="update" parameterType="com.svetakvetko.domain.User">
         UPDATE "webapp"."USER"
-        SET userid          = #{userId},
-            username        = #{name},
+        SET username        = #{name},
             userLogin       = #{userLogin},
             usersurname     = #{surname},
             userpassword    = #{password},
@@ -42,9 +48,8 @@
 
     <insert id="create" parameterType="com.svetakvetko.domain.User">
         INSERT INTO "webapp"."USER"
-        (userid, username, userlogin, usersurname, userpassword, useremail, userdateofbirth, usersalary)
-        VALUES (#{userId},
-                #{name}, #{userLogin}, #{surname}, #{password}, #{email}, #{dateOfBirth}, #{salary})
+        (username, userlogin, usersurname, userpassword, useremail, userdateofbirth, usersalary)
+        VALUES (#{name}, #{userLogin}, #{surname}, #{password}, #{email}, #{dateOfBirth}, #{salary})
     </insert>
 
     <resultMap id="user" type="com.svetakvetko.domain.User">

@@ -14,19 +14,18 @@
 <body>
 <h1><spring:message code="editUserPage.formName"/></h1>
 <form:form action="editUser" method="post" modelAttribute="user">
-    <form:errors path="*" cssClass="errorblock" element="div"/>
     <div class="col-2">
         <label>
             <spring:message code="editUserPage.name"/>
             <form:input path="name" tabindex="1" placeholder="type user name"/>
-            <form:errors path="name"/><span></span>
+            <form:errors path="name" class="error"/><span></span>
         </label>
     </div>
     <div class="col-2">
         <label>
             <spring:message code="editUserPage.surname"/>
             <form:input path="surname" placeholder="type user surname" tabindex="2"/>
-            <form:errors path="surname"/>
+            <form:errors path="surname" class="error"/>
         </label>
     </div>
     <div class="col-3">
@@ -34,35 +33,35 @@
             <spring:message code="editUserPage.salary"/>
 
             <form:input path="salary" placeholder="type user salary" tabindex="3"/>
-            <form:errors path="salary"/>
+            <form:errors path="salary" class="error"/>
         </label>
     </div>
     <div class="col-3">
         <label>
             <spring:message code="editUserPage.email"/>
             <form:input path="email" placeholder="type user e-mail address" tabindex="4"/>
-            <form:errors path="email"/>
+            <form:errors path="email" class="error"/>
         </label>
     </div>
     <div class="col-3">
         <label>
             <spring:message code="editUserPage.login"/>
             <form:input path="userLogin" placeholder="type user login" tabindex="5"/>
-            <form:errors path="userLogin"/>
+            <form:errors path="userLogin" class="error"/>
         </label>
     </div>
     <div class="col-4">
         <label>
             <spring:message code="editUserPage.password"/>
             <form:input path="password" placeholder="type user password" tabindex="6"/>
-            <form:errors path="password"/>
+            <form:errors path="password" class="error"/>
         </label>
     </div>
     <div class="col-4">
         <label>
             <spring:message code="editUserPage.birthday"/>
             <form:input path="dateOfBirth" placeholder="06.04.2000" pattern="[0-9]{2}\.0-9]{2}\.[0-9]{4}" tabindex="7"/>
-            <form:errors path="dateOfBirth"/>
+            <form:errors path="dateOfBirth" class="error"/>
         </label>
     </div>
     <div class="col-4">

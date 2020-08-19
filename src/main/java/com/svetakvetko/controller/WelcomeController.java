@@ -22,8 +22,8 @@ public class WelcomeController {
     @GetMapping
     public ModelAndView sendWelcomeView(HttpServletRequest req, ModelAndView modelAndView) {
         HttpSession session = req.getSession(true);
-        long id = (Long) session.getAttribute("userId");
-        User user = userService.findById(id);
+        String login = (String) session.getAttribute("userLogin");
+        User user = userService.findByLogin(login);
         modelAndView.addObject("roles", user.getRole());
         modelAndView.setViewName("welcome");
         return modelAndView;

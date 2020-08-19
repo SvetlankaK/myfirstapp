@@ -140,3 +140,9 @@ button {
     color: rgba(165, 42, 42, 0.4);
     font-size: 1em;
 }
+
+.error {
+    color: rgba(255, 0, 0, 0.5);
+    font-family: "Segoe Print";
+    display: inline-block;
+}

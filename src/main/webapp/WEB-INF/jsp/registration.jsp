@@ -17,25 +17,23 @@
         <p>
             <form:label path="name"><spring:message code="registrationPage.name"/></form:label>
             <form:input path="name" placeholder="Dasha"/>
-            <form:errors path="name"/><span></span>
-
+            <form:errors path="name" class="error"/><span></span>
         </p>
         <p>
             <form:label path="surname"><spring:message code="registrationPage.surname"/></form:label>
             <form:input path="surname" placeholder="Pavlova"/>
-            <form:errors path="surname"/><span></span>
+            <form:errors path="surname" class="error"/><span></span>
 
         </p>
         <p>
             <form:label path="email"><spring:message code="registrationPage.email"/></form:label>
             <form:input path="email" placeholder="perlovla14@gmail.com"/>
-            <form:errors path="email"/><span></span>
-
+            <form:errors path="email" class="error"/><span></span>
         </p>
         <p>
             <form:label path="dateOfBirth"><spring:message code="registrationPage.birthday"/></form:label>
             <form:input path="dateOfBirth" placeholder="06.04.2000" pattern="[0-9]{2}\.0-9]{2}\.[0-9]{4}"/>
-                         <form:errors path="dateOfBirth" />
+            <form:errors path="dateOfBirth" class="error"/>
             <br/><span></span>
         </p>
         <fieldset>
@@ -45,13 +43,13 @@
             <p>
                 <form:label path="userLogin"><spring:message code="registrationPage.login"/></form:label>
                 <form:input path="userLogin" placeholder="Glasha1O"/>
-                <form:errors path="userLogin"/><span></span>
+                <form:errors path="userLogin" class="error"/><span></span>
             </p>
             <span class="errorMessage"><c:out value="${errorMessage}"/></span>
             <p>
                 <form:label path="password"><spring:message code="registrationPage.password"/></form:label>
                 <form:password path="password" placeholder="Try to be original!"/>
-                <form:errors path="password"/>
+                <form:errors path="password" class="error"/>
                 <span></span>
             </p>
             <form:hidden path="salary" value="100"/>

@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(User user) {
         userMapper.create(user);
+        user.setUserId(userMapper.getIdByLogin(user.getUserLogin()));
         Map<String, Object> userRole = new HashMap();
         userRole.put("userId", user.getUserId());
         for (int i = 0; i < user.getRole().size(); i++) {

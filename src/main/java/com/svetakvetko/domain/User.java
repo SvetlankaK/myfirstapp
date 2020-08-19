@@ -1,6 +1,10 @@
 package com.svetakvetko.domain;
 
 
+import com.svetakvetko.validation.AuthorizationGroup;
+import com.svetakvetko.validation.EditInfoGroup;
+import com.svetakvetko.validation.RegistrationGroup;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -10,32 +14,32 @@ import java.util.List;
 
 public class User {
 
-    @Size(min = 5, max = 15, message = "{user.login.size}")
-    @NotEmpty(message = "{user.login.empty}")
-    private String userLogin;//TODO primary key in db
+    @Size(min = 5, max = 15, groups = {RegistrationGroup.class, EditInfoGroup.class})
+    @NotEmpty(groups = {AuthorizationGroup.class, RegistrationGroup.class, EditInfoGroup.class})
+    private String userLogin;
 
-    @Size(min = 5, max = 15, message = "{user.password.size}")
-    @NotEmpty(message = "{user.password.empty}")
+    @Size(min = 5, max = 15, groups = {RegistrationGroup.class, EditInfoGroup.class})
+    @NotEmpty(groups = {AuthorizationGroup.class, RegistrationGroup.class, EditInfoGroup.class})
     private String password;
 
     private List<Role> role;
 
-    @NotEmpty(message = "{user.email.empty}")
+    @NotEmpty(groups = {RegistrationGroup.class, EditInfoGroup.class})
     @Email
     private String email;
 
-    @NotEmpty(message = "{user.name.empty}")
-    @Size(min = 3, max = 15, message = "{user.name.size}")
+    @NotEmpty(groups = {RegistrationGroup.class, EditInfoGroup.class})
+    @Size(min = 3, max = 15, groups = {RegistrationGroup.class, EditInfoGroup.class})
     private String name;
 
-    @NotEmpty(message = "{user.surname.empty}")
-    @Size(min = 3, max = 15, message = "{user.surname.size}")
+    @NotEmpty(groups = {RegistrationGroup.class, EditInfoGroup.class})
+    @Size(min = 3, max = 15, groups = {RegistrationGroup.class, EditInfoGroup.class})
     private String surname;
 
-    @NotNull(message = "{user.salary.empty}")
+    @NotNull(groups = {RegistrationGroup.class, EditInfoGroup.class})
     private double salary;
 
-    @NotEmpty(message = "{user.birthday.empty}")
+    @NotEmpty(groups = {RegistrationGroup.class, EditInfoGroup.class})
     private String dateOfBirth;
 
 
@@ -46,8 +50,8 @@ public class User {
 
     }
 
-    public User(long userId, String userLogin, String password, List<Role> role) {
-        this.userId = userId;
+    public User(String userLogin, String password, List<Role> role) {
+
         this.userLogin = userLogin;
         this.password = password;
         this.role = new ArrayList<>();
@@ -56,8 +60,8 @@ public class User {
         }
     }
 
-    public User(long userId, String userLogin, String password, List<Role> role, String email, String name, String surname, double salary, String dateOfBirth) {
-        this.userId = userId;
+    public User(String userLogin, String password, List<Role> role, String email, String name, String surname, double salary, String dateOfBirth) {
+
         this.userLogin = userLogin;
         this.password = password;
         this.role = new ArrayList<>();

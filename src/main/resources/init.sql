@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS "webapp"."USER"
 
 CREATE TABLE IF NOT EXISTS "webapp"."user_roles"
 (
-    user_id serial NOT NULL,
-    role_id serial NOT NULL,
+    user_id int NOT NULL,
+    role_id int NOT NULL,
     FOREIGN KEY (user_id) REFERENCES "webapp"."USER" (USERID) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES "webapp"."role" (ID),
     PRIMARY KEY (user_id, role_id)
@@ -34,32 +34,32 @@ CREATE TABLE IF NOT EXISTS "webapp"."user_roles"
 
 
 INSERT INTO "webapp"."USER"
-(USERID, USERLOGIN, USERPASSWORD, USEREMAIL, USERNAME, USERSURNAME, USERSALARY, USERDATEOFBIRTH)
-VALUES (1, 'kat17', 'драсте', 'cat1717@mail.ru', 'Анна', 'Иванова', 200, '10.10.1999');
+(USERLOGIN, USERPASSWORD, USEREMAIL, USERNAME, USERSURNAME, USERSALARY, USERDATEOFBIRTH)
+VALUES ('kat17', 'драсте', 'cat1717@mail.ru', 'Анна', 'Иванова', 200, '10.10.1999');
 
 INSERT INTO "webapp"."USER"
-(USERID, USERLOGIN, USERPASSWORD, USEREMAIL, USERNAME, USERSURNAME, USERSALARY, USERDATEOFBIRTH)
-VALUES (2, 'leadss', 'fdeefe', 'liveliver@gmail.com', 'Максим', 'Вешалкин', 550, '07.09.1990');
+(USERLOGIN, USERPASSWORD, USEREMAIL, USERNAME, USERSURNAME, USERSALARY, USERDATEOFBIRTH)
+VALUES ('leadss', 'fdeefe', 'liveliver@gmail.com', 'Максим', 'Вешалкин', 550, '07.09.1990');
 
 INSERT INTO "webapp"."USER"
-(USERID, USERLOGIN, USERPASSWORD, USEREMAIL, USERNAME, USERSURNAME, USERSALARY, USERDATEOFBIRTH)
-VALUES (3, 'great29', 'совсемнегениальныйпароль', 'football_player@gmail.com', 'Вадим', 'Бабурченков', 320,
+(USERLOGIN, USERPASSWORD, USEREMAIL, USERNAME, USERSURNAME, USERSALARY, USERDATEOFBIRTH)
+VALUES ('great29', 'совсемнегениальныйпароль', 'football_player@gmail.com', 'Вадим', 'Бабурченков', 320,
         '17.01.1880');
 
 INSERT INTO "webapp"."USER"
-(USERID, USERLOGIN, USERPASSWORD, USEREMAIL, USERNAME, USERSURNAME, USERSALARY, USERDATEOFBIRTH)
-VALUES (4, 'honeyMOON', 'пароль', 'smirnovy@gmail.com', 'Василиса', 'Веббер', 400, '15.11.1988');
+(USERLOGIN, USERPASSWORD, USEREMAIL, USERNAME, USERSURNAME, USERSALARY, USERDATEOFBIRTH)
+VALUES ('honeyMOON', 'пароль', 'smirnovy@gmail.com', 'Василиса', 'Веббер', 400, '15.11.1988');
 
 INSERT INTO "webapp"."USER"
-(USERID, USERLOGIN, USERPASSWORD, USEREMAIL, USERNAME, USERSURNAME, USERSALARY, USERDATEOFBIRTH)
-VALUES (5, 'Sveta', 'gfhjkm', 'svetlanka17@gmail.com', 'Светлана', 'Кветко', 100000, '06.04.2000');
+(USERLOGIN, USERPASSWORD, USEREMAIL, USERNAME, USERSURNAME, USERSALARY, USERDATEOFBIRTH)
+VALUES ('Sveta', 'gfhjkm', 'svetlanka17@gmail.com', 'Светлана', 'Кветко', 100000, '06.04.2000');
 
 
 
+INSERT INTO "webapp"."role" (rolename, id)
+VALUES ('user', 1);
 INSERT INTO "webapp"."role" (rolename)
-VALUES ('user');
-INSERT INTO "webapp"."role" (rolename)
-VALUES ('admin');
+VALUES ('admin', 2);
 INSERT INTO "webapp"."user_roles" (user_id, role_id)
 VALUES (1, 1);
 INSERT INTO "webapp"."user_roles" (user_id, role_id)
