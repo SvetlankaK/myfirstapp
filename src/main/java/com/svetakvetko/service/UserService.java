@@ -1,11 +1,12 @@
 package com.svetakvetko.service;
 
 import com.svetakvetko.domain.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Collection;
 
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
     void create(User user);
 
     void delete(Long userId);

@@ -8,6 +8,7 @@ import com.svetakvetko.validation.RegistrationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,18 +39,19 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public ModelAndView registerUser(@Validated(RegistrationGroup.class) @ModelAttribute("user") User user, BindingResult bindingResult, HttpServletRequest request) {
+    public ModelAndView registerUser(@Validated(RegistrationGroup.class) @ModelAttribute("user") User user, BindingResult bindingResult, Errors errors, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             return modelAndView;
         }
         if (userService.isExist(user.getUserLogin())) {
-            return this.sendRegistrationView(ServletUtilities.createErrorMessage("User login already exists", modelAndView));
+            errors.rejectValue("userLogin", "${user.exist}");
         } else {
             userService.create(new User(user.getUserLogin(), user.getPassword(), Collections.singletonList(new Role(1, USER_ACCESS.getName())), user.getEmail(), user.getName(), user.getSurname(), user.getSalary(), user.getDateOfBirth()));
             ServletUtilities.createSession(new User(user.getUserLogin(), user.getPassword(), Collections.singletonList(new Role(1, USER_ACCESS.getName())), user.getEmail(), user.getName(), user.getSurname(), user.getSalary(), user.getDateOfBirth()), request);
             return new ModelAndView("redirect:/welcome");
         }
+        return modelAndView;
     }
 }
 

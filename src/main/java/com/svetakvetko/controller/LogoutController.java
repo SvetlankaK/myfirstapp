@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 public class LogoutController {
 
     @GetMapping
-    public ModelAndView logoutUser(HttpServletRequest request, ModelAndView modalAndView) {
+    public ModelAndView logoutUser(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.removeAttribute("userLogin");

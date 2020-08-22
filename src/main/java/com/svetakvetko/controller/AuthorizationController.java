@@ -8,7 +8,7 @@ import com.svetakvetko.validation.AuthorizationGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,7 +36,7 @@ public class AuthorizationController {
     }
 
     @PostMapping
-    public ModelAndView loginUser(@Validated(AuthorizationGroup.class) @ModelAttribute("user") User userView, BindingResult bindingResult, HttpServletRequest request) {
+    public ModelAndView loginUser(@Validated(AuthorizationGroup.class) @ModelAttribute("user") User userView, Errors errors, BindingResult bindingResult, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         if (bindingResult.hasErrors()) {
             return modelAndView;
@@ -48,12 +48,10 @@ public class AuthorizationController {
                 HttpSession session = ServletUtilities.createSession(userView.getUserLogin(), userView.getPassword(), id, request);
                 return new ModelAndView("redirect:/welcome");
             } else {
-                bindingResult.addError(new ObjectError("password", "Invalid password"));
-                this.sendLoginView(ServletUtilities.createErrorMessage("Invalid password", modelAndView));
+                errors.rejectValue("password", "${user.wrongPassword}");
             }
         } else {
-            bindingResult.addError(new ObjectError("userLogin", "User doesn't exist"));
-            this.sendLoginView(ServletUtilities.createErrorMessage("User doesn't exist", modelAndView));
+            errors.rejectValue("userLogin", "${user.notExist}");
         }
         return modelAndView;
     }
