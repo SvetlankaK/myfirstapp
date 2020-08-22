@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
-
 @RequestMapping(value = "/login")
 @Controller
 public class AuthorizationController {

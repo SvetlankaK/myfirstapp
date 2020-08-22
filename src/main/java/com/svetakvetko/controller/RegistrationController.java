@@ -50,7 +50,6 @@ public class RegistrationController {
             ServletUtilities.createSession(new User(user.getUserLogin(), user.getPassword(), Collections.singletonList(new Role(1, USER_ACCESS.getName())), user.getEmail(), user.getName(), user.getSurname(), user.getSalary(), user.getDateOfBirth()), request);
             return new ModelAndView("redirect:/welcome");
         }
-
     }
 }
 

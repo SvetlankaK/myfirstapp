@@ -19,7 +19,6 @@ public class RoleServiceImpl implements RoleService {
     private RoleMapper roleMapper;
 
 
-
     @Override
     public List<Role> getRolesById(Long userId) {
         return roleMapper.getRolesById(userId);

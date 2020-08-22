@@ -1,7 +1,6 @@
 package com.svetakvetko.util;
 
 import com.svetakvetko.domain.User;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,12 +32,5 @@ public final class ServletUtilities {
         session.setAttribute("password", password);
         session.setAttribute("userId", id);
         return session;
-    }
-
-    public static void populateError(String field, ModelAndView model, BindingResult bindingResult) {
-        if (bindingResult.hasFieldErrors(field)) {
-            model.addObject(field + "Error", bindingResult.getFieldError(field)
-                    .getDefaultMessage());
-        }
     }
 }

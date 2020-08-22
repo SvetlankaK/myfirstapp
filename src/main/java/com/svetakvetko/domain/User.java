@@ -4,15 +4,19 @@ package com.svetakvetko.domain;
 import com.svetakvetko.validation.AuthorizationGroup;
 import com.svetakvetko.validation.EditInfoGroup;
 import com.svetakvetko.validation.RegistrationGroup;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class User {
+//todo установила у всех методов вернуть true, можно ли так?(из примера хабра)
+public class User implements UserDetails {
 
     @Size(min = 5, max = 15, groups = {RegistrationGroup.class, EditInfoGroup.class})
     @NotEmpty(groups = {AuthorizationGroup.class, RegistrationGroup.class, EditInfoGroup.class})
@@ -112,8 +116,38 @@ public class User {
         this.userLogin = userLogin;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRole();
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
