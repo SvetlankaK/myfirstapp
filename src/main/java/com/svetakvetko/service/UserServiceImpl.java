@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User loadUserByUsername(String userLogin) throws UsernameNotFoundException {
-        User user = userMapper.findByLogin(userLogin);
+        User user = findByLogin(userLogin);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }

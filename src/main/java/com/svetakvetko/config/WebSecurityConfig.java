@@ -8,7 +8,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -17,8 +18,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     UserService userService;
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+      return NoOpPasswordEncoder.getInstance();
     }
 
     @Override
@@ -28,15 +29,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
                 //Доступ только для не зарегистрированных пользователей
-                .antMatchers("/").not().fullyAuthenticated()
-                .antMatchers("/registration").not().fullyAuthenticated()
-                .antMatchers("/login").not().fullyAuthenticated()
-                //Доступ только для пользователей с ролью Администратор
-                .antMatchers("/editUser").hasRole("ADMIN")
-                .antMatchers("/delete").hasRole("ADMIN")
-                .antMatchers("/users").hasRole("ADMIN")
-                //Доступ разрешен всем пользователей
-                .antMatchers("/welcome", "/logout").permitAll()
+            .antMatchers("/").permitAll()
+            .antMatchers("/registration").permitAll()
+            .antMatchers("/login").permitAll()
+            //Доступ только для пользователей с ролью Администратор
+            .antMatchers("/welcome").fullyAuthenticated()
+            .antMatchers("/editUser").hasAuthority("admin")
+            .antMatchers("/delete").hasAuthority("admin")
+            .antMatchers("/users").hasAuthority("admin")
+            //Доступ разрешен всем пользователей
                 //Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
                 .and()
@@ -54,6 +55,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 }
