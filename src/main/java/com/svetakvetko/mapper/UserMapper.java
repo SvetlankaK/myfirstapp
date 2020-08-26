@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -23,4 +24,8 @@ public interface UserMapper {
     void update(User user);
 
     void create(User user);
+
+    String getPasswordById(Long userId);
+
+    void setPassword(Map<String, Object> userLongMap);
 }

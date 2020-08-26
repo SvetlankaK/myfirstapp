@@ -52,6 +52,19 @@
         VALUES (#{name}, #{userLogin}, #{surname}, #{password}, #{email}, #{dateOfBirth}, #{salary})
     </insert>
 
+
+    <update id="setPassword" parameterType="java.util.Map">
+        UPDATE "webapp"."USER"
+        SET userpassword = #{password}
+        WHERE userid = #{userId};
+    </update>
+
+    <select id="getPassword" parameterType="com.svetakvetko.domain.User" resultType="java.lang.String">
+        SELECT userpassword
+        FROM "webapp"."USER"
+        WHERE userId = #{userId}
+    </select>
+
     <resultMap id="user" type="com.svetakvetko.domain.User">
         <result property="userId" column="userId"/>
         <result property="name" column="userName"/>

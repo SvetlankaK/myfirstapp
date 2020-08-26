@@ -7,6 +7,7 @@ import com.svetakvetko.service.RoleService;
 import com.svetakvetko.service.UserService;
 import com.svetakvetko.validation.EditInfoGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +28,9 @@ public class EditUserController {
     @Autowired
     private RoleService roleService;
 
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ModelAndView sendEditUserView(@RequestParam("user") String userLogin) {
@@ -53,7 +57,7 @@ public class EditUserController {
                 .filter(role -> userRolesIds.contains(String.valueOf(role.getId())))
                 .collect(Collectors.toList());
         User user = userService.findByLogin(userView.getUserLogin());
-        user.setAll(userView.getPassword(), userRoles, userView.getEmail(), userView.getName(), userView.getSurname(), userView.getSalary(), userView.getDateOfBirth());
+        user.setAll(passwordEncoder.encode(userView.getPassword()), userRoles, userView.getEmail(), userView.getName(), userView.getSurname(), userView.getSalary(), userView.getDateOfBirth());
         userService.update(user);
         return new ModelAndView("redirect:/users");
     }
