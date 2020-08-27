@@ -25,18 +25,24 @@
             <div class="blockinput">
                 <spring:message code="loginPage.login" var="placeholderLogin"/>
                 <form:input path="username" placeholder='${placeholderLogin}' autocomplete="off"/>
-                <form:errors path="userLogin" class="error"/>
+                <c:if test="${param.error == true}">
+                    <span class="error"><spring:message code="message.username"/></span>
+                </c:if>
             </div>
             <div class="blockinput">
                 <spring:message code="loginPage.password" var="placeholderPassword"/>
                 <form:password path="password" placeholder='${placeholderPassword}'/>
-                <form:errors path="password" class="error"/>
+                <c:if test="${param.error == true}">
+                    <span class="error"> <spring:message code="message.password"/></span>
+                </c:if>
             </div>
         </div>
         <form:button type="submit"><spring:message code="loginPage.button"/></form:button>
         <p class="regCase"><spring:message code="loginPage.accountQuestion"/>
         </p>
-        <p class="errorMessage"><c:out value="${errorMessage}"/></p>
+        <c:if test="${param.error == true}">
+            <p class="errorMessage"><spring:message code="message.badCredentials"/></p>
+        </c:if>
         <a href="<c:url value="/registration"/>" class="regLink">
             <spring:message code="loginPage.signUp"/>
         </a>

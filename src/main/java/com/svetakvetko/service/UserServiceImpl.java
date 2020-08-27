@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
             userRole.put("roleId", user.getRole().get(i).getId());
             roleMapper.addRole(userRole);
         }
+        System.out.println(passwordEncoder.encode("пароль"));
     }
 
     @Override
