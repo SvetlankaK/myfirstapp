@@ -33,6 +33,21 @@ public class AuthorizationController {
     }
 
 
+//    @GetMapping("/login-error")
+//    public String login(ModelAndView modelAndView) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        String errorMessage = null;
+//
+//        if (auth.getCredentials() != null) {
+//            AuthenticationException ex =(AuthenticationException) WebAttributes.AUTHENTICATION_EXCEPTION;
+//            if (ex != null) {
+//                errorMessage = ex.getMessage();
+//            }
+//        }
+//        modelAndView.addObject("errorMessage", errorMessage);
+//        return "login";
+//    }
+
     @PostMapping
     public ModelAndView loginUser(@RequestParam(value = "error", required = false) @Validated(AuthorizationGroup.class) @ModelAttribute("user") User userView, Errors errors, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();

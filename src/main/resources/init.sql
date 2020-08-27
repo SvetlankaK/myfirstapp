@@ -70,3 +70,10 @@ INSERT INTO "webapp"."user_roles" (user_id, role_id)
 VALUES (4, 1);
 INSERT INTO "webapp"."user_roles" (user_id, role_id)
 VALUES (5, 2);
+-- passwords:
+-- $2a$10$ueZimHmocZukxuFXoDHqPOKYE0gmjk6Qz/0FVbyYuF6qByNPJcb1. - helloitspassword
+-- $2a$10$OEPjwzJuzUi18QGPZyLknuOk1/unEBxJkVtddtIECFwf5vkJNrApS - dfsdfdsfs
+-- $2a$10$trr1QxaiCxqH9vOUKKeFy.1G1bTo.KYBG9ZH9TqClKwm9wf7WLDx. - hahakek
+-- $2a$10$nXgFqyl1rqvkHLCgcduBGOCHg9TRpMtTxuBZSa1sU.ZAYOECCPHzS - passssssswwwwwwwww
+-- $2a$10$qfDK2dY56lHkB9EVLVHo8OLX8W/9nglnbhDuuYus.XDNMSHDTJdyC - diffpassw
+-- $2a$10$Xjh7HdF0X6eR9BhW7jXV8u9nW2VLvXM86K49t6Jtah3PZZFcfu2/S - keklol122
