@@ -1,6 +1,5 @@
 package com.svetakvetko.controller;
 
-
 import com.svetakvetko.domain.User;
 import com.svetakvetko.service.UserService;
 import com.svetakvetko.validation.AuthorizationGroup;
@@ -13,17 +12,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-
 @RequestMapping(value = "/login")
 @Controller
-public class AuthorizationController {
+public class LoginController {
 
     @Autowired
     private UserService userService;
 
-
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @GetMapping
     public ModelAndView sendLoginView(ModelAndView modelAndView) {
@@ -52,6 +50,5 @@ public class AuthorizationController {
     }
 
 }
-
 
 

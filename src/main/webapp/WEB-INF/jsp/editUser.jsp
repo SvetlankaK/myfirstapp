@@ -78,7 +78,7 @@
                         </c:if>
                     </c:forEach>
 
-                    <c:choose>servletapp
+                    <c:choose>
                         <c:when test="${isSelected}">
                             <form:option value="${role.id}" selected="selected">${role.roleName}</form:option>
                         </c:when>
