@@ -14,11 +14,11 @@
 <body>
 <div class="error-wall load-error">
     <div class="error-container">
-        <h1>oh no...</h1>
-        <h3>you do not have permission to view this page</h3>
-        <h4>Error 403</h4>
+        <h1><spring:message code="deniedPage.h1"/></h1>
+        <h3><spring:message code="deniedPage.errorDefinition"/></h3>
+        <h4><spring:message code="deniedPage.errorNumber"/></h4>
         <div class="button-bar">
-            <a class="button" href="<c:url value="/welcome"/>">Go to welcome page</a>
+            <a class="button" href="<c:url value="/welcome"/>"><spring:message code="deniedPage.button"/></a>
         </div>
     </div>
 </div>

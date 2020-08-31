@@ -21,5 +21,6 @@ public interface UserService extends UserDetailsService {
 
     User findByLogin(String userLogin);
 
+    User findByLoginDecoded(String userLogin);
 
 }

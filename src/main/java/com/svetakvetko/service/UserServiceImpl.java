@@ -92,6 +92,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByLoginDecoded(String userLogin) {
+        User user = userMapper.findByLogin(userLogin);
+        user.setRole(roleService.getRolesById(user.getUserId()));
+        return user;
+    }
+
+    @Override
     public User loadUserByUsername(String userLogin) throws UsernameNotFoundException {
         User user = findByLogin(userLogin);
         if (user == null) {

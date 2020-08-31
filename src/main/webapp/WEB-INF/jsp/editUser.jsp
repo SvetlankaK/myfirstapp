@@ -52,9 +52,7 @@
     </div>
     <div class="col-4">
         <label>
-            <spring:message code="editUserPage.password"/>
-            <form:input path="password" placeholder="type user password" tabindex="6"/>
-            <form:errors path="password" class="error"/>
+            <a href="<c:url value = "/editPassword"/>"><spring:message code="editUserPage.editPasswordLink"/></a>
         </label>
     </div>
     <div class="col-4">

@@ -3,6 +3,7 @@ package com.svetakvetko.domain;
 
 import com.svetakvetko.validation.AuthorizationGroup;
 import com.svetakvetko.validation.EditInfoGroup;
+import com.svetakvetko.validation.EditPasswordGroup;
 import com.svetakvetko.validation.RegistrationGroup;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +24,7 @@ public class User implements UserDetails {
     private String userLogin;
 
     @Size(min = 5, max = 15, groups = {RegistrationGroup.class, EditInfoGroup.class})
-    @NotEmpty(groups = {AuthorizationGroup.class, RegistrationGroup.class, EditInfoGroup.class})
+    @NotEmpty(groups = {AuthorizationGroup.class, RegistrationGroup.class, EditPasswordGroup.class})
     private String password;
 
     private List<Role> role;
