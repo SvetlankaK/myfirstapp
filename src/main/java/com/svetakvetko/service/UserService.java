@@ -1,6 +1,7 @@
 package com.svetakvetko.service;
 
 import com.svetakvetko.domain.User;
+import com.svetakvetko.dto.EditPasswordDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.Collection;
@@ -22,5 +23,7 @@ public interface UserService extends UserDetailsService {
     User findByLogin(String userLogin);
 
     User findByLoginDecoded(String userLogin);
+
+    boolean changePassword(EditPasswordDto editPasswordDto);
 
 }

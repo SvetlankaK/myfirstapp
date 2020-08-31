@@ -1,6 +1,7 @@
 package com.svetakvetko.service;
 
 import com.svetakvetko.domain.User;
+import com.svetakvetko.dto.EditPasswordDto;
 import com.svetakvetko.mapper.RoleMapper;
 import com.svetakvetko.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,20 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.findByLogin(userLogin);
         user.setRole(roleService.getRolesById(user.getUserId()));
         return user;
+    }
+
+    @Override
+    public boolean changePassword(EditPasswordDto editPasswordDto) {
+        User user = userMapper.findById(editPasswordDto.getUserId());
+        if (passwordEncoder.matches(user.getPassword(), passwordEncoder.encode(editPasswordDto.getOldPassword()))) {
+            if (editPasswordDto.getNewPassword().equals(editPasswordDto.getNewPasswordRepeat())) {
+                user.setPassword(passwordEncoder.encode(editPasswordDto.getNewPassword()));
+                userMapper.update(user);
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     @Override

@@ -16,7 +16,7 @@ public class WelcomeController {
     @GetMapping
     public ModelAndView sendWelcomeView(ModelAndView modelAndView, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        modelAndView.addObject("roles", user.getRole()); //TODO add user to model add adapt jsp to take it from model instead of session
+        modelAndView.addObject("roles", user.getRole());
         modelAndView.addObject("userLogin", user.getUserLogin());
         modelAndView.setViewName("welcome");
         return modelAndView;
