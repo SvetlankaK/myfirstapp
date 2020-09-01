@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-//todo установила у всех методов вернуть true, можно ли так?(из примера хабра)
+
 public class User implements UserDetails {
 
     @Size(min = 5, max = 15, groups = {RegistrationGroup.class, EditInfoGroup.class})

@@ -102,16 +102,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean changePassword(EditPasswordDto editPasswordDto) {
         User user = userMapper.findById(editPasswordDto.getUserId());
-        if (passwordEncoder.matches(user.getPassword(), passwordEncoder.encode(editPasswordDto.getOldPassword()))) {
-            if (editPasswordDto.getNewPassword().equals(editPasswordDto.getNewPasswordRepeat())) {
-                user.setPassword(passwordEncoder.encode(editPasswordDto.getNewPassword()));
-                userMapper.update(user);
-                return true;
-            }
-            return false;
+        if (editPasswordDto.getNewPassword().equals(editPasswordDto.getNewPasswordRepeat())) {
+            user.setPassword(passwordEncoder.encode(editPasswordDto.getNewPassword()));
+            userMapper.update(user);
+            return true;
         }
         return false;
     }
+
 
     @Override
     public User loadUserByUsername(String userLogin) throws UsernameNotFoundException {

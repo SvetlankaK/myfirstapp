@@ -16,14 +16,16 @@
     <form:form action="editPassword" method="post" modelAttribute="editPasswordDto">
         <label><spring:message code="editPasswordPage.current" var="current"/></label>
         <form:input type="password" path="oldPassword" class="form-control" placeholder='${current}'/>
+        <form:errors path="oldPassword" class="error"/>
         <label><spring:message code="editPasswordPage.newFirstField" var="first"/></label>
 
         <form:input type="password" path="newPassword" class="form-control" placeholder='${first}'/>
-
+        <form:errors path="newPassword" class="error"/>
         <label><spring:message code="editPasswordPage.newSecondField" var="second"/></label>
 
         <form:input type="password" path="newPasswordRepeat" class="form-control" placeholder='${second}'
                     autocomplete="off"/>
+        <form:errors path="newPasswordRepeat" class="error"/>
         <form:hidden path="userId"/>
         <input type="submit" value="Send" class="submit"/>
         <c:if test="${wrongOldPassword==true}"><p>Wrong old password</p></c:if>
